@@ -1,0 +1,203 @@
+[2025-06-18 14:34:33] [javac-extractor-14280] Starting extraction for:
+                                              sun.java.command=com.semmle.extractor.java.JavaExtractor --jdk-version -1 --javac-args @@@/home/nam/Documents/JDD/codeql_project/log/ext/javac.args
+                                              user.dir=/home/nam/Documents/JDD
+[2025-06-18 14:34:33] [javac-extractor-14280] Compilation name /home/nam/Documents/JDD/codeql_project/trap/java/diagnostics/diagnostic.trap.gz
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/DependenceRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/MethodInstRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/rule/SinkCheck.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/TaintGenerateRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/structure/RuleDataStructure.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/cfg/CFG.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/detetor/SearchGadgetChains.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/MethodRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/Parameter.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/rules/sinks/JNDICheckRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ClassRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/util/TimeMeasurement.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/util/TimeOutTask.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/tranModel/TranUtil.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/PointToAnalyze/pointer/Pointer.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/rules/protocol/JsonProtocolCheckRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/SinkInstRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/rules/protocol/AbstractProtocolCheckRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/rules/protocol/JdkNativeProtocolCheckRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/rules/protocol/HessianProtocolCheckRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/TaintSpreadRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/util/DataSaveLoadUtil.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/cfg/Node.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ConditionRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/rules/sinks/InvokeCheckRule.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ParameterRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/config/SootConfig.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/config/ConfigUtil.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/DefaultDetector/Detector.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/dataflow/DataFlowAnalysisUtils.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/util/DirTraversal.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/Instruments.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/cg/CG.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/runner/SearchGadgetChain.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/SinkRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/container/FragmentsContainer.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/ClassUtils.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/dataflow/node/MethodDescriptor.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/dataflow/DataflowDetect.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/java/util/LogUtil.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/TransformerUtils.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/unit/Fragment.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/FieldRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/util/Utils.java
+[2025-06-18 14:34:34] [javac-extractor-14280] Annotation processors enabled, and lombok usage detected in file: /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/IfStmtInstRecord.java
+[2025-06-18 14:34:34] [javac-extractor-14280] [WARN] Appending source destination directory /home/nam/Documents/JDD/target/generated-sources/annotations to sourcepath
+[2025-06-18 14:34:35] [javac-extractor-14280] Annotation processor class 'lombok.launch.AnnotationProcessorHider$AnnotationProcessor' initialized.
+[2025-06-18 14:34:35] [javac-extractor-14280] Annotation processor class 'lombok.launch.AnnotationProcessorHider$ClaimingProcessor' initialized.
+[2025-06-18 14:34:35] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Context.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/soot-oss/soot/4.3.0/soot-4.3.0.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /usr/lib/jvm/jdk1.8.0_202/jre/lib/rt.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/de/upb/cs/swt/heros/1.2.3/heros-1.2.3.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/com/google/guava/guava/30.1-jre/guava-30.1-jre.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/ca/mcgill/sable/polyglot/2006/polyglot-2006.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/smali/dexlib2/2.5.2/dexlib2-2.5.2.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/ow2/asm/asm/9.2/asm-9.2.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/markers/ProtocolType.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/DependenceRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/markers/DependenceType.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/FieldRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ConstantRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ClassRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/util/Pair.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/InnerMethodConstant.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/MethodRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/SourceRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ConditionRecord.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/JoinRule.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Rule.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Transformable.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/dataflow/DataFlow.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/node/MethodDescriptor.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/DefaultDetector/DefaultMethodDescriptor.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/DefaultDetector/IMethodDescriptor.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/TransformableNode.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/cfg/Node.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/cfg/CFG.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/node/paramResult/TaintAndLinger.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/node/paramResult/MethodResult.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/PointToAnalyze/pointer/PointTable.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/PointToAnalyze/pointer/Pointer.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Taint/Taint.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/node/SourceNode.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/node/SourcesTaintGraph.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/markers/SinkType.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/AnalyzeUtils.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/detetor/SearchUtils.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/util/ClassRelationshipUtils.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/unit/Fragment.java
+[2025-06-18 14:34:37] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/container/FragmentsContainer.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/RuleUtils.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/DataFlowAnalysisUtils.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/GadgetInfoRecord.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/ClassNode.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/GadgetNode.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/SinkNode.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/DependenceNode.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/CollisionNode.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/ConditionNode.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/markers/Comparison.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/structure/taint/TaintSpreadRuleUnit.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/functionaljava/functionaljava/4.2/functionaljava-4.2.jar
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/unit/InterimFragment.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/protocol/AbstractProtocolCheckRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/protocol/ProtocolCheckRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/CheckRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/InputTaintGenerator.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/unit/ConnectRequire.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/markers/RelationShip.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/cg/CG.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/cfg/Path.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/dataflow/EventQueue.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/dataflow/Event.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/rule/InferRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StringUtil.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/MethodInstRecord.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/AliasAndPointerRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/rule/SinkCheck.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/CallSiteInstRecord.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/markers/Stage.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/UsedSiteRecord.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/TaintGenerateRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/structure/RuleDataStructure.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/SecondDesCheckRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/AbstractCheckRule.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/container/FieldsContainer.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/util/DataSaveLoadUtil.java
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/com/google/code/gson/gson/2.10/gson-2.10.jar
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar
+[2025-06-18 14:34:38] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/TransformerUtils.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/detetor/SearchGadgetChains.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/DataflowDetect.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/Instruments.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/IfStmtInstRecord.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/instrument/SinkInstRecord.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/dataflow/node/UndeterminedFieldNode.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/IOCD.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing JAR file: /home/nam/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/CollisionRecord.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/SinkRecord.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/FieldUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/Parameter.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/unit/RecordUtils.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/FileCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/JNDICheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/ClassLoaderCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/InvokeCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/CustomCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/TimeMeasurement.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/TimeOutTask.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/TimeOutTask.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/TranUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/protocol/JsonProtocolCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/sinks/ExecCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/InvokeStmtUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/config/SootConfig.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/config/InitConfig.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Symbol/OverAllSymbolTable.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Symbol/SymbolTable.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Symbol/SymbolRecord.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/IfStmtUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/config/RegularConfig.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/common/Constants.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/protocol/JdkNativeProtocolCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/rules/protocol/HessianProtocolCheckRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/tranModel/Rules/TaintSpreadRule.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/node/ConditionUtils.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/rule/DependenceCheck.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/MethodUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/container/BasicDataContainer.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/common/IntraAnalysis.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/Method.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/iocd/unit/ParameterRecord.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/cg/Node.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/common/Memory.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/config/ConfigUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/DefaultDetector/Detector.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/DirTraversal.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/Util.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/config/ConfigurationEnum.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/runner/SearchGadgetChain.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/runner/SearchGadgetChain.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/ClassUtils.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/gadgets/collection/rule/ConditionCheck.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/common/SootInit.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/StaticAnalyzeUtils/JavaFeatures.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/java/util/LogUtil.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/util/Utils.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Processing file /home/nam/Documents/JDD/src/main/jdd/container/RulesContainer.java
+[2025-06-18 14:34:39] [javac-extractor-14280] Javac init time: 1.7s
+[2025-06-18 14:34:39] [javac-extractor-14280] Javac attr time: 0.4s
+[2025-06-18 14:34:39] [javac-extractor-14280] Extractor time: 3.7s
+[2025-06-18 14:34:39] [javac-extractor-14280] Other time: 0.1s
+[2025-06-18 14:34:39] [javac-extractor-14280] Total time: 5.9s
