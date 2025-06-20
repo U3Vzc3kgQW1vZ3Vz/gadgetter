@@ -175,7 +175,7 @@ public class RuleUtils {
                             newSourceNode.ind = tmpSourceNode.ind;
                             newSourceNode.entryMtd = tmpSourceNode.entryMtd;
                             ret.add(newSourceNode);
-                            ret.remove(sourceNode); // TODO: 直接删除
+ret.remove(sourceNode); // TODO: Delete directly
                         }
                     }
                 }
@@ -229,7 +229,7 @@ public class RuleUtils {
         HashMap<Node, ValueBox> sourceMap = new HashMap<>();
         sourceMap.put(tfNode.node, valueBox);
         HashSet<SourceNode> candidates = new HashSet<>();
-        // 1. 调用方法构造实例对象并赋值
+// 1. Call method to construct the instance object and assign a value
         for (HashMap.Entry<Node, ValueBox> entryUse: DataFlow.findAllUnitAndValueAffected(sourceMap).entrySet()){
             Node node = entryUse.getKey();
             if (((Stmt) node.unit) instanceof AssignStmt){
@@ -246,7 +246,7 @@ public class RuleUtils {
                 ret.add(sourceNode);
         }
 
-        if (ret.isEmpty()){ // 2. TODO: 初始化实例对象返回
+if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
 
         }
         return ret;
@@ -341,7 +341,7 @@ public class RuleUtils {
                 candidateRetOfFirstRound.add(tmpSourceNode);
             }
 //            else if (classOfValueType.getName().equals("java.lang.Object")
-//                    && sootField.getType().toString().contains("[]")){ // 认为数组中的元素更有可能出现先InputStream中读出, 再存入某个数组类型field中导致一开始难以直接匹配到来源
+// && sootField.getType().toString().contains("[]")){ // It is believed that elements in an array are more likely to be read out in InputStream first, and then stored in a certain array type field, making it difficult to directly match the source at the beginning.
 //                SourceNode tmpSourceNode = SourceNode.createFieldSourceNode(sootField, sootClass);
 //                candidateRetOfFirstRound.add(tmpSourceNode);
 //            }
@@ -440,7 +440,7 @@ public class RuleUtils {
                         Taint newTaint = descriptor.getOrCreateTaint(argValue, new LinkedList<>());
                         RuleUtils.addTaint(descriptor,newTaint);
 
-                        // 添加污染源
+// Add pollution source
                         if (BasicDataContainer.infosCollect) {
                             boolean hasFieldInfluenceRecord = false;
                             if (taintSpreadRuleUnit.taintInfluenceFieldsRecord != null
@@ -690,7 +690,7 @@ public class RuleUtils {
         if (RuleUtils.isEqMethod(invokeExpr.getMethod())){
             if (!Utils.isTainted(invokeExpr.getArg(0),descriptor.taints))
                 return false;
-            // 判断调用的类型和入参类型, 需要均为Object类型
+// To determine the type of call and the type of parameter, both must be Object type
             Pointer argPointer = descriptor.pointTable.getPointer(invokeExpr.getArg(0));
             if (thisPointer != null){
                 if (!thisPointer.getType().toString().contains("java.lang.Object"))
@@ -801,7 +801,7 @@ public class RuleUtils {
         if (!controllableValues.isEmpty())  return controllableValues;
         controllableValues = RuleUtils.getTaintedFieldSourcesViaAF(value, gadgetInfoRecord, descriptor);
         if (controllableValues.isEmpty()) {
-            // 判断选择那个methodDescriptor更为合适
+// It is more appropriate to determine which methodDescriptor to choose
             LinkedHashSet<Node> affectNodes = DataFlow.findAllDefUnitAffectThisValue(tfNode.node, valueBox);
             for (Node node: affectNodes){
                 ValueBox thisValueBox = Parameter.getThisValueBox(node);
@@ -843,7 +843,7 @@ public class RuleUtils {
         }
 
         ret.removeAll(toDelete);
-        // 顺便删除掉MethodDescriptor中的错误记录
+// By the way, delete the error record in MethodDescriptor
         for (SourceNode sourceNode: toDelete){
             descriptor.sourcesTaintGraph.sources2TaintedValues.get(sourceNode).remove(value);
         }
@@ -899,7 +899,7 @@ public class RuleUtils {
                                                TransformableNode tfNode,
                                                MethodDescriptor invokedDescriptor){
 
-        // 1.如果没有被污染, 则删除添加的 ConClassNode
+// 1. If it is not contaminated, remove the added ConClassNode
         if (invokedDescriptor.retTainted.isEmpty() & conClassNode != null){
             GadgetInfoRecord gadgetInfoRecord = conClassNode.gadgetInfoRecord;
             ClassNode rootClassNode = conClassNode.rootClassNode;
@@ -911,7 +911,7 @@ public class RuleUtils {
 
     public static HashSet<SourceNode> sanitizerOfTaintAndSource(GadgetInfoRecord gadgetInfoRecord,
                                                                 MethodDescriptor descriptor, Taint taint){
-        HashSet<SourceNode> ret = new HashSet<>(); // 记录通过检测的 source nodes
+HashSet<SourceNode> ret = new HashSet<>(); // Record source nodes that pass the detection
         for (SourceNode sourceNode: descriptor.sourcesTaintGraph.matchTaintedSources(taint)){
             if (!sourceNode.isField())
                 continue;
@@ -966,7 +966,7 @@ public class RuleUtils {
 
         for (SootMethod sootMethod: readObjMethods){
             HashSet<SourceNode> usedFields = new HashSet<>();
-            boolean flag = false; // 记录是否因为调用方法数量超过控制导致检测出的fields数量为0
+boolean flag = false; // Record whether the detected fields are 0 because the number of calls exceeds the control.
             SearchGadgetChains.collectFields(sootMethod, usedFields);
             for (SourceNode sourceNode: usedFields){
                 if (!sourceNode.isField())
@@ -981,7 +981,7 @@ public class RuleUtils {
 
     public static boolean checkTransientControllableSimply(SootClass sootClass, SootField sootField, MethodDescriptor descriptor){
         if (sootField == null)
-            return false; // 如果找不到对应的field, 则认定为错误的
+return false; // If the corresponding field cannot be found, it is considered to be wrong
         if (FragmentsContainer.protocolCheckRule.entryMethods.isEmpty())
             return false;
         if (sootClass == null)
@@ -998,7 +998,7 @@ public class RuleUtils {
         }
         if (readObjMethods.isEmpty())
             return false;
-        // 加入一层readObj中的被调函数
+// Add a layer of callee function in readObj
         LinkedList<SootMethod> checkMtds = new LinkedList<>(readObjMethods);
         int initMethodCount = readObjMethods.size();
         int count = 0;
@@ -1078,8 +1078,8 @@ public class RuleUtils {
         return true;
     }
 
-    // resolve在反序列化实例的时候默认执行(E.g. JDK), 但其是用反射方法返回一个对象, 直接的数据流很难准确推断其赋值对象
-    // 因此暂时采用启发式推断的方式
+// resolve is executed by default when deserializing an instance (E.g. JDK), but it returns an object using a reflection method. It is difficult to accurately infer the assignment object with a direct data stream.
+// Therefore, heuristic inference is temporarily adopted
     public static boolean transientCheckForResolve(SootMethod topMtd, SootMethod sootMethod, SootField sootField){
         if (!topMtd.getSubSignature().equals("java.lang.Object readResolve()")
                 || sootMethod.getParameterCount() != 2)
@@ -1243,7 +1243,7 @@ public class RuleUtils {
                     new Pair<>(interimFragment, new HashSet<>(tmpSourceNodes)));
         }
 
-        // 开始创建
+// Start creating
         for (Object value: Utils.getSortedElement(candidateInterimFragmentsMap, BasicDataContainer.interimFragmentToConClassLimit)){
             Pair<InterimFragment, HashSet<SourceNode>> pair = (Pair<InterimFragment, HashSet<SourceNode>>) value;
             InterimFragment interimFragment = pair.getKey();
@@ -1266,8 +1266,8 @@ public class RuleUtils {
             return false;
         if (!RuleUtils.isValidDoubleSingleFixedEqs(preFragment, sucFragment))
             return false;
-        // TODO: 1. first.equals -> second.equals -> nextFragment.head;
-        // TODO: 2. nextFragment.class -> fixed & <-> second.class
+// TODO: 1. first.equals -> second.equals -> nextFragment.head;
+// TODO: 2. nextFragment.class -> fixed & <-> second.class
         if (!shortPriorityLinkCheck(preFragment, sucFragment))
             return false;
 
@@ -1339,15 +1339,15 @@ public class RuleUtils {
             gadgetInfoRecord.collisionNode =  new CollisionNode();
         }
 
-        // 记录碰撞的方法
+// Methods for recording collisions
         gadgetInfoRecord.collisionNode.collisionMethod = fragment.head;
 
         SootMethod hashCodeMtd = getHashCodeMtd(fragment.head.getDeclaringClass());
-        // 暂时好像没有不是同一个对象/包装碰撞的, 先如此简单处理
+// It seems that there is no collision between the same object/package, so it is so simple to deal with it first.
         gadgetInfoRecord.collisionNode.firstHashCodeMtd = hashCodeMtd;
         gadgetInfoRecord.collisionNode.secondHashCodeMtd = hashCodeMtd;
 
-        // 记录相关的fields
+// Record related fields
         boolean addGadgetFlag = false;
         for (SourceNode sourceNode: FragmentsContainer.fixedHashClass.get(fragment.head.getDeclaringClass())){
             gadgetInfoRecord.collisionNode.first.add(sourceNode);
@@ -1406,34 +1406,34 @@ public class RuleUtils {
             }
         }
 
-        // 标记需要哈希碰撞
+// Tags require hash collision
         if (equalsMtdCount > 0)
             gadgetInfoRecord.hashCollisionFlag = true;
 
-        // 不允许超过2个equals方法的连接 (冗余), 如果第一个不是直接固定的话;
+// Connections of more than 2 equals methods are not allowed (redundant), if the first one is not directly fixed;
         if (equalsMtdCount >= 2) {
             if (equalsMtdCount == 2
                     && FragmentsContainer.isSingleFixedEqualsMethod(firstEqualsFragment.head)
                     && FragmentsContainer.isFixedEqualsMethod(secondEqualsFragment.head)
                     /*&& RuleUtils.recordCollisionForSingle(linkedFragments, firstEqualsFragment, gadgetInfoRecord)*/){
                 recordCollisionForSameMtd(firstEqualsFragment.head, gadgetInfoRecord);
-                // 记录单个碰撞的情况
+// Record the situation of a single collision
                 return true;
             }
             else
                 return false;
         }
 
-        // 没有 equals 方法连接的则直接返回
+// If there is no equals method connection, it will be returned directly
         if (firstEqualsFragment == null)
             return true;
         if (!FragmentsContainer.isFixedEqualsMethod(firstEqualsFragment.head))
             return false;
 
-        // 为第一个 equals 方法生成碰撞信息
+// Generate collision information for the first equals method
         if (FragmentsContainer.isSingleFixedEqualsMethod(firstEqualsFragment.head)
                 /*&& !needEncapsulateEqualsMethod(firstEqualsFragment.head)*/) {
-            // TODO: 在一些情况下, 可以直接将与该hashCode方法求解相关的fields设置为同一个对象, 从而产生hash碰撞; 在此补充对该种情况的处理
+// TODO: In some cases, fields related to the hashCode method solution can be directly set to the same object, thereby generating hash collisions; here is the supplementary treatment of this situation
 //            if (couldCollisionForSingleEquals(gadgetInfoRecord, linkedFragments, firstEqualsFragment))
 //                return true;
 //            return RuleUtils.recordCollisionForSingle(linkedFragments, firstEqualsFragment, gadgetInfoRecord);
@@ -1448,11 +1448,11 @@ public class RuleUtils {
         if (gadgetInfoRecord.collisionNode == null){
             gadgetInfoRecord.collisionNode =  new CollisionNode();
         }
-        // 记录碰撞的方法
+// Methods for recording collisions
         gadgetInfoRecord.collisionNode.collisionMethod = firstEqMtd;
 
         SootMethod hashCodeMtd = getHashCodeMtd(firstEqMtd.getDeclaringClass());
-        // 暂时好像没有不是同一个对象/包装碰撞的, 先如此简单处理
+// It seems that there is no collision between the same object/package, so it is so simple to deal with it first.
         gadgetInfoRecord.collisionNode.firstHashCodeMtd = hashCodeMtd;
         gadgetInfoRecord.collisionNode.secondHashCodeMtd = hashCodeMtd;
         gadgetInfoRecord.collisionNode.first.clear();
@@ -1473,8 +1473,8 @@ public class RuleUtils {
 
         gadgetInfoRecord.collisionNode.collisionMethod = firstEqualsFragment.head;
         Fragment nextFragment = RuleUtils.getHashCollisionMethods(linkedFragments, firstEqualsFragment, gadgetInfoRecord);
-        // 1. 如果有nextFragment, 即后续的classNode和firstEqMethod对应的类的来源相同，这两个方法对应的classNode碰撞
-        // 2. 如果没有, 则两个firstEqMethod对应的类碰撞
+// 1. If there is nextFragment, that is, the corresponding classes of the subsequent classNode and firstEqMethod are the same, and the corresponding classNodes of these two methods collide
+// 2. If not, the corresponding classes of two firstEqMethods collide
         SootMethod hashCodeMtd1 = getHashCodeMtd(firstEqualsFragment.head.getDeclaringClass());
         SootMethod hashCodeMtd2 = nextFragment == null? hashCodeMtd1: getHashCodeMtd(nextFragment.head.getDeclaringClass());
         if (hashCodeMtd2 == null || !AbstractProtocolCheckRule.isSingleHashControllable(hashCodeMtd2))
@@ -1514,16 +1514,16 @@ public class RuleUtils {
         Fragment nextFragment = RuleUtils.getHashCollisionMethods(linkedFragments, firstEqualsFragment, gadgetInfoRecord);
         if (nextFragment == null) return recordCaseC(gadgetInfoRecord, firstEqualsFragment);
 
-        // 1. 如果有nextFragment, 即后续的classNode和firstEqMethod对应的类的来源相同，这两个方法对应的classNode碰撞
-        // 2. 如果没有, 则两个firstEqMethod对应的类碰撞
+// 1. If there is nextFragment, that is, the corresponding classes of the subsequent classNode and firstEqMethod are the same, and the corresponding classNodes of these two methods collide
+// 2. If not, the corresponding classes of two firstEqMethods collide
         ClassNode secondCNode = gadgetInfoRecord.getClassNode(BasicDataContainer.getOrCreateDescriptor(nextFragment.head).getCurrentClass());
         if (secondCNode == null)    return false;
-        // 不同实例的来源一直，则属于Case A
+// The source of different instances has always belongs to Case A
         if (firstCNode.source != null && secondCNode.source != null
                 && (firstCNode.source.classOfField.equals(secondCNode.source.classOfField)
                     && firstCNode.source.field.getFirst().equals(secondCNode.source.field.getFirst()))){
             gadgetInfoRecord.collisionNode.type = 1;
-            // 记录两个不同实例存放的上层实例对象的hash method
+// Record the hash method of the upper instance object stored in two different instances
             gadgetInfoRecord.collisionNode.firstHashCodeMtd
                     = gadgetInfoRecord.collisionNode.secondHashCodeMtd
                     = getHashCodeMtd(firstCNode.source.classOfField);
@@ -1534,7 +1534,7 @@ public class RuleUtils {
                 return false;
             gadgetInfoRecord.collisionNode.flag = true;
             gadgetInfoRecord.collisionNode.top = new LinkedList<>(FragmentsContainer.fixedHashClass.get(firstCNode.source.classOfField));
-        }else { // 否则属于 Case C
+}else { // Otherwise it belongs to Case C
             recordCaseC(gadgetInfoRecord, firstEqualsFragment);
         }
 
@@ -1573,7 +1573,7 @@ public class RuleUtils {
             return false;
 
         HashSet<SourceNode> hashCodeSources = FragmentsContainer.classHashCodeFieldsMap.get(firstEqualsFragment.head.getDeclaringClass());
-        if (hashCodeSources.size() > 2) // 启发式, 剪枝
+if (hashCodeSources.size() > 2) // Heuristic, pruning
             return false;
 
         int fragmentIndex = linkedFragments.indexOf(firstEqualsFragment);
@@ -1594,11 +1594,11 @@ public class RuleUtils {
             gadgetInfoRecord.collisionNode =  new CollisionNode();
         }
 
-        // 记录碰撞的方法
+// Methods for recording collisions
         gadgetInfoRecord.collisionNode.collisionMethod = firstEqualsFragment.head;
 
         SootMethod hashCodeMtd = getHashCodeMtd(firstEqualsFragment.head.getDeclaringClass());
-        // 暂时好像没有不是同一个对象/包装碰撞的, 先如此简单处理
+// It seems that there is no collision between the same object/package, so it is so simple to deal with it first.
         gadgetInfoRecord.collisionNode.firstHashCodeMtd = hashCodeMtd;
         gadgetInfoRecord.collisionNode.secondHashCodeMtd = hashCodeMtd;
         gadgetInfoRecord.collisionNode.flag = true;
@@ -1929,7 +1929,7 @@ public class RuleUtils {
     public static HashSet<Fragment> heuristicEqChainLink(Fragment preFragment, HashSet<Fragment> linkableSinkFragments){
         HashSet<Fragment> ret = new HashSet<>();
         if (isEqMethod(preFragment.end) && BasicDataContainer.hashCollisionModeSelect){
-            // 1. 检查sucFragment中有几个equals，如果仅有一个，则必定为case 1/3
+// 1. Check how many equals are in sucFragment. If there is only one, it must be case 1/3
             String subEqMethodSig = "boolean equals(java.lang.Object)";
             HashSet<Fragment> tmpLinkableSinkFragments = new HashSet<>(linkableSinkFragments);
             SootMethod eqForHeadClz = getEqualsMtd(preFragment.head.getDeclaringClass());

@@ -77,7 +77,7 @@ public class TransformerUtils {
             tmpRootClassNode = rootClassNode;
         }
 
-        // 通过队列迭代算法处理从rootClass开始的一系列类节点
+// Process a series of class nodes starting from rootClass through queue iteration algorithm
         Queue<ClassNode> classNodesQueue = new LinkedList<>();
         HashMap<ClassNode, FieldRecord> visited = new HashMap<>();
         classNodesQueue.add(rootClassNode);
@@ -93,23 +93,23 @@ public class TransformerUtils {
                 cRecord.triggerMethod = tmpClassNode.triggerMethod.getName();
             }
 
-            String tmpClassName = tmpClassNode.sootClass.getName(); // 该node所属对象
+String tmpClassName = tmpClassNode.sootClass.getName(); // The object to which the node belongs
             cRecord.className = tmpClassName;
             if(tmpClassNode.rootClassNode == null){
                 cRecord.setSourceRecord(null);
             }
             else {
-//                Pair<String, String> tmpPredecessorRecord = new Pair<>(
-//                        tmpClassNode.source.classOfField.getName(),
-//                        tmpClassNode.source.field.getLast().getSignature()
-//                );
+// Pair<String, String> tmpPredecessorRecord = new Pair<>(
+// tmpClassNode.source.classOfField.getName(),
+// tmpClassNode.source.field.getLast().getSignature()
+// );
 
                 cRecord.setSourceRecord(makeSourceNodeRecord(tmpClassNode.source));
                 for (SourceNode candidateSourceNode: tmpClassNode.candidateSources){
                     cRecord.getCandidateSources().add(makeSourceNodeRecord(candidateSourceNode));
                 }
 
-//                cRecord.setPredClassId(tmpClassNode.source.classId);
+// cRecord.setPredClassId(tmpClassNode.source.classId);
 
                 if (tmpClassNode.caller != null) {
                     cRecord.setPredecessorMethod(makeInitMethodRecord(tmpClassNode.caller));
@@ -184,7 +184,7 @@ public class TransformerUtils {
 
             cRecord.isProxy = tmpClassNode.isProxy;
             if (cRecord.isProxy){
-//                cRecord.addProxyInterface.add(tmpClassNode.invocationHandlerClassNode);
+// cRecord.addProxyInterface.add(tmpClassNode.invocationHandlerClassNode);
             }
 
             if (!tmpClassNode.flag){
@@ -435,8 +435,8 @@ public class TransformerUtils {
                 getLineNumberByUnit(conditionNode.conditionNode.node.unit));
         conditionRecord.usedSite = pair;
 
-        LinkedHashMap<String, FieldRecord> conditionNames = new LinkedHashMap<>(); // 变量
-        LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // 比较值 (E.g. 常量)
+LinkedHashMap<String, FieldRecord> conditionNames = new LinkedHashMap<>(); // 变量
+LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // Compare values (E.g. constant)
         for (SourceNode sourceNode: conditionNode.controllableValues){
             FieldRecord fieldRecord = makeInitFieldRecord(sourceNode);
             if (fieldRecord != null)
@@ -526,7 +526,7 @@ public class TransformerUtils {
         if (!RegularConfig.protocol.equals("json"))
             return;
 
-        // 记录 entry 方法是否为public的
+// Record whether the entry method is public
         SootMethod entryMtd = gadgetInfoRecord.gadgets.getFirst();
         iocd.publicEntry = entryMtd.isPublic();
 
@@ -595,7 +595,7 @@ public class TransformerUtils {
                     methodSigs.add(methodInstRecord.sig);
             }
             if (!methodSigs.contains(sootMethod.getSignature())) {
-                // 记录 methods 信息
+// Record methods information
                 MethodInstRecord methodInstRecord = new MethodInstRecord();
                 methodInstRecord.setClassName(sootClass.getName());
                 methodInstRecord.setSubSig(sootMethod.getSubSignature());
@@ -631,7 +631,7 @@ public class TransformerUtils {
     }
 
     public static void recordSink(Instruments instruments){
-        // ClassLoader
+// ClassLoader
         for (String methodSig: ClassLoaderCheckRule.newInstanceMethodSigs){
             setSinkInstRecord(methodSig, true, Arrays.asList(-1), instruments);
         }
@@ -648,7 +648,7 @@ public class TransformerUtils {
             setSinkInstRecord(methodSig, false, "java.lang.ClassLoader", instruments);
         }
 
-        // EXE
+// EXE
         for (String methodSig: ExecCheckRule.riskyMethodSigs){
             if (Scene.v().containsMethod(methodSig)){
                 SootMethod sootMethod = Scene.v().getMethod(methodSig);
@@ -656,17 +656,17 @@ public class TransformerUtils {
             }
         }
 
-        // FileCheck
+// FileCheck
         for (String methodSig: FileCheckRule.fileSinkSig) {
             setSinkInstRecord(methodSig, true, Arrays.asList(0), instruments);
         }
 
-        // Invoke
+// Invoke
         for (String methodSig : InvokeCheckRule.invokeSigs) {
             setSinkInstRecord(methodSig,true,Arrays.asList(-1,0),instruments);
         }
 
-        // LookUp
+// LookUp
         for (String methodSig : JNDICheckRule.riskyJNDIMethodsSig){
             SootMethod sootMethod = Scene.v().getMethod(methodSig);
             if (sootMethod == null) {
@@ -688,7 +688,7 @@ public class TransformerUtils {
             setSinkInstRecord(sootMethod, true, Arrays.asList(ind),instruments);
         }
 
-        // Custom
+// Custom
         CustomCheckRule.setSinksInstRecord(instruments);
     }
 

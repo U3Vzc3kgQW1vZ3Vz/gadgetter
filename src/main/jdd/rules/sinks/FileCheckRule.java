@@ -28,7 +28,7 @@ public class FileCheckRule extends AbstractCheckRule {
 
     public static HashSet<String> fileSinkSig = new HashSet<>();
     public static HashSet<String> fileClassNames = new HashSet<>();
-    // 备用
+// Backup
 
     public static boolean isValidType(Value value){
         String typeString = value.getType().toString();
@@ -59,9 +59,9 @@ public class FileCheckRule extends AbstractCheckRule {
             callStack.add(currentInvokedMethod);
             if (!super.checkGadgetDuplication(callStack, sinkType)){
                 FragmentsContainer.updateSinkFragment(callStack,sinkType, tfNode, descriptor);
-//                DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
-//                        RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
-//                        true);
+// DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
+// RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
+// true);
                 DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
                         RegularConfig.outputDir + "/gadgets/interInfos/" +"GadgetChains.txt",
                         true);
@@ -92,7 +92,7 @@ public class FileCheckRule extends AbstractCheckRule {
                 RecordUtils.recordTaintedArgs(descriptor, taintedArgs, sinkType, tfNode);
             }
         }
-//        }
+// }
 
         return risky;
     }

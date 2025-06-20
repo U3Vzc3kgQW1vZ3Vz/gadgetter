@@ -8,14 +8,14 @@ import java.util.HashSet;
 @Setter
 @Getter
 public class IfStmtInstRecord {
-    public String className;    //  该条件分支所属的类名
-    public String methodSubSig; // 该条件分支所属方法sub签名
+public String className; // The class name to which the condition branch belongs
+public String methodSubSig; // The sub signature of the method to which this condition branch belongs
     public String methodName;
-    public Integer lineNumber;  // 在源代码文件中的位置
-    public boolean basic = false;       // 是否为 Basic Condition
-    public Integer hashCode;    // 用来标记对应哪个 ConditionRecord
-    public HashSet<Integer> successor; // 该条件分支的后继
-    public Integer basicSuccessor; // 如果是 Basic Condition，会记录后续应该进入的后继语句位置
-//    public HashSet<Integer> precursor; // 该条件分支的前继
+public Integer lineNumber; // Location in the source code file
+public boolean basic = false; // Is it Basic Condition
+public Integer hashCode; // Used to mark which ConditionRecord
+public HashSet<Integer> successor; // successor of this condition branch
+public Integer basicSuccessor; // If it is Basic Condition, the subsequent successor statement locations that should be entered will be recorded.
+// public HashSet<Integer> precursor; // The precursor of this condition branch
 
 }

@@ -30,11 +30,11 @@ public class AliasAndPointerRule implements Rule {
             Value right = assignStmt.getRightOp();
 
             if (right instanceof JInstanceFieldRef){
-                // a = taint.field
+// a = taint.field
                 JInstanceFieldRef jInstanceFieldRef = (JInstanceFieldRef) right;
                 Value object = jInstanceFieldRef.getBase();
                 SootField sootField = jInstanceFieldRef.getField();
-                // 创建污点(存储在allTaints: 记录所有的“污点”, 其中的污点并并不都是实际被污染的)
+// Create a taint (stored in allTaints: Record all "defiles", and the taints are not actually contaminated)
                 Taint leftTaint = descriptor.getOrCreateTaint(left,null);
                 Taint rightTaint = descriptor.getOrCreateTaint(object, Utils.toLinkedList(sootField));
 
@@ -42,13 +42,13 @@ public class AliasAndPointerRule implements Rule {
                     leftTaint.aliases.add(rightTaint);
                 }
 
-                // 补充别名指针信息
+// Supplementary alias pointer information
                 recordPointer(rightTaint,leftTaint, descriptor);
             }
             else if (right instanceof StaticFieldRef){
                 SootField sootField = ((StaticFieldRef) right).getField();
                 Pointer pointer = FieldsContainer.getFieldPointer(sootField, descriptor.getCurrentClass());
-                if (pointer != null){ // 不为常量的情况, 记录指针信息
+if (pointer != null){ // If it is not a constant, record pointer information
                     descriptor.pointTable.setPointer(left, pointer);
                 }
 
@@ -91,12 +91,12 @@ public class AliasAndPointerRule implements Rule {
                 Pointer pointer = new Pointer(type, refType);
                 descriptor.pointTable.setPointer(left, pointer);
             }
-            // 强制类型转换
+// Force type conversion
             else if (right instanceof CastExpr){
                 Value rightValue = ((CastExpr)right).getOp();
                 Pointer pointer = new Pointer(((CastExpr)right).getCastType());
                 descriptor.pointTable.setPointer(left, pointer);
-                // 如果right的类型和强制转换的并不完全兼容，则也加入记录
+// If the type of right and cast are not fully compatible, the record will be added.
                 if (descriptor.pointTable.contains(rightValue)) {
                     SootClass castClass = Utils.toSootClass(((CastExpr) right).getCastType());
                     Pointer pointerRight = descriptor.pointTable.getPointer(rightValue);

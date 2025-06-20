@@ -41,9 +41,9 @@ public class SecondDesCheckRule extends AbstractCheckRule {
             callStack.add(currentInvokedMethod);
             if (!super.checkGadgetDuplication(callStack, sinkType)){
                 FragmentsContainer.updateSinkFragment(callStack,sinkType, tfNode, descriptor);
-//                DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
-//                        RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
-//                        true);
+// DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
+// RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
+// true);
                 DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
                         RegularConfig.outputDir + "/gadgets/interInfos/" +"GadgetChains.txt",
                         true);

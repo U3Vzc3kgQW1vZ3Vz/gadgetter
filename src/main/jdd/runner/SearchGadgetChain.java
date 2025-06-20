@@ -85,7 +85,7 @@ class DetectorRuntimeExceptionHandler implements Thread.UncaughtExceptionHandler
         }
         if(p.equals("")) { throw new IllegalArgumentException("Cannot handle: " + msg); }
         res = getExceptionClassName(p, msg);
-        if(SootConfig.checkIgnore(res)) { // Class xxx is already in ingoreInfo, do not add, only delete
+if(SootConfig.checkIgnore(res)) { // Class xxx is already in ingoreInfo, do not add, only delete
             deleteUnhandledClass(res); log.info("Class " + res + " is");
             return null;
         }

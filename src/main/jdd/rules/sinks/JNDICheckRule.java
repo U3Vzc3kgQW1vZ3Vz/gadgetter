@@ -22,14 +22,14 @@ import java.util.*;
 
 @Slf4j
 public class JNDICheckRule extends AbstractCheckRule {
-    // 不单包括JNDI
+// Not only JNDI
     public static boolean isFineGrained = false;
-    // 用于记录风险方法的签名
+// Signature used to record risk methods
     public static HashSet<String> riskyJNDIMethodsSig = new HashSet<>();
     public static HashSet<String> riskySPIMethodSig = new HashSet<>();
     public static HashSet<String> riskyConnectInputMethodSig = new HashSet<>();
     public static HashSet<String> riskyNDSMethodSig = new HashSet<>();
-    // 以下都是总结的专家经验，包含符合要求的lookup的方法形参的类型、已知的sink类（basic、connection和SPILoad）
+// The following are summarized expert experience, including the type of formal parameters of the method of the lookup that meets the requirements, known sink classes (basic, connection and SPILoad)
     public static List<String> riskyJNDIParamTypes = Arrays.asList("javax.naming.Name",
                                                                         "java.lang.String",
                                                                             "java.lang.Object",
@@ -71,9 +71,9 @@ public class JNDICheckRule extends AbstractCheckRule {
             callStack.add(currentInvokedMethod);
             if (!super.checkGadgetDuplication(callStack, sinkType)){
                  FragmentsContainer.updateSinkFragment(callStack,sinkType, tfNode, descriptor);
-//                DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
-//                        RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
-//                        true);
+// DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
+// RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
+// true);
                 DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
                         RegularConfig.outputDir + "/gadgets/interInfos/" +"GadgetChains.txt",
                         true);
@@ -91,8 +91,8 @@ public class JNDICheckRule extends AbstractCheckRule {
             risky = true;
         /*else if (connectionCheck(descriptor,transformableNode))
             risky = true;*/
-//        else if (DNSCheck(descriptor, tfNode))
-//            risky = true;
+// else if (DNSCheck(descriptor, tfNode))
+// risky = true;
         else if (TCPPortCheck(descriptor, tfNode))
             risky = true;
         return risky;
@@ -144,7 +144,7 @@ public class JNDICheckRule extends AbstractCheckRule {
         String currentMtdSig = currentMtd.getSignature();
 
 
-        // 如果是risky lookup 方法，且第一个参数是被污染的(Lookup方法第一个参数是目标被加载的类名/URL)
+// If it is the risky lookup method, and the first parameter is contaminated (the first parameter of the Lookup method is the class name/URL that the target is loaded)
         if (riskyJNDIMethodsSig.contains(currentMtdSig)){
             if (currentMtd.getParameterCount() > 0){
                 for (Value arg: invokeExpr.getArgs()){
@@ -163,7 +163,7 @@ public class JNDICheckRule extends AbstractCheckRule {
     }
 
     public boolean DNSCheck(MethodDescriptor descriptor, TransformableNode tfNode){
-        // java.net.InetAddress getByName
+// java.net.InetAddress getByName
         boolean risky = false;
         InvokeExpr invokeExpr = tfNode.getUnitInvokeExpr();
 

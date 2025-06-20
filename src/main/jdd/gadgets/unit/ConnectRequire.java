@@ -8,17 +8,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class ConnectRequire {
-    public HashSet<SootMethod> preLinkableMethods = new HashSet<>(); // Fragment 跳转条件
-    public HashSet<HashSet<Integer>> paramsTaitRequire = null; // 污点要求
+public HashSet<SootMethod> preLinkableMethods = new HashSet<>(); // Fragment jump condition
+public HashSet<HashSet<Integer>> paramsTaitRequire = null; // taint requirement
     public HashSet<Integer> condSet = new HashSet<>();
     
     /** 其他链接条件 */
-    // 目前考虑两种: 方法名限制 / 方法所属的类型限制
+// Currently consider two types: method name limitation/type limitation to which the method belongs
     public HashMap<String, HashSet<String>> dynamicProxyLinkCheck = new HashMap<>();
     
 
-    // 记录反射拼接的fragment的拼接要求
-    // static(1) getter(1)/Interface(2)/any(0) non-parameter(0默认)/String(1)
+// Record the splicing requirements of fragments that reflect splicing
+// static(1) getter(1)/Interface(2)/any(0) non-parameter(0默认)/String(1)
     public String reflectionCheck = "010";
 
     public ConnectRequire(HashSet<HashSet<Integer>> paramsTaitRequire, HashSet<SootMethod> preLinkableMethods){

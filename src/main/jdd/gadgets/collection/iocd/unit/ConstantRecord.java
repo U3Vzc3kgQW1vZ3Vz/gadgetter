@@ -11,8 +11,8 @@ import java.util.HashSet;
 public class ConstantRecord {
     public static enum constantType{INT,STR};
     public ClassRecord classRecord;
-    // fields里面的constants
+// constants in fields
     public HashSet<Pair<Object, ConstantRecord.constantType>> fieldsConstants = new HashSet<>();
-    // 方法内部的constants
+// Constants inside the method
     public HashSet<InnerMethodConstant> innerMethodConstants = new HashSet<>();
 }

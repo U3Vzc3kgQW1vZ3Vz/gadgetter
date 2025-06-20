@@ -1,7 +1,7 @@
 package jdd.dataflow.node.paramResult;
 
 public class TaintAndLinger {
-    int TaintParam;//使用状态压缩
+int TaintParam;//Use state compression
 
     @Override
     public String toString(){

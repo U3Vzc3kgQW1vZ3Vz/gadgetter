@@ -43,7 +43,7 @@ public class FieldsContainer {
         allSootClz.addAll(Scene.v().getClasses());
         for (SootClass sootClass: allSootClz){
             if (sootClass.resolvingLevel() < 3) continue;
-            // 分析静态代码块内的信息, 暂时不考虑初始化对象时的默认赋值(因为这些fields一般攻击者可控的范围)
+// Analyze the information in the static code block, and the default assignment when initializing the object is not considered for the time being (because these fields are generally controllable by attackers)
             try {
                 for (SootMethod sootMethod: sootClass.getMethods()){
                     if (sootMethod.getName().equals("<clinit>")

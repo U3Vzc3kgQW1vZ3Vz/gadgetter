@@ -6,6 +6,7 @@ logs
 time-measurement
 testExample
 JDD.iml
-codeql-project
+codeql_project
+scripts
 
 

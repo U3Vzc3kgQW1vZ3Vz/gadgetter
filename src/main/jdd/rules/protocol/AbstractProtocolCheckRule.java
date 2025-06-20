@@ -93,23 +93,23 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
     }
 
 
-    // 获取sources方法
+// Get the sources method
     public abstract HashSet<SootMethod> getSourceMethods();
 
     public boolean openBPLink(){
         return true;
     }
 
-    // 判断sootMethod是否为source 方法
+// Determine whether the sootMethod is a source method
     public boolean isSource(SootMethod sootMethod){
         return sources.contains(sootMethod) & !fsMtds.contains(sootMethod);
     };
-    // 判断是否能用equals触发
+// Determine whether it can be triggered with equals
     public boolean needEqualsTrigger() {return false;}
 
-    // 在获取entry methods之前，先进行一系列筛选
-    // (1) 类筛选
-    // (2) 方法筛选 [根据各个协议不同]
+// Before obtaining entry methods, perform a series of filters
+// (1) Class filtering
+// (2) Method filtering [depending on each protocol]
     public void doClassCheck(){
         candidateClassSet.addAll(Scene.v().getApplicationClasses());
         candidateClassSet.addAll(Scene.v().getClasses());
@@ -147,13 +147,13 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
     }
 
     public void filterFixedEqualsMethods() throws IOException {
-        SearchUtils.setDetectSchemeOn(); // 设置开始检测的 flag
+SearchUtils.setDetectSchemeOn(); // Set the flag to start detection
         SootMethod equalMtd = Scene.v().getMethod("<java.lang.Object: boolean equals(java.lang.Object)>");
         HashSet<SootMethod> sourceMethods = ClassRelationshipUtils.getAllSubMethods(
                 equalMtd
         );
 
-        // TODO:
+// All:
         HashSet<SootMethod> toDelete = new HashSet<>();
         for (SootMethod sootMethod: sourceMethods){
             if (!this.candidateClassSet.contains(sootMethod.getDeclaringClass()))
@@ -162,7 +162,7 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
 
         sourceMethods.removeAll(toDelete);
 
-        // 将其添加到 Source 中
+// Add it to Source
         FragmentsContainer.sources.addAll(sourceMethods);
 
         for (SootMethod mtd: sourceMethods){
@@ -181,12 +181,12 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
             return;
         SootClass clz = hashCodeMtd.getDeclaringClass();
         HashSet<SourceNode> usedFields = new HashSet<>();
-        boolean flag = false; // 记录是否因为调用方法数量超过控制导致检测出的fields数量为0
+boolean flag = false; // Record whether the detected fields are 0 because the number of calls exceeds the control.
 
         LinkedList<SootMethod> callStack = new LinkedList<>(Arrays.asList(hashCodeMtd));
         MethodDescriptor descriptor = initDealBeforeSearching(hashCodeMtd, null);
         flag = SearchGadgetChains.isValidFixedHashCode(true, hashCodeMtd, usedFields,callStack);
-        // 记录所有的情况, 避免重复检测
+// Record all situations and avoid repeated detection
         FragmentsContainer.classHashCodeFieldsMap.put(clz, usedFields);
         RuleUtils.filterOuterSource(usedFields, descriptor.getCurrentClass());
         if (usedFields.isEmpty() & !callStack.contains(null)) {
@@ -203,8 +203,8 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
                 for (SourceNode sourceNode: usedFields){
                     if (Utils.isBasicType(sourceNode.getType()))
                         continue;
-//                        if (!sourceNode.getType().toString().equals("java.lang.Object")
-//                                && !sourceNode.getType().toString().equals("java.lang.Object[]"))
+// if (!sourceNode.getType().toString().equals("java.lang.Object")
+// && !sourceNode.getType().toString().equals("java.lang.Object[]"))
                     if (RuleUtils.isSingleGenericType(sourceNode.getType()))
                         count = count + 1;
                     else if (!RuleUtils.isGeneticType(sourceNode.getType())) {
@@ -313,7 +313,7 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
                         if (!sourceNode.isField())
                             continue;
                         if (FieldUtil.isTransientType(sourceNode.field.getLast())){
-                            // 应该改成sourceNode.classOf
+// It should be changed to sourceNode.classOf
                             if (checkTransientControllableSimply(descriptor.getCurrentClass(), sourceNode.field.getLast(), descriptor)){
                                 return null;
                             }

@@ -31,25 +31,25 @@ public class CustomCheckRule extends AbstractCheckRule{
     public static HashMap<String, HashSet<String>> customRulesMap = new HashMap<>();
 
     public static void init(){
-        // Groovy
+// Groovy
         customRulesMap.put("groovy", new HashSet<>());
         customRulesMap.get("groovy").add("<groovy.lang.Closure: java.lang.Object call()>");
         customRulesMap.get("groovy").add("<groovy.lang.Closure: java.lang.Object call(java.lang.Object[])>");
         customRulesMap.get("groovy").add("<groovy.lang.Closure: java.lang.Object call(java.lang.Object)>");
 
-        // Bsh
+// bsh
         customRulesMap.put("Bsh", new HashSet<>());
         customRulesMap.get("Bsh").add("<bsh.BshMethod: java.lang.Object invoke(java.lang.Object[],bsh.Interpreter,bsh.CallStack,bsh.SimpleNode)>");
         customRulesMap.get("Bsh").add("<bsh.BshMethod: java.lang.Object invoke(java.lang.Object[],bsh.Interpreter,bsh.CallStack,bsh.SimpleNode,boolean)>");
-        // Myface
+// Myface
         customRulesMap.put("Myface", new HashSet<>());
         customRulesMap.get("Myface").add("<javax.el.ValueExpression: java.lang.Object getValue(javax.el.ELContext)>");
 
-        // checkClojure
+// checkClojure
         customRulesMap.put("checkClojure", new HashSet<>());
         customRulesMap.get("checkClojure").add("<clojure.main$eval_opt: java.lang.Object invokeStatic(java.lang.Object)>");
 
-        // fastjson
+// Fastjson
         customRulesMap.put("fastjson", new HashSet<>());
         for (SootMethod mtd: Scene.v().getMethodNumberer()){
             if (mtd.getName().equals("write")
@@ -147,7 +147,7 @@ public class CustomCheckRule extends AbstractCheckRule{
                 HashSet<Value> taintedArgs = new HashSet<>();
                 taintedArgs.add(thisValueBox.getValue());
                 taintedArgs.add(arg0);
-//                sinkType = SinkType.CUSTOM_Clojure;
+// sinkType = SinkType.CUSTOM_Clojure;
                 risky = RecordUtils.recordTaintedArgs(descriptor, taintedArgs, sinkType, tfNode);
             }
         }
@@ -168,7 +168,7 @@ public class CustomCheckRule extends AbstractCheckRule{
             risky = Utils.isTainted(thisValueBox.getValue(), descriptor.taints);
 
             if (risky){
-//                sinkType = SinkType.CUSTOM_MyFace;
+// sinkType = SinkType.CUSTOM_MyFace;
                 risky = RecordUtils.recordTaintedArgs(descriptor, thisValueBox.getValue(), sinkType, tfNode);
             }
         }
@@ -225,7 +225,7 @@ public class CustomCheckRule extends AbstractCheckRule{
                         risky = false;
                 }
                 if (risky) {
-//                    sinkType = SinkType.CUSTOM_Groovy;
+// sinkType = SinkType.CUSTOM_Groovy;
                     risky = RecordUtils.recordTaintedArgs(descriptor, thisValueBox.getValue(), sinkType, tfNode);
                 }
             }

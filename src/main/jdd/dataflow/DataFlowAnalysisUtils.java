@@ -1,5 +1,5 @@
-package jdd.dataflow;
-
+Record this pointer information
+Record parameter pointer information
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.config.RegularConfig;
 import soot.jimple.IfStmt;
@@ -51,7 +51,7 @@ public class DataFlowAnalysisUtils {
                                          LinkedList<SootMethod> callStack, TransformableNode tfNode){
         if (!DataFlowAnalysisUtils.continueFollowInvokeMtd(callStack,callee, tfNode))  return null;
         InvokeExpr currentInvokeExpr = tfNode.getUnitInvokeExpr();
-        // 调用下个方法时，传入必要的信息
+// When calling the next method, pass in necessary information
         MethodDescriptor calleeDescriptor = DataFlowAnalysisUtils.afferentInfosToInvokedMtd(callerDescriptor,currentInvokeExpr,
                 callee,inputCallFrame,tfNode);
 
@@ -79,13 +79,13 @@ public class DataFlowAnalysisUtils {
 
 
     public static MethodDescriptor getMethodDescriptor(SootMethod sootMethod){
-        // 如果不是具体的方法，比如抽象方法那就不作处理
+// If it is not a specific method, such as an abstract method, then it will not be processed
         if (!sootMethod.isConcrete())   return null;
 
         MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(sootMethod);
 
         descriptor.flushStates();
-        // 根据专家经验判断是否需要进行检测
+// Judging whether testing is required based on expert experience
         if (descriptor.needDetect()) {
             if(descriptor.cfg == null){
                 CFG cfg = new CFG(sootMethod, true);
@@ -101,7 +101,7 @@ public class DataFlowAnalysisUtils {
     public static SootMethod getMethodDescriptor(MethodDescriptor descriptor){
         if (!descriptor.sootMethod.isConcrete())   return null;
         descriptor.flushStates();
-        // 根据专家经验判断是否需要进行检测
+// Judging whether testing is required based on expert experience
         if (descriptor.needDetect()) {
             if(descriptor.cfg == null){
                 CFG cfg = new CFG(descriptor.sootMethod, true);
@@ -128,8 +128,8 @@ public class DataFlowAnalysisUtils {
     }
 
     public static void updateInterInfos(MethodDescriptor descriptor){
-        // 将当前方法的局部变量的指向信息存储于pointTable中以备后续分析
-//        descriptor.paramIdMapLocalValue = Parameter.getParametersLocalValues(descriptor.cfg);
+// Store the pointing information of the local variables of the current method in pointTable for subsequent analysis
+// descriptor.paramIdMapLocalValue = Parameter.getParametersLocalValues(descriptor.cfg);
         for(Integer ind : descriptor.paramIdMapLocalValue.keySet()){
             if (descriptor.paramValInfo.containsKey(ind)) {
                 Value localVal = descriptor.paramIdMapLocalValue.get(ind);
@@ -151,7 +151,7 @@ public class DataFlowAnalysisUtils {
                 for (int indTmp: descriptor.inputParamMapTaints.keySet()){
                     for (Taint tmpTaint : descriptor.inputParamMapTaints.get(indTmp)){
                         if (tmpTaint.object.getType().toString().equals(descriptor.sootMethod.getDeclaringClass().getName())){
-                            // 添加this污染
+// Add this pollution
                             if (tmpTaint.accessPath.isEmpty()){
                                 LinkedList<SootField> accessPath = new LinkedList<>(tmpTaint.accessPath);
                                 Taint taintInLocal = descriptor.getOrCreateTaint(descriptor.paramIdMapLocalValue.get(-1), accessPath);
@@ -163,14 +163,14 @@ public class DataFlowAnalysisUtils {
                 continue;
             }
             Value localVal = descriptor.paramIdMapLocalValue.get(ind);
-            // inputParamMapTaints是在获取entry的过程中处理了的形参污点
+// inputParamMapTaints is a formal parameter stain processed during the acquisition of entry
             for(Taint taint : descriptor.inputParamMapTaints.get(ind)){
                 LinkedList<SootField> accessPath = new LinkedList<>(taint.accessPath);
                 Taint taintInLocal = descriptor.getOrCreateTaint(localVal, accessPath);
                 Taint.addTaint(taintInLocal, descriptor.taints);
             }
 
-            // 更新入参对应的fields信息
+// Update the fields information corresponding to the entry parameter
             if (BasicDataContainer.infosCollect){
                 if (descriptor.fieldsParamIndexRecord.containsKey(ind)){
                     for (SourceNode sourceNode : descriptor.fieldsParamIndexRecord.get(ind)){
@@ -186,7 +186,7 @@ public class DataFlowAnalysisUtils {
      * @param descriptor
      */
     public static void updateAfterAnalysisMtd(MethodDescriptor descriptor) {
-        // 生成 Interim Fragment
+// Generate Interim Fragment
         if (BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING))
             FragmentsContainer.generateInterimFragment(descriptor);
 
@@ -204,7 +204,7 @@ public class DataFlowAnalysisUtils {
                 inputTaint |= (1 << (ind + 1));
         }
 
-        // fields污染关系和参数之间的关联性 计数
+// Correlation between fields pollution relationship and parameters Count
         for (Integer ind = descriptor.inputParamMapTaints.size();
              ind < descriptor.inputParamMapTaints.size() + descriptor.fieldsParamIndexRecord.size(); ind++){
             if (descriptor.fieldsParamIndexRecord.containsKey(ind - descriptor.inputParamMapTaints.size()))
@@ -229,7 +229,7 @@ public class DataFlowAnalysisUtils {
         InvokeExpr invokeExpr = tfNode.getUnitInvokeExpr();
 
         for(int ind : invokedDescriptor.paramBeTainted.keySet()){
-            if(ind == -1){  // TODO: 添加针对 <init> 的处理
+if(ind == -1){ // TODO: Add processing for <init>
                 ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
                 if(thisValueBox != null){
                     for(Taint taint : invokedDescriptor.paramBeTainted.get(ind)){
@@ -269,18 +269,18 @@ public class DataFlowAnalysisUtils {
         if (!tfNode.containsInvoke())   return;
         InvokeExpr invokeExpr = tfNode.getUnitInvokeExpr();
 
-        // 1. conClassNode清理检查
+// 1. ConClassNode Cleaning Check
         if (BasicDataContainer.stage.equals(Stage.IOCD_GENERATING)
                 | BasicDataContainer.stage.equals(Stage.IOCD_SUPPLEMENT_INFER)){
             sanitizerOfConClassNode(conClassNode, tfNode, invokedDescriptor);
         }
 
-        // 方法调用分析结束
-        // 从 call frame 中更新本地变量
-        // 先暂存，最终再更新到本地，因为这个循环可能执行多次！（cha无法确定调用的方法具体是哪个）
-        // taint传播
+// Method call analysis ends
+// Update local variables from call frame
+// Save it first and then update it to the local area, because this loop may be executed multiple times! (Cha cannot determine which method is called)
+// taint spread
         for(int ind : invokedDescriptor.paramBeTainted.keySet()){
-            if(ind == -1){  // TODO: 添加针对 <init> 的处理
+if(ind == -1){ // TODO: Add processing for <init>
                 ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
                 if(thisValueBox != null){
                     for(Taint taint : invokedDescriptor.paramBeTainted.get(ind)){
@@ -308,7 +308,7 @@ public class DataFlowAnalysisUtils {
                             descriptor.getOrCreateTaint(RuleUtils.getBaseValue(retValueBox.getValue()), taint.accessPath),
                             taint, gadgetInfoRecord);
                 }
-            } // TODO: 对于返回值的污染对象, E.g. Entry.getKey(), 不在主干ClassNodeChains上的, 扩展source的fields记录
+} // TODO: For polluted objects with return value, E.g. Entry.getKey(), which is not on the main classNodeChains, extends the source fields record
         }
     }
 
@@ -323,12 +323,12 @@ public class DataFlowAnalysisUtils {
     public static void filterAndAddTaints(MethodDescriptor descriptor,
                                           MethodDescriptor invokedDescriptor,
                                           Taint taintTo, Taint taintFrom){
-        // 1. 污点信息添加
+// 1. Add stain information
         descriptor.taints.add(taintTo);
         descriptor.newtaints.add(taintTo);
-        // 2. 指针分析
+// 2. Pointer Analysis
         descriptor.pointTable.setPointer(taintTo, invokedDescriptor.pointTable.getPointer(taintFrom));
-        // 3. 污点来源记录
+// 3. Record of stain source
         if (BasicDataContainer.infosCollect){
             for (SourceNode sourceNode: invokedDescriptor.sourcesTaintGraph.getSourceNodesByTaint(taintFrom)){
                 descriptor.sourcesTaintGraph.addTaintedSourceNode(sourceNode, taintTo.object);
@@ -360,7 +360,7 @@ public class DataFlowAnalysisUtils {
          if (BasicDataContainer.infosCollect){
             for (SourceNode sourceNode: validSourcesMap){
                 descriptor.sourcesTaintGraph.addTaintedSourceNode(sourceNode, taintTo.object);
-                // 检查是否有与 taint spread 规则矛盾的污点变量, 如果有则修正
+// Check whether there are any taint variables that contradict the taint spread rule, and if so, correct it
                 for (SourceNode recordedSourceNode: descriptor.sourcesTaintGraph.matchTaintedSources(taintTo)){
                     if (recordedSourceNode.equals(sourceNode))
                         continue;
@@ -381,21 +381,21 @@ public class DataFlowAnalysisUtils {
                                                        SootMethod invokedMethod, HashMap<Integer, Pointer> inputCallFrame,
                                                        TransformableNode tfNode) {
         MethodDescriptor invokedDescriptor = BasicDataContainer.getOrCreateDescriptor(invokedMethod);
-        // Step1: 指针信息传递
+// Step
         invokedDescriptor.paramValInfo = inputCallFrame;
-        // 在一次分析内entryMethod相同, 直接继承
+// The entryMethod is the same in one analysis, and it is directly inherited
         invokedDescriptor.sourcesTaintGraph.entryMethod = descriptor.sourcesTaintGraph.entryMethod;
-//        if (BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING_SINGLE) && BasicDataContainer.openDynamicProxyDetect){
-//            // 解析到调用到下一个方法的条件约束信息
-//            parseInvokeConditions(tfNode, descriptor, invokedDescriptor);
-//        }
-        // Step2: 污点传播记录
+// if (BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING_SINGLE) && BasicDataContainer.openDynamicProxyDetect){
+// // parse the conditional constraint information that calls to the next method
+// parseInvokeConditions(tfNode, descriptor, invokedDescriptor);
+// }
+// Step
         ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
         List<Taint> thisTaintRecords = new LinkedList<>();
         if (thisValueBox == null & !tfNode.needInputTaintedParamFlush){
             thisTaintRecords = invokedDescriptor.inputParamMapTaints.get(-1);
         }
-        // 已存储信息刷新
+//Stored information is refreshed
         invokedDescriptor.inputParamMapTaints = new HashMap<>();
         invokedDescriptor.fieldsParamIndexRecord = new HashMap<>();
         if (tfNode.needInputTaintedParamFlush)
@@ -419,7 +419,7 @@ public class DataFlowAnalysisUtils {
 
         for (int i = 0; i < currentInvokeExpr.getArgCount(); i++){
             Value argValue = currentInvokeExpr.getArg(i);
-            // TODO: 细化, 考虑fields敏感的匹配? field敏感一般在污点传递过程中通过a=field.field产生, 因此此处暂时不处理
+// TODO: Refine, consider the matching of fields sensitive? Field sensitivity is generally generated by a=field.field during the stain transfer process, so it will not be processed here for the time being
             invokedDescriptor.inputParamMapTaints.put(i, descriptor.getAllTaintsAboutThisValue(argValue));
 
             if (BasicDataContainer.infosCollect){
@@ -458,14 +458,14 @@ public class DataFlowAnalysisUtils {
                 | (BasicDataContainer.stage.equals(Stage.IOCD_GENERATING) & AnalyzeUtils.getMtdNum(callStack, "boolean equals(java.lang.Object)") > 2)
         )
             return false;
-        ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node); // TODO: collectFields 可能存放 null
+ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node); // TODO: collectFields 可能存放 null
         if (BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING)
                 | BasicDataContainer.stage.equals(Stage.IOCD_GENERATING)
                 | BasicDataContainer.stage.equals(Stage.IOCD_SUPPLEMENT_INFER))
             if (AnalyzeUtils.isTmpGeneratedObj(thisValueBox, BasicDataContainer.getOrCreateDescriptor(callStack.getLast()))
                     | callStack.getFirst().getSubSignature().equals("void writeObject(java.io.ObjectOutputStream)"))
                 return true;
-//        if (serializableIntercept(invokedMethod, tfNode, callStack)) return false;
+// if (serializableIntercept(invokedMethod, tfNode, callStack)) return false;
         return true;
     }
 
@@ -484,7 +484,7 @@ public class DataFlowAnalysisUtils {
 
         if (callStack.size() <= BasicDataContainer.serializableInterceptLen/*&& Utils.inList(callStack, BasicDataContainer.tmpOffSerializableMtds)*/
                 && !FragmentsContainer.protocolCheckRule.candidateClassSet.contains(callStack.getLast().getDeclaringClass()))
-//                && !ClassRelationshipUtils.isSubClassOf(callStack.getFirst().getDeclaringClass(),BasicDataContainer.commonClassMap.get("Serializable")))
+// && !ClassRelationshipUtils.isSubClassOf(callStack.getFirst().getDeclaringClass(),BasicDataContainer.commonClassMap.get("Serializable")))
             return false;
 
         return true;
@@ -497,16 +497,16 @@ public class DataFlowAnalysisUtils {
             return false;
 
         SootClass invokedMtdClass = invokedMethod.getDeclaringClass();
-//        if (ClassRelationshipUtils.isSubClassOf(invokedMtdClass,BasicDataContainer.commonClassMap.get("Serializable")))
+// if (ClassRelationshipUtils.isSubClassOf(invokedMtdClass,BasicDataContainer.commonClassMap.get("Serializable")))
         if (FragmentsContainer.protocolCheckRule.candidateClassSet.contains(invokedMtdClass))
             return false;
 
-        // Fix: 补充检查逻辑--如果在对象初始化构建过程中能主动创建的对象，则无需进行serializableIntercept检查
+// Fix: Supplementary inspection logic-If an object can be actively created during the object initialization and construction process, there is no need to perform serializableIntercept inspection
         if (!RuleUtils.needSlzCheck(descriptor, Parameter.getThisValueBox(tfNode.node)))
             return false;
         SootField sootField = descriptor.getField(tfNode.node, Parameter.getThisValueBox(tfNode.node));
         if (RuleUtils.checkTransientControllableSimply(tfNode.context.sootClass, sootField, descriptor)) {
-//            BasicDataContainer.tmpOffSerializableMtds.add(descriptor.sootMethod);
+// BasicDataContainer.tmpOffSerializableMtds.add(descriptor.sootMethod);
             return false;
         }
         return true;
@@ -528,8 +528,8 @@ public class DataFlowAnalysisUtils {
                 if (invokedMethods.isEmpty() && tfNode.getUnitInvokeExpr().getMethod() != null){
                     invokedMethods.add(tfNode.getUnitInvokeExpr().getMethod());
                 }
-                if (possibleMethods.size() > 1 && !RuleUtils.isInvalidFragmentEnd(invokeExpr.getMethod(), false)){ // 检查是否存在sub->super方法的情况
-                    // candidate sub class -> super mtd -> sub.method
+if (possibleMethods.size() > 1 && !RuleUtils.isInvalidFragmentEnd(invokeExpr.getMethod(), false)){ // Check whether the sub->super method exists
+// candidate sub class -> super mtd -> sub.method
                     FragmentsContainer.searchMtdForSubClass(tfNode.method ,possibleMethods);
                 }
             } else {
@@ -548,7 +548,7 @@ public class DataFlowAnalysisUtils {
                         return invokedMethods;
                     else {
                         Pointer pointer = inputCallFrame.get(-1);
-                        if (pointer.getExtraTypes().isEmpty()) { // 判断一下, 节省存储空间
+if (pointer.getExtraTypes().isEmpty()) { // Just make a judgment to save storage space
                             if (expectMethod != null)
                                 FragmentsContainer.generateFragments(descriptor, callStack, expectMethod, tfNode, null, false);
                         }
@@ -559,7 +559,7 @@ public class DataFlowAnalysisUtils {
                 }
 
             }
-        }else { // 如果没有指针信息, 则跟进tfNode进行判断
+}else { // If there is no pointer information, follow up tfNode for judgment
             SootMethod invokedMethod = invokeExpr.getMethod();
             invokedMethods = tfNode.invokeMethods(descriptor);
             if (!isDynamicMethod(invokedMethod)
@@ -571,7 +571,7 @@ public class DataFlowAnalysisUtils {
             }
         }
 
-        // TODO: 在此处进行serializable的检查更为合适 (在generate fragments之前)
+// TODO: It is more appropriate to perform serializable check here (before generate fragments)
         if (BasicDataContainer.needSerializable) {
             ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
             if (thisValueBox != null
@@ -585,7 +585,7 @@ public class DataFlowAnalysisUtils {
                 invokedMethods.removeAll(toDelete);
             }
         }
-        filterInvokedMethods(invokedMethods, tfNode.getUnitInvokeExpr().getMethod()); // 如果当前方法不是Object, 则不必取出Object.init
+filterInvokedMethods(invokedMethods, tfNode.getUnitInvokeExpr().getMethod()); // If the current method is not an Object, you do not need to remove Object.init
         if (invokedMethods.size() > BasicDataContainer.stackLenLimitNum)
             invokedMethods.clear();
 
@@ -643,13 +643,13 @@ public class DataFlowAnalysisUtils {
             }
         }
 
-        // 如果当前方法不是Object, 则不必取出Object.init
+// If the current method is not an Object, you do not need to remove Object.init
         filterInvokedMethods(ret, tfNode.getUnitInvokeExpr().getMethod());
         if (ret.size() > BasicDataContainer.methodLimitNum / 2) {
             ret.clear();
         }
 
-        if (next == null && blackFlag) // 黑名单中的抽象方法，如果不在gadget chains系列中不继续跟进，防止扰乱五点传播规则，E.g. 生成错误的污染关系
+if (next == null && blackFlag) // Abstract method in the blacklist, if not follow up in the gadget chains series, preventing disruption of the five-point propagation rule, E.g. Generate wrong pollution relationship
             ret.clear();
 
         return ret;
@@ -661,7 +661,7 @@ public class DataFlowAnalysisUtils {
      * @return
      */
     public static SootClass getInvokedMethodClassByPointerAnalysis(HashMap<Integer, Pointer> inputCallFrame){
-        // Spark 尝试查找具体的实现(基于指针分析)
+// Spark tries to find specific implementations (based on pointer analysis)
         if (inputCallFrame.containsKey(-1)){
             Pointer pointer = inputCallFrame.get(-1);
             Type type = pointer.getType();
@@ -682,12 +682,12 @@ public class DataFlowAnalysisUtils {
         HashMap<Integer, Pointer> inputCallFrame = getMethodBaseParamInfo(tfNode, descriptor);
         HashSet<SootMethod> invokedMethodViaPointer = getInvokedMethods(inputCallFrame, tfNode, descriptor);
 
-        HashSet<SootMethod> toDelete = new HashSet<>(); // 拒绝自己调用自己, 就算存在也会在后续的检查中被删除
+HashSet<SootMethod> toDelete = new HashSet<>(); // Reject yourself to call yourself, even if it exists, it will be deleted in subsequent checks.
 
         for (SootMethod tmpInvokedMethod: invokedMethodViaPointer){
             if (tmpInvokedMethod.equals(descriptor.sootMethod)) {
                 toDelete.add(tmpInvokedMethod);
-                invokedMethodViaNode = tfNode.getUnitInvokeExpr().getMethod(); // 这种情况下直接通过从Unit中获取被调方法
+invokedMethodViaNode = tfNode.getUnitInvokeExpr().getMethod(); // In this case, directly obtain the called method from Unit
             }
         }
         invokedMethodViaPointer.removeAll(toDelete);
@@ -747,7 +747,7 @@ public class DataFlowAnalysisUtils {
 
         if (sootClass.hasOuterClass() & Utils.endWithNumber(sootClass.getName()))
             sootClass = sootClass.getOuterClass();
-        //  TODO: 补上黑名单的, 在加入完污点模型后 [注意, 对于抽象方法, 考虑可能作为source, 因此此处不能直接拦截]
+// TODO: After adding the blacklist, after adding the taint model [Note that for abstract methods, it may be considered as source, so it cannot be directly intercepted here]
         if (Utils.isBasicType(sootClass.getName()))
             return false;
 
@@ -755,28 +755,28 @@ public class DataFlowAnalysisUtils {
         if (BasicDataContainer.blackList.contains(currentInvokeExpr.getMethodRef().getSignature())
                 && invokedMethod.isConcrete())
             return false;
-        // 已经检测到 sink method 后就不再跟进, 避免出现不必要的sink方法调用部分不同的 Sink Fragments
+// After the sink method has been detected, it will no longer follow up to avoid unnecessary sink method calls.
         if (FragmentsContainer.isSinkMethod(invokedMethod))
             return false;
         if (thisBox != null && Utils.isTaintedInnerClzMethodCall(descriptor, thisBox.getValue(), currentInvokeExpr)){
             return true;
         }
-        // 1. 如果是非static方法, 则this必须要被污染
-        // 如果this 被污染，则一定继续跟进
+// 1. If it is a non-static method, this must be contaminated
+// If this is contaminated, you must continue to follow up
         if(RuleUtils.satisfyTaintCheck(thisBox, descriptor, tfNode, currentInvokeExpr)){
             if (!(BasicDataContainer.stage.equals(Stage.OFF) | BasicDataContainer.stage.equals(Stage.IOCD_SUPPLEMENT_INFER))
                     & !thisBox.getValue().equals(descriptor.paramIdMapLocalValue.get(-1))) {
-//                SootField sootField = descriptor.getField(tfNode.node, thisBox);
+// SootField sootField = descriptor.getField(tfNode.node, thisBox);
                 SourceNode sourceNodeOfField = descriptor.getFieldSourceNode(tfNode.node, thisBox);
                 if (sourceNodeOfField != null) {
                     SootField sootField = sourceNodeOfField.field.getFirst();
-                    if (FieldUtil.isTransientType(sootField)) { // TODO: 该field可能不是属于当前类，可能是上一层的类传过来的
+if (FieldUtil.isTransientType(sootField)) { // TODO: This field may not belong to the current class, but may be passed from the previous class
                         if (!checkTransientControllableSimply(sourceNodeOfField.classOfField, sootField, descriptor))
                             return false;
                     }
                 }
             }
-            // 如果是equals方法，则入参必须污染，否则没啥意义
+// If it is the equals method, the ginseng must be contaminated, otherwise it will be meaningless
             Pointer thisPointer = descriptor.pointTable.getPointer(thisBox.getValue());
             if (!RuleUtils.invokeContinueCheck(currentInvokeExpr, descriptor, thisPointer))
                 return false;
@@ -788,7 +788,7 @@ public class DataFlowAnalysisUtils {
             return true;
         }
 
-        // TODO: 简单剪枝，如果 this 未被污染 且 非静态方法，则不跟进
+// TODO: Simple pruning, if this is not contaminated and non-static method, then no follow-up
         if (currentInvokeExpr.getMethod().isStatic()
                 || AnalyzeUtils.isTmpGeneratedObj(thisBox, descriptor)){
             for(int i = 0; i < currentInvokeExpr.getArgCount(); i++){
@@ -824,7 +824,7 @@ public class DataFlowAnalysisUtils {
             if (superMethods.isEmpty())
                 continue;
 
-            // 如果有交集，则检查是否为thinking中的特殊情况
+// If there is an intersection, check whether it is a special case in thinking
             HashSet<SootClass> directionClasses = ClassRelationshipUtils.getDirectSuperClzWithMtd(sootMethod.getDeclaringClass(), sootMethod.getSubSignature(), false);
             if (directionClasses.containsAll(invokedDirectionClasses) && directionClasses.size() > invokedDirectionClasses.size())
                 continue;
@@ -842,8 +842,8 @@ public class DataFlowAnalysisUtils {
         Stmt stmt = (Stmt) tfNode.node.unit;
         InvokeExpr currentInvokeExpr = stmt.getInvokeExpr();
 
-        // 记录指针信息
-        // Step1: 记录this指针信息
+// Record pointer information
+// Step
         HashMap<Integer, Pointer> inputCallFrame = new HashMap<>();
         ValueBox thisBox = Parameter.getThisValueBox(tfNode.node);
         if (thisBox != null){
@@ -853,7 +853,7 @@ public class DataFlowAnalysisUtils {
                 inputCallFrame.put(-1, pointer);
         }
 
-        // Step2: 记录参数指针信息
+// Step
         for (int i = 0; i < currentInvokeExpr.getArgCount(); i++){
             Value argValue = currentInvokeExpr.getArg(i);
             Pointer pointer = descriptor.pointTable.getPointer(argValue);
@@ -876,9 +876,9 @@ public class DataFlowAnalysisUtils {
         ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
         if (thisValueBox != null){
             SootField sootField = descriptor.getField(tfNode.node, thisValueBox);
-            // TODO: 补充Size/Map中元素类型为泛化类型/Object类型的情况
+// TODO: Supplement the situation where element types in Size/Map are generalized types/Object types
             if (sootField != null & thisValueBox.getValue().getType().toString().equals("java.lang.Object")) {
-                descriptor.equalsField = sootField; // 记录调用下一个equals方法的field
+descriptor.equalsField = sootField; // Record the field that calls the next equals method
             }
         }
     }
@@ -956,10 +956,10 @@ public class DataFlowAnalysisUtils {
 
 
     public static boolean shortPriorityLinkCheck(Fragment preFragment, Fragment sucFragment){
-        // 1. 先检查要拼接的抽象方法是否存在重复
+// 1. First check whether there are duplications of the abstract method to be spliced
         if (isDuplicate(preFragment,sucFragment))
             return false;
-        // 2. 其他规则
+// 2. Other rules
 
 
         return true;
@@ -970,11 +970,11 @@ public class DataFlowAnalysisUtils {
                                                          HashSet<Fragment> recordedFragments,
                                                          HashSet<Fragment> newSinkFragments){
         HashSet<Fragment> toDelete = new HashSet<>();
-        boolean addFlag = true; // 简单的短链优先原则，筛选掉一些冗余的chains
+boolean addFlag = true; // Simple short chain priority principle, filter out some redundant chains
         if (!RuleUtils.heuristicFilterGF(testFragment, 0))
             return;
         for (Fragment recordedFragment: newSinkFragments){
-            // 启发式判断
+// Heuristic judgment
             int heuristicPriority = isHeuristicPriority(testFragment, recordedFragment);
             if (heuristicPriority == 1)
                 toDelete.add(recordedFragment);
@@ -990,7 +990,7 @@ public class DataFlowAnalysisUtils {
             FragmentsContainer.sinkFragments.add(testFragment);
             testFragment.calPrioritySimply();
 
-            // 当数量达到一定程度后，进行一个启发式的筛选，过滤掉优先级底的chains
+// When the number reaches a certain level, perform a heuristic filter to filter out the chains with the lowest priority.
             if (newSinkFragments.size() > RegularConfig.prioritizedGadgetChainLimit * 5) {
                 HashSet<Fragment> toDeleteHir = deleteHir(newSinkFragments, RegularConfig.prioritizedGadgetChainLimit * 5);
                 newSinkFragments.removeAll(toDeleteHir);
@@ -1001,11 +1001,11 @@ public class DataFlowAnalysisUtils {
     }
 
     public static void calculatePriority(HashSet<Fragment> newSinkFragments, HashSet<Fragment> allBasicFragments){
-        // 先建立基础 basic fragments 索引 Map
+// Create the basic fragments index Map
         HashMap<Integer, Fragment> allBasicFragmentsMap = new HashMap<>();
-//        for (Fragment fragment: allBasicFragments) {
-//            allBasicFragmentsMap.put(fragment.hashCode(), fragment);
-//        }
+// for (Fragment fragment: allBasicFragments) {
+// allBasicFragmentsMap.put(fragment.hashCode(), fragment);
+// }
 
         allBasicFragmentsMap = FragmentsContainer.basicFragmentsMap;
 
@@ -1030,7 +1030,7 @@ public class DataFlowAnalysisUtils {
                                                              HashMap<Integer, Float> basicFragmentsPriorityRecord,
                                                              HashMap<Integer, Fragment> allBasicFragmentsMap,
                                                              HashSet<Integer> calculatedFragments){
-        // 查找 basic Fragments 中与该 fragment 具有相同 head-end 的
+// Find basic Fragments with the same head-end as the fragment
         HashSet<Integer> matchedFragments = new HashSet<>();
         matchedFragments.add(fragment.hashCode());
         int maxFragmentLen = fragment.gadgets.size();
@@ -1045,7 +1045,7 @@ public class DataFlowAnalysisUtils {
             }
         }
 
-        for (Integer hashCode: matchedFragments){ // TODO: 对以 equals作为head的fragment(恒定)加入与hashCode相关fields的分数评估
+for (Integer hashCode: matchedFragments){ // TODO: Evaluate the score of adding fields related to hashCode with equals as head (constant)
             Fragment basicFragment = allBasicFragmentsMap.get(hashCode);
             float lenMark = 10 * ((float) basicFragment.gadgets.size() / maxFragmentLen);
             int jdkBasicGadgetNum = 0;
@@ -1095,7 +1095,7 @@ public class DataFlowAnalysisUtils {
     public static LinkedList<Fragment> getLinkedFragments(Fragment fragment, HashMap<Integer, Fragment> allSinkFragmentsMap){
         LinkedList<Fragment> linkedFragment = new LinkedList<>();
         for (Integer hashCode: fragment.linkedFragments){
-            if (!allSinkFragmentsMap.containsKey(hashCode)) // 匹配出现问题, 暂停匹配
+if (!allSinkFragmentsMap.containsKey(hashCode)) // There is a problem with matching, pause the matching
                 return null;
             linkedFragment.add(allSinkFragmentsMap.get(hashCode));
         }
@@ -1109,7 +1109,7 @@ public class DataFlowAnalysisUtils {
      * @return true: 存在重复
      */
     public static boolean isDuplicate(Fragment preFragment, Fragment sucFragment){
-        // 1. 检查方法是否重复
+// 1. Check whether the method is repeated
         if (Utils.hashSameElement(preFragment.connectRequire.preLinkableMethods, sucFragment.linkedDynamicMethods))
             return true;
 
@@ -1124,7 +1124,7 @@ public class DataFlowAnalysisUtils {
 
         HashSet<SootMethod> superMethodsPre = new HashSet<>();
         HashSet<SootMethod> superMethodsSuc = new HashSet<>();
-        // 2. 检查接口是否重复
+// 2. Check whether the interface is duplicated
         if (preFragment.endInvokableMethods == null){
             SootMethod headOfSucFragment = sucFragment.head;
             superMethodsPre = ClassRelationshipUtils.getAllSuperMethods(headOfSucFragment, true);
@@ -1218,7 +1218,7 @@ public class DataFlowAnalysisUtils {
             return;
         gadgetNode.recordDominatorConditions(tfNode, gadgetInfoRecord, descriptor);
 
-        invokedDescriptor.visited = false; // 确保一定进入跟踪
+invokedDescriptor.visited = false; // Make sure to enter the tracking
     }
 
 

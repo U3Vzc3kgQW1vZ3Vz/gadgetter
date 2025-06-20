@@ -25,7 +25,7 @@ public class JoinRule implements Rule {
 
         if (!BasicDataContainer.openJoinRule)  return;
         TransformableNode tfNode = (TransformableNode) transformable;
-        // 如果没有前继节点, 则不需要继续分析
+// If there is no successor node, no analysis is required
         if (tfNode.precursors.isEmpty()
                 || BasicDataContainer.stage.equals(Stage.OFF)
                 || BasicDataContainer.stage.equals(Stage.FRAGMENT_LINKING))
@@ -41,9 +41,9 @@ public class JoinRule implements Rule {
         }
         tfNode.path_record.addAll(path_record);
 
-//        if (BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING_SINGLE) && BasicDataContainer.openDynamicProxyDetect){
-//            recordPath(tfNode);
-//        }
+// if (BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING_SINGLE) && BasicDataContainer.openDynamicProxyDetect){
+// recordPath(tfNode);
+// }
     }
 
     public void recordPath(TransformableNode tfNode){
@@ -53,7 +53,7 @@ public class JoinRule implements Rule {
             IfStmt ifStmt = (IfStmt) stmt;
             Stmt target = ifStmt.getTarget();
 
-//            TransformableNode.ifStmtHashMap.put(ifStmt.hashCode(),transformableNode);
+// TransformableNode.ifStmtHashMap.put(ifStmt.hashCode(),transformableNode);
             BasicDataContainer.conditionTfNodesMap.put(ifStmt.hashCode(), tfNode);
 
             for (TransformableNode success: tfNode.successors){

@@ -16,7 +16,7 @@ import jdd.util.DataSaveLoadUtil;
 import java.io.IOException;
 
 public class RulesContainer {
-    public static RuleDataStructure ruleDataStructure = null; // 在初始化之后默认不为null
+public static RuleDataStructure ruleDataStructure = null; // The default is not null after initialization
 
     public static void reset(){
         ruleDataStructure = null;
@@ -24,9 +24,9 @@ public class RulesContainer {
 
     public static void init() throws IOException {
         DataSaveLoadUtil.loadRuleDataStructure();
-        // 分配Rules[gadget chains检测]
+// Assign Rules[gadget chains detection]
         loadCheckRules();
-        // 加载污点传播的Rules
+// Loading taint propagation Rules
         loadTransRules();
         loadIOCDInferRules();
         loadBasicConfigOfCheckRules();
@@ -41,14 +41,14 @@ public class RulesContainer {
         SecondDesCheckRule.init();
         CustomCheckRule.init();
 
-//        ConditionNode.init()
+// ConditionNode.init()
 
     }
 
     public static void loadTransRules(){
         Transformable.clearRules();
-        Transformable.addRule(new JoinRule()); // 这个必须第一个加入
-//        TransformableNode.addRule(new PointToRule());
+Transformable.addRule(new JoinRule()); // This must be the first to join
+// TransformableNode.addRule(new PointToRule());
         Transformable.addRule(new TaintSpreadRule());
         Transformable.addRule(new AliasAndPointerRule());
         Transformable.addRule(new TaintGenerateRule());

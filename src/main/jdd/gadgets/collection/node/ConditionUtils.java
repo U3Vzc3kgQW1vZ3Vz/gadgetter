@@ -26,7 +26,7 @@ public class ConditionUtils {
     public static HashSet<String> sizeMethods = new HashSet<>();
     public static HashSet<String> mapElementSigs = new HashSet<>();
     public static void init(){
-        compareMethodsMapInputArg.put("<java.lang.String: boolean equals(java.lang.Object)>", new Pair<>(-1,0)); // compare-compared
+compareMethodsMapInputArg.put("<java.lang.String: boolean equals(java.lang.Object)>", new Pair<>(-1,0)); // compare-compared
         sizeMethods.addAll(Utils.toStringSet(ClassRelationshipUtils.getAllSubMethodSigs("<java.util.Collection: int size()>")));
         mapElementSigs.addAll(ClassRelationshipUtils.getAllSubMethodSigs("<java.util.Map: java.lang.Object get(java.lang.Object)>"));
         mapElementSigs.addAll(ClassRelationshipUtils.getAllSubMethodSigs("<java.util.Map: boolean containsKey(java.lang.Object)>"));
@@ -40,7 +40,7 @@ public class ConditionUtils {
         boolean flag = false;
         for (SourceNode sourceNode: descriptor.sourcesTaintGraph.matchTaintedSources(value)){
             conditionNode.controllableValues.add(sourceNode);
-           // 对于array类型的对象, 其中元素==null或是其他条件并不能向上递归到array类型的field == null
+// For objects of array type, the element ==null or other conditions cannot be recursed upward to the field of array type ==null
             if (!value.getType().toString().contains("[]")
                     & sourceNode.getType().toString().contains("[]"))
                 conditionNode.isDominator = false;
@@ -73,7 +73,7 @@ public class ConditionUtils {
                     SootMethod invokedMethod = ((InvokeExpr)right).getMethod();
                     if (compareMethodsMapInputArg.containsKey(invokedMethod.getSignature())){
                         Pair<Integer, Integer> inds = compareMethodsMapInputArg.get(invokedMethod.getSignature());
-                        // 更新一下比较符号
+// Update the comparison symbol
                         if (invokedMethod.getName().contains("equal")){
                             if (conditionNode.comparison.equals(Comparison.EQUAL))
                                 conditionNode.comparison = Comparison.NO_EQUAL_TO;
@@ -112,7 +112,7 @@ public class ConditionUtils {
                     }
                 }
 
-                // 对类型表达式的解析处理, E.g. r0 instanceof java.util.Map
+// parsing processing of type expressions, E.g. r0 instanceof java.util.Map
                 if (right instanceof InstanceOfExpr){
                     conditionNode.flipComparison();
                     conditionNode.deleteLast = true;

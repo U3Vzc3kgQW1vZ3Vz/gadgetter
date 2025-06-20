@@ -70,9 +70,9 @@ public class ClassLoaderCheckRule extends AbstractCheckRule {
             callStack.add(currentInvokedMethod);
             if (!super.checkGadgetDuplication(callStack, sinkType)){
                 FragmentsContainer.updateSinkFragment(callStack,sinkType, tfNode, descriptor);
-//                DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
-//                        RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
-//                        true);
+// DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
+// RegularConfig.outputDir + "/gadgets/interInfos/" + sinkType.toString() + "SinkFragments.txt",
+// true);
                 DataSaveLoadUtil.recordCallStackToFile(callStack, sinkType,
                         RegularConfig.outputDir + "/gadgets/interInfos/" +"GadgetChains.txt",
                         true);
@@ -91,13 +91,13 @@ public class ClassLoaderCheckRule extends AbstractCheckRule {
         ValueBox testArg = null;
         if (classLoaderRiskyMethodSigs.get("ClassLoader.defineClass")
                 .contains(currentMethodSig)){
-            // 要创建的类的内容需要可控
+// The content of the class to be created needs to be controllable
             testArg = Parameter.getArgByType(currentInvokeExpr,"byte[]");
 
             if (testArg != null){
                 risky = descriptor.addTaint(testArg.getValue(), Parameter.getReturnedValueBox(currentCFGNode));
             }
-            if (risky){ // 记录污点来源, 在生成Sink Fragments时填充必要的信息
+if (risky){ // Record the source of the stain, fill in the necessary information when generating Sink Fragments
                 RecordUtils.recordTaintedArgs(descriptor, testArg.getValue(), sinkType, tfNode);
             }
         }
@@ -107,7 +107,7 @@ public class ClassLoaderCheckRule extends AbstractCheckRule {
             if (testArg != null){
                 risky = descriptor.addTaint(testArg.getValue(), Parameter.getThisValueBox(currentCFGNode));
             }
-            if (risky){ // 记录污点来源, 在生成Sink Fragments时填充必要的信息
+if (risky){ // Record the source of the stain, fill in the necessary information when generating Sink Fragments
                 RecordUtils.recordTaintedArgs(descriptor, testArg.getValue(), sinkType, tfNode);
             }
         }
@@ -116,7 +116,7 @@ public class ClassLoaderCheckRule extends AbstractCheckRule {
             if (testArg != null){
                 risky = descriptor.addTaint(testArg.getValue(), Parameter.getReturnedValueBox(currentCFGNode));
             }
-            if (risky){ // 记录污点来源, 在生成Sink Fragments时填充必要的信息
+if (risky){ // Record the source of the stain, fill in the necessary information when generating Sink Fragments
                 RecordUtils.recordTaintedArgs(descriptor, testArg.getValue(), sinkType, tfNode);
             }
 

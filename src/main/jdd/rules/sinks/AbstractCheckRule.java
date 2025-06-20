@@ -24,7 +24,7 @@ import java.util.LinkedList;
 
 public abstract class AbstractCheckRule implements CheckRule {
     public SinkType sinkType;
-    // 专门为ClassLoader预留的开关，用于重复Gadget比较
+// Switches reserved specifically for ClassLoader for repeated Gadget comparisons
     boolean isClassLoadGadget = false;
 
     /**
@@ -46,7 +46,7 @@ public abstract class AbstractCheckRule implements CheckRule {
      * @return true: 重复; false: 不重复
      */
     protected boolean checkGadgetDuplication(LinkedList<SootMethod> callStack, SinkType sinkType) {
-        // 该检查仅在 Fragment 搜索阶段进行
+// This check is only performed during the Fragment search phase
         if (!BasicDataContainer.stage.equals(Stage.FRAGMENT_SEARCHING))
             return false;
         boolean flag = false;
@@ -57,9 +57,9 @@ public abstract class AbstractCheckRule implements CheckRule {
                 if (Utils.listEqual(fragment.getGadgets(), callStack)){
                     flag = true;
                 }
-                // 一些启发式规则
+// Some heuristic rules
                 else if (Utils.listContains(callStack, fragment.getGadgets())
-                        & callStack.size() > fragment.getGadgets().size() + 2){ // 如果call stack包含在fragment.gadgets中, 且gadget数量更少, 则
+& callStack.size() > fragment.getGadgets().size() + 2){ // If the call stack is included in fragment.gadgets and the number of gadgets is smaller, then
                     flag = true;
                 }else if (Utils.listContains(fragment.getGadgets(),callStack)
                         & fragment.getGadgets().size() > callStack.size() + 2)
@@ -70,7 +70,7 @@ public abstract class AbstractCheckRule implements CheckRule {
             if (fragment.sinkType.equals(sinkType)){
                 if (Utils.listEqual(fragment.getGadgets(), callStack)){
                     flag = true;
-                } // 启发式的筛选，可以删除
+} // Heuristic filtering can be deleted
                 else if (Utils.isSubRevList(callStack, fragment.getGadgets())
                         && callStack.size() > fragment.getGadgets().size()+BasicDataContainer.heuristicShortChainCutLen){
                     flag = true;

@@ -20,7 +20,7 @@ public class UndeterminedFieldNode {
                                      MethodDescriptor descriptor,
                                      SootFieldRef sootFieldRef){
         for (Taint ailasTaint: taint.aliases){
-            // 仅记录accessPath.isEmpty()的, 因为在field graph构建时不考虑fields之间污染的情况, 而别名为field可能属于fields之间影响
+// Only accessPath.isEmpty() is recorded, because the pollution between fields is not considered when building the field graph, and the alias field may belong to the impact between fields
             if (!ailasTaint.accessPath.isEmpty())
                 continue;
 

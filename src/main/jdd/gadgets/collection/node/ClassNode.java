@@ -9,28 +9,28 @@ import soot.SootMethod;
 import java.util.*;
 
 public class ClassNode {
-    // 代表的类
+// Representative Class
     public SootClass sootClass = null;
 
     public int classId = 0;
     public ClassNode rootClassNode = null;
-    public GadgetInfoRecord gadgetInfoRecord = null; // 所属的 GadgetInfoRecord, 方便索引
+public GadgetInfoRecord gadgetInfoRecord = null; // The GadgetInfoRecord belongs to, convenient for indexing
     public SootMethod caller = null;
     public SourceNode source = null;
-    public HashSet<SourceNode> candidateSources = new HashSet<>(); // 记录潜在的来源，因为有时候推断的结果可能不够准确，会存在多个潜在来源
-    // 记录 gadget chains 中哪些gadgets属于该类
+public HashSet<SourceNode> candidateSources = new HashSet<>(); // Record potential sources, because sometimes the inference may be inaccurate enough, and there will be multiple potential sources
+// Record which gadgets belong to this category in gadget chains
     public LinkedList<SootMethod> gadgets = new LinkedList<>();
     public LinkedHashMap<SootMethod, GadgetNode> gadgetNodes = new LinkedHashMap<>();
     public LinkedHashMap<SootMethod, GadgetNode> implicitGadgetNodes = new LinkedHashMap<>();
-    public HashMap<SourceNode, HashSet<ClassNode>> fields = new HashMap<>(); // Thinking: 修正成1->N的记录格式
+public HashMap<SourceNode, HashSet<ClassNode>> fields = new HashMap<>(); // Thinking: Fixed to 1->N record format
     public HashMap<SourceNode, HashSet<ClassNode>> conFields = new HashMap<>();
 
     public HashMap<SourceNode, HashSet<ClassNode>> implicitFields = new HashMap<>();
-    // 记录 sinks 构造相关信息
+// Record sinks construction related information
     public HashSet<SinkNode> sinkNodes = new HashSet<>();
-    public boolean isProxy = false; // 标记是否为动态代理类
-    public SootMethod triggerMethod = null; // 触发动态代理的方法
-    // 对于动态代理类节点, 标记其 Invocation Handler 类节点
+public boolean isProxy = false; // Whether the flag is a dynamic proxy class
+public SootMethod triggerMethod = null; // Method to trigger dynamic proxy
+// For dynamic proxy class nodes, mark their Invocation Handler class nodes
     public ClassNode invocationHandlerClassNode = null;
 
     public boolean flag = true;
@@ -58,7 +58,7 @@ public class ClassNode {
         if (inGadgetChain){
             if (!gadgetNodes.containsKey(newGadgetNode.sootMethod)) {
                 gadgetNodes.put(newGadgetNode.sootMethod, newGadgetNode);
-                gadgets.add(newGadgetNode.sootMethod); // 仅记录 在 gadget chain 中的
+gadgets.add(newGadgetNode.sootMethod); // Only recorded in gadget chain
             }
             if (!gadgetInfoRecord.gadgetNodesMap.containsKey(newGadgetNode.sootMethod)){
                 gadgetInfoRecord.gadgetNodesMap.put(newGadgetNode.sootMethod, newGadgetNode);

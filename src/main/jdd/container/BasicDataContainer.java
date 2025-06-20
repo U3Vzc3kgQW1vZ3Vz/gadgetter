@@ -21,14 +21,14 @@ import java.util.*;
 public class BasicDataContainer {
     public static CG cg = null;
     public static boolean openDebugMode = false;
-    public static boolean needSerializable = true; // 判断是否开启序列化检查
-    public static boolean openDynamicProxyDetect = false; // 判断是否开启动态代理检测
+public static boolean needSerializable = true; // Determine whether serialization check is enabled
+public static boolean openDynamicProxyDetect = false; // Determine whether to start the proxy detection
     public static boolean isEntryPolluteSelect;
     public static int stackLenLimitNum = 5;
     public static int polyLenLimit = 3;
     public static int methodLimitNum = 5;
     public static int serializableInterceptLen = 3;
-    public static boolean hashCollisionModeSelect = true; //  true: 不考虑 哈希碰撞的Case A类型 (容易产生误报)
+public static boolean hashCollisionModeSelect = true; // true: Case type A that does not consider hash collision (prone to false positives)
     public static int linkTimeLimit = 3;
     public static int chainLimit = 20;
     public static int stackDeviationLimit = 3;
@@ -50,7 +50,7 @@ public class BasicDataContainer {
     public static HashMap<String, SootMethod> commonMtdMap = new HashMap<>();
     public static List<String> blackList = SootConfig.getBlackList();
 
-    // 方法的访问权限
+// Access permissions for the method
     public static List<String> accessPermissions = Arrays.asList("public","protected","private");
 
     public static HashMap<SootMethod, MethodDescriptor> methodMapDescriptor = new HashMap<>();

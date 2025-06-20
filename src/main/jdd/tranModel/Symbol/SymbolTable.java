@@ -25,7 +25,7 @@ public class SymbolTable {
     public List<String> getInfo(String name){
         SymbolRecord symbolRecord = get(name);
         if(symbolRecord == null) return new LinkedList<>();
-        // hack: 直接将对象本身返回, 我们信任调用者
+// hack: Return the object itself directly, we trust the caller
         return symbolRecord.info;
     }
 

@@ -33,7 +33,7 @@ public class InvokeCheckRule extends AbstractCheckRule {
             );
 
 
-    public static boolean methodTaintCheck = true;  // 标记是否检测method污染
+public static boolean methodTaintCheck = true; // Whether to detect method contamination
 
     public InvokeCheckRule(){
         sinkType = SinkType.INVOKE;
@@ -72,8 +72,8 @@ public class InvokeCheckRule extends AbstractCheckRule {
             if (thisValue != null){
                 Value thisVal = thisValue.getValue();
                 taintedArgs.add(thisVal);
-                // 如果method没有被污染，那就直接返回false
-                // TODO:  粗筛
+// If the method is not polluted, then return directly to false
+// All: 粗筛
                 if((!Utils.isTainted(thisVal, descriptor.taints))
                         && methodTaintCheck) { return false; }
 
@@ -97,7 +97,7 @@ public class InvokeCheckRule extends AbstractCheckRule {
                     if (!isBasicValidTypeForInvokeObj(typeStr) && !typeStr.contains("null") & !arg1.getType().toString().equals("java.lang.Object[]")/* && !Utils.isBasicType(typeStr)*/)   {return false;}
                 }
 
-                // 检查是否为static field
+// Check whether it is a static field
 
 
             }else {

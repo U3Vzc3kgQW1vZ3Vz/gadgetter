@@ -82,13 +82,13 @@ public class ClassRelationshipUtils {
     }
 
     public static HashSet<SootMethod> getAllSubMethods(SootMethod sootMethod){
-//        HashSet<SootMethod> ret = new HashSet<>();
-//        for (SootClass subClass: ClassUtils.getAllSubs(sootMethod.getDeclaringClass())){
-//            SootMethod subMethod = subClass.getMethodUnsafe(sootMethod.getSubSignature());
-//            if (subMethod != null){
-//                ret.add(subMethod);
-//            }
-//        }
+// HashSet<SootMethod> ret = new HashSet<>();
+// for (SootClass subClass: ClassUtils.getAllSubs(sootMethod.getDeclaringClass())){
+// SootMethod subMethod = subClass.getMethodUnsafe(sootMethod.getSubSignature());
+// if (subMethod != null){
+// ret.add(subMethod);
+// }
+// }
         return getAllSubMethods(sootMethod.getDeclaringClass(), sootMethod.getSubSignature());
     }
 
@@ -145,7 +145,7 @@ public class ClassRelationshipUtils {
      */
     public static boolean isSubClassOf(SootClass sootClass, SootClass superClass){
         if (superClass == null) return false;
-        if (Utils.isBasicType(superClass.getName()))    return false; // 认为基本类不可为父类
+if (Utils.isBasicType(superClass.getName())) return false; // I believe that the basic class cannot be a parent class
         if (superClass.getName().equals("java.lang.Object"))    return true;
         String superClassName = superClass.getName();
         if (BasicDataContainer.subClassSearchRecord.containsKey(superClassName))
@@ -195,7 +195,7 @@ public class ClassRelationshipUtils {
         else {
             superClasses1.retainAll(superClasses2);
             subClasses1.retainAll(subClasses2);
-            // 判断是否存在相同的子类, 优先级比是否存在相同的父类高
+// Determine whether the same subclass exists, and the priority is higher than whether the same parent class exists.
             if (!subClasses1.isEmpty() & !superClasses1.isEmpty())
                 return RelationShip.HAS_SAME_SUPER_AND_SUB;
 
@@ -549,13 +549,13 @@ public class ClassRelationshipUtils {
             return false;
         if (next.isStatic())
             return false;
-        // 1. 和调用方法subSig相同
+// 1. Same as calling method subSig
         if (!next.getSubSignature().equals(invokedMethod.getSubSignature()))
             return false;
-        // 2. 调用方法的类是当前方法所属类的子类
+// 2. The class that calls the method is a subclass of the class to which the current method belongs
         if (!ClassUtils.getAllSupers(next.getDeclaringClass()).contains(caller.getDeclaringClass()))
             return false;
-        // 3. 调用方法没有当前方法
+// 3. The call method does not have the current method
         if (next.getDeclaringClass().getMethodUnsafe(caller.getSubSignature()) != null)
             return false;
         return true;

@@ -29,13 +29,13 @@ public class TaintSpreadRule implements Rule {
         TransformableNode transformableNode = (TransformableNode) transformable;
         Stmt stmt = (Stmt) transformableNode.node.unit;
 
-        // 1. Assign
+// 1. Assign
         if (stmt instanceof AssignStmt){
             AssignStmt assignStmt = (AssignStmt) stmt;
             Value left = assignStmt.getLeftOp();
             Value right = assignStmt.getRightOp();
 
-            // (1-1) 如果是Array类型的, 不考虑第几个元素污染
+// (1-1) If it is Array type, the pollution of the first element is not considered
             if (left instanceof JArrayRef)
                 left = ((JArrayRef) left).getBase();
             if (right instanceof JArrayRef) {
@@ -52,7 +52,7 @@ public class TaintSpreadRule implements Rule {
                 JInstanceFieldRef jInstanceFieldRef = (JInstanceFieldRef) right;
                 Value object = jInstanceFieldRef.getBase();
                 SootField sootField = jInstanceFieldRef.getField();
-                // 匹配所有可能的Taint, 并考虑fields敏感, 为left生成新的污点
+// Match all possible taints and consider fields sensitivity to generate new taints for left
                 for (Taint taint: descriptor.getAllTaintsAboutThisValue(object)){
                     LinkedList<SootField> tryMatch = taint.match(object,sootField);
                     if (tryMatch != null){
@@ -71,7 +71,7 @@ public class TaintSpreadRule implements Rule {
 
                 for (Taint taint: descriptor.getAllTaintsAboutThisValue(right)){
                     LinkedList<SootField> accessPath = new LinkedList<>();
-                    // 对于一些内部类方法, 会将某个变量传递进去赋给this, 此时不记录fields敏感信息(为了在生成时, 提供生成field.field的条件)
+// For some internal class methods, a variable will be passed in and assigned to this. At this time, fields sensitive information is not recorded (in order to provide conditions for generating field.field when generating)
                     if (!field.getName().equals("this$0"))
                         accessPath.add(field);
 
@@ -84,8 +84,8 @@ public class TaintSpreadRule implements Rule {
                     }
                 }
             }
-            else if (right instanceof CastExpr){ // 强制类型转换
-                Value object = ((CastExpr) right).getOp(); // 取被强制转换的对象, 进行污点匹配
+else if (right instanceof CastExpr){ // cast type conversion
+Value object = ((CastExpr) right).getOp(); // Take the object cast and perform stain matching
 
                 for (Taint taint: descriptor.getAllTaintsAboutThisValue(object)){
                     Taint newTaint = descriptor.getOrCreateTaint(left, new LinkedList<>(taint.accessPath));
@@ -96,9 +96,9 @@ public class TaintSpreadRule implements Rule {
                     }
                 }
             }
-//            else if (right instanceof NewArrayExpr){
-//                // TODO: 对于 array 类型的是否需要记录size的关联, 如何记录比较合适?
-//            }
+// else if (right instanceof NewArrayExpr){
+// // TODO: For array type, do you need to record the association of size? How to record it more appropriate?
+// }
             else if (right instanceof BinopExpr){
                 for (ValueBox opValueBox: ((BinopExpr) right).getUseBoxes()){
                     if (opValueBox == null)
@@ -125,20 +125,20 @@ public class TaintSpreadRule implements Rule {
                     }
                 }
             }
-            // 对于常量, 记录源, 不记录为污点
+// For constants, record sources, do not record as taint
             else if (right instanceof Constant){
                 if (BasicDataContainer.infosCollect) {
                     SourceNode newSourceNode = new SourceNode(right);
                     descriptor.sourcesTaintGraph.addTaintedSourceNode(newSourceNode, left);
                 }
             }
-            // 不记录污点，仅记录来源
+// Do not record stains, only source
             else if (right instanceof JNewArrayExpr){
                 Value sizeValue = ((JNewArrayExpr) right).getSize();
                 descriptor.sourcesTaintGraph.addTaintedSourceNode(left, sizeValue);
             }
             else {
-                // 直接相等的情况
+// Direct equality
                 for (Taint taint: descriptor.getAllTaintsAboutThisValue(right)){
                     LinkedList<SootField> accessPath = new LinkedList<>(taint.accessPath);
                     Taint newTaint = descriptor.getOrCreateTaint(left,accessPath);
@@ -151,7 +151,7 @@ public class TaintSpreadRule implements Rule {
             }
         }
 
-        // 2. Return, 记录返回的污点
+// 2. Return, record the returned stain
         if (stmt instanceof ReturnStmt){
             for (ValueBox valueBox : stmt.getUseBoxes()) {
                 descriptor.retTainted.addAll(descriptor.getAllTaintsAboutThisValue(valueBox.getValue()));
@@ -159,12 +159,12 @@ public class TaintSpreadRule implements Rule {
             descriptor.returnStmt = (ReturnStmt) stmt;
         }
 
-        // 3. (a = ) f(taint,...)
+// 3. (a = ) f(taint,...)
         if (stmt.containsInvokeExpr()){
             InvokeExpr invokeExpr = stmt.getInvokeExpr();
             SootMethod invokedMethod = invokeExpr.getMethod();
             RuleUtils.applySpreadRules(descriptor, stmt);
-            // 对File的处理
+// Processing of File
             if (FileCheckRule.fileClassNames.contains(invokedMethod.getDeclaringClass().getName())){
                 if (invokeExpr.getMethod().getName().equals("<init>")){
                     ValueBox pathValueBox = Parameter.getArgByType(invokeExpr, "java.lang.String");
@@ -202,8 +202,8 @@ public class TaintSpreadRule implements Rule {
                 }
             }
 
-            // 对Map的entrySet()进行特殊处理
-            // <java.util.Map: java.util.Set entrySet()>
+// Special processing of entrySet() of Map
+// <java.util.Map: java.util.Set entrySet()>
             if (invokedMethod.getSubSignature().equals("java.util.Set entrySet()")){
                 ValueBox thisValueBox = Parameter.getThisValueBox(transformableNode.node);
                 Value retValue = Parameter.getReturnedValue(transformableNode.node);
@@ -212,7 +212,7 @@ public class TaintSpreadRule implements Rule {
                     if (!taitSourceNodes.isEmpty())
                         descriptor.sourcesTaintGraph.createAndAddSourceNode(thisValueBox.getValue(), retValue, false, true);
                     else {
-                        // 启发式匹配
+// Heuristic Matching
                         SootClass sootClass = null;
                         Pointer pointer = descriptor.pointTable.getPointer(thisValueBox.getValue());
                         if (thisValueBox.getValue().equals(descriptor.paramIdMapLocalValue.get(-1))){
@@ -240,7 +240,7 @@ public class TaintSpreadRule implements Rule {
                 }
             }
 
-            // 记录临时创建的对象: 不必检查是否能被序列化, 因为本身即是程序执行过程中自动动态生成的
+// Record temporary created objects: There is no need to check whether they can be serialized, because they are automatically generated dynamically during program execution.
             if (invokedMethod.getName().equals("getInstance") & invokedMethod.isStatic()){
                 Value retValue = Parameter.getReturnedValue(stmt);
                 if (retValue != null)

@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class RegularConfig {
 
-    // 配置文件指定
+// Configuration file specification
     public static String inputPath;
     public static String outPutDirName;
     public static String outputDir;
@@ -15,11 +15,11 @@ public class RegularConfig {
     public static int accessPath_limit;
     public static int executionTimeLimit = 60;
     public static int reRunLimitNum = 1;
-    // 协议选取
+// Agreement selection
     public static String protocol;
     public static String linkMode;
     public static boolean outPutIOCD;
-    // 是否存入mysql
+// Whether to deposit mysql
     public static String storeInDataBase;
 
     public static int intermediary_quantity;

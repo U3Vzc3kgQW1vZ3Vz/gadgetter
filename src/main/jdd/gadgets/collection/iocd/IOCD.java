@@ -11,24 +11,24 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class IOCD {
     public int hashCode;
     public boolean hashCollisionFlag = false;
-    public String sinkType; // sink类型
-    public String protocol; // 记录协议信息
-    public boolean needSerialize; // 记录 gadget chain 中是否都继承了序列化接口
+public String sinkType; // sink type
+public String protocol; // Record protocol information
+public boolean needSerialize; // Record whether all serialized interfaces are inherited in the gadget chain
 
-    // 为了提高拼接效率, 记录一些反射拼接相关的约束信息
+// In order to improve splicing efficiency, record some constraint information related to reflect splicing
     public boolean publicEntry;
     public String entryType = "none";
 
-    public LinkedList<Pair<Integer, String>> gadgetCallStack; // gadget chains
-    public LinkedList<ClassRecord> gadgetClasses = new LinkedList<>(); // 记录类层次结构
-    public HashSet<ClassRecord> conClassNodes = new HashSet<>(); // 偏离gadget chains路径的class nodes (不一定准确和必要，按需选用)
-    // 对应的Condition hashCode : 是否为必要 Condition
+public LinkedList<Pair<Integer, String>> gadgetCallStack; // gadget chains
+public LinkedList<ClassRecord> gadgetClasses = new LinkedList<>(); // Record class hierarchy
+public HashSet<ClassRecord> conClassNodes = new HashSet<>(); // class nodes deviate from the gadget chains path (not necessarily accurate and necessary, choose as needed)
+// Corresponding Condition hashCode: Is it necessary? Condition
     public LinkedHashMap<Integer,Boolean> conditionsRecords = new LinkedHashMap<>();
-    public HashSet<DependenceRecord> dependenceRecords = new HashSet<>(); // 记录依赖关系
-    public CollisionRecord hashCollisionRecord; // 记录哈希碰撞信息
-    public HashSet<UsedSiteRecord> usedFieldsRecords = new HashSet<>(); // fields使用信息记录
-    public HashSet<ConditionRecord> supplementConditions = new HashSet<>(); // 所有非主干的conditions
+public HashSet<DependenceRecord> dependenceRecords = new HashSet<>(); // Record dependencies
+public CollisionRecord hashCollisionRecord; // Record hash collision information
+public HashSet<UsedSiteRecord> usedFieldsRecords = new HashSet<>(); // fields usage information record
+public HashSet<ConditionRecord> supplementConditions = new HashSet<>(); // All non-trunk conditions
 
-    public List<SinkRecord> sinkRecords = new ArrayList<>(); // 记录用于构造注入sinks的attack payloads的相关fields
+public List<SinkRecord> sinkRecords = new ArrayList<>(); // Record the relevant fields used to construct attack payloads for injecting sinks
 
 }

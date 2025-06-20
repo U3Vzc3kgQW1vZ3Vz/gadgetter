@@ -19,7 +19,7 @@ public class HessianProtocolCheckRule extends AbstractProtocolCheckRule{
 
     @Override
     public void init() {
-        // 暂时不添加toString,尽管有些协议可以通过设置，将toString作为entry method；但从Map.put的应用范围更广
+// Not adding toString for the time being. Although some protocols can be set toString as an entry method; the application scope from Map.put is wider
         entryMethods = new HashSet<>(Arrays.asList("java.lang.Object put(java.lang.Object,java.lang.Object)"));
         this.setSinkCheckRule();
         updateEntryMethods();

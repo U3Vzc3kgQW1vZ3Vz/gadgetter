@@ -45,12 +45,12 @@ public class DataflowDetect {
         MethodDescriptor descriptor = DataFlowAnalysisUtils.getMethodDescriptor(sootMethod);
         if (descriptor == null) return;
 
-        // 更新调用该method的方法到该方法的信息, ;过程间分析
+// Update the information of calling the method to the method; inter-process analysis
         DataFlowAnalysisUtils.updateInterInfos(descriptor);
 
         List<TransformableNode> topologicalOrder = TranUtil.getTopologicalOrderedTNodesFromCFG(descriptor.cfg);
         for (TransformableNode tfNode: topologicalOrder){
-            // 记录该语句中相关的fields, 并记录使用信息
+// Record the relevant fields in this statement and record the usage information
             HashMap<SourceNode, HashSet<Pair<String,Integer>>> ret = DataFlowAnalysisUtils.extractUsedFields(tfNode, descriptor);
             for (SourceNode sourceNode: ret.keySet()){
                 if (sourceNode.classOfField.equals(descriptor.getCurrentClass()))
@@ -97,7 +97,7 @@ public class DataflowDetect {
             log.info("DEBUG");
         }
 
-        // 更新调用该method的方法到该方法的信息, ;过程间分析
+// Update the information of calling the method to the method, ; Inter-process analysis
         DataFlowAnalysisUtils.updateInterInfos(descriptor);
 
         List<TransformableNode> topologicalOrder = TranUtil.getTopologicalOrderedTNodesFromCFG(descriptor.cfg);
@@ -107,10 +107,10 @@ public class DataflowDetect {
             if (callStack.size() <= BasicDataContainer.stackLenLimitNum){
                 DataFlowAnalysisUtils.recordEqualsFieldInEqualsMtd(tfNode, descriptor);
 
-                // 进行污点检查, 判断是否有需要继续跟进invoked method进行污点分析
+// Conduct stain inspection to determine whether there is any need to follow up on the invoked method for stain analysis
                 if(!DataFlowAnalysisUtils.continueCheck(tfNode, descriptor)){ continue; }
 
-                // 记录方法调用中this指针信息和参数的指针信息
+// Record this pointer information and parameter pointer information in method call
                 HashMap<Integer, Pointer> inputCallFrame = DataFlowAnalysisUtils.getMethodBaseParamInfo(tfNode, descriptor);
                 HashSet<SootMethod> invokedMethods = DataFlowAnalysisUtils.generateFragmentsOrInvokedMethods(descriptor, tfNode, inputCallFrame, callStack);
 
@@ -150,7 +150,7 @@ public class DataflowDetect {
     }
 
 
-    public HashSet<Fragment> linkSourceFragments(Fragment sourceFragment){ // bottom-up 链接fragment
+public HashSet<Fragment> linkSourceFragments(Fragment sourceFragment){ // bottom-up 链接fragment
         HashSet<Fragment> newSinkFragments = new HashSet<>();
         if (sourceFragment.sinkType != null){
             newSinkFragments.add(sourceFragment);
@@ -368,7 +368,7 @@ public class DataflowDetect {
                         if (inImplicitClassFlag){
                             conClassNode = inferInfosOutOfGadgetChain(gadgetInfoRecord, callStack,tfNode,calleeDescriptor,descriptor);
                         }
-                        // 判断是否继续跟进
+// Determine whether to continue to follow up
                         if (!continueInferSupplementInfos(invokedMethod, gadgetInfoRecord)) {
                             callStack.remove(invokedMethod);
                             continue;
@@ -380,8 +380,8 @@ public class DataflowDetect {
                         DataFlowAnalysisUtils.outInvokedMethod(calleeDescriptor, descriptor, tfNode,
                                 conClassNode, gadgetInfoRecord, callStack);
                     }
-//                    // 调用后清理信息
-//                    sanitizerAfterMethodInvoke(conClassNode, calleeDescriptor);
+// // Clean up information after calling
+// sanitizerAfterMethodInvoke(conClassNode, calleeDescriptor);
 
                     gadgetInfoRecord.updateCurrentClass(descriptor, callStack, inImplicitClassFlag);
                 }

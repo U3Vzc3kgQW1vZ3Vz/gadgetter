@@ -31,13 +31,13 @@ public class TransformableNode extends Transformable{
 
     public SootMethod addMethod = null;
 
-    public boolean isCycle = false; // 记录是否为循环语句，如果是例如For的循环语句可能会发生条件分支记录的错误问题，是否为循环语句在构建拓扑排序的时候记录
+public boolean isCycle = false; // Record whether it is a loop statement. If it is a loop statement such as For, the error problem of conditional branch records may occur. Whether it is a loop statement when building topological sorting
 
     public int[] ruleFlag = new int[10];
-    // 用于标识当前Unit是否是Sink，如果是Sink那就放弃后续的Unit
-    // ToDo: 可能会导致后续的sink被漏掉
+// Used to identify whether the current Unit is a Sink. If it is a Sink, then the subsequent Unit will be abandoned.
+// ToDo: It may cause subsequent sinks to be missed
     public boolean exec = true;
-    // 用于路径敏感分析
+// for path sensitivity analysis
     public HashSet<Integer> path_record = new HashSet<>();
 
     public boolean needInputTaintedParamFlush = true;
@@ -84,13 +84,13 @@ public class TransformableNode extends Transformable{
 
         HashSet<SootMethod> ret = new HashSet<>();
         if(!containsInvoke()) return ret;
-        // 获得出边，没有出边直接返回
+// Get the edge out, return directly without the edge out
         Iterator<Edge> edgeIterator = BasicDataContainer.cg.callGraph.edgesOutOf(node.unit);
         if (edgeIterator == null)
             return ret;
 
         int index = 0;
-        // 对这些引出的方法做处理，使用connectParameters将污点信息进行传递
+// Process these derived methods and use connectParameters to pass stain information.
         while (edgeIterator.hasNext()) {
             index++;
             SootMethod invokeMethod = edgeIterator.next().tgt();
@@ -143,7 +143,7 @@ public class TransformableNode extends Transformable{
         SootMethod currentMethod = invokeExpr.getMethod();
 
         Integer index = null;
-        // 判断该方法的参数中是否包含java.security.PrivilegedAction，有就获取其参数位置
+// Determine whether the parameters of this method contain java.security.PrivilegedAction, and if there is one, get its parameter location.
         for (int ind=0; ind< currentMethod.getParameterCount(); ind++){
             Type type = currentMethod.getParameterType(ind);
             if (type.toString().equals("java.security.PrivilegedAction")
@@ -153,17 +153,17 @@ public class TransformableNode extends Transformable{
                 break;
             }
         }
-        // 获取java.security.PrivilegedAction类（专家经验总结的一系列类）中的所有方法
-        // 并拿到里面的run方法，并将其变量进行污染
+// Get all methods in the java.security.PrivilegedAction class (a series of classes summarized by expert experience)
+// Get the run method inside and pollute its variables
         if (index != null){
             Value arg = invokeExpr.getArg(index);
             String argTypeName = arg.getType().toString();
             SootClass sootClass = Scene.v().getSootClassUnsafe(argTypeName);
             if (sootClass != null){
-                // ToDo:为什么不直接指定特定的方法名？ sootClass.getMethod();
+// ToDo: Why not directly specify a specific method name? sootClass.getMethod();
                 List<SootMethod> sootMethods = sootClass.getMethods();
                 for (SootMethod sootMethod: sootMethods){
-                    if (sootMethod.getName().equals("run") ){ //& !sootMethod.getReturnType().toString().equals("java.lang.Object")
+if (sootMethod.getName().equals("run") ){ //& !sootMethod.getReturnType().toString().equals("java.lang.Object")
                         res.add(sootMethod);
                         connectParameters(sootMethod, descriptor);
                     }
@@ -181,7 +181,7 @@ public class TransformableNode extends Transformable{
             return;
 
         InvokeExpr invokeExpr = this.getUnitInvokeExpr();
-        // 因为 proxy 方法不可能被 cg 直接连上 因此无需考虑
+// Because the proxy method cannot be directly connected by cg, there is no need to consider it
         MethodDescriptor invokedDescriptor = BasicDataContainer.getOrCreateDescriptor(invokedMethod);
 
         if (invokedDescriptor == null)
@@ -195,13 +195,13 @@ public class TransformableNode extends Transformable{
         invokedDescriptor.paramIdMapLocalValue = Parameter.getParametersLocalValues(invokedDescriptor.cfg);
 
         List<Taint> taintRecords = new LinkedList<>();
-        // 遍历被调用方法的每个传入的参数，如果传入的参数等同于已有污点参数，那么就记下这个污点
+// traverse each incoming parameter of the called method. If the incoming parameter is equivalent to an existing taint parameter, then note this taint
         for (Value arg: invokeExpr.getArgs()){
             for (Taint taint:descriptor.taints)
                 if (taint.object.equals(arg))
                     taintRecords.add(taint);
         }
-        // 如果有入参被污染，且与后续调用的方法类型相同，则将其污染
+// If the incoming registry is contaminated and the method type is the same as the subsequent call, it will be contaminated.
         for (Taint taint: taintRecords){
             if (taint.object.getType().toString().equals(invokedMethod.getDeclaringClass().getName())){
                 invokedDescriptor.inputParamMapTaints.put(-1,descriptor.getAllTaintsAboutThisValue(taint.object));
@@ -219,7 +219,7 @@ public class TransformableNode extends Transformable{
         return this.node.equals(((TransformableNode) obj).node);
     }
 
-    // 去掉有正负值的记录，即提取真正需要相关的路径记录
+// Remove records with positive and negative values, that is, extract the path records that really need related
     public void extractPathRecords(){
         HashSet<Integer> remove = new HashSet<>();
         for (Integer hashCode : path_record){

@@ -66,10 +66,10 @@ public class AnalyzeUtils {
         if (next.isStatic() | nextNext.isStatic())
             return null;
 
-        // 1. 下一个方法的类是前一个方法的类的子类
+// 1. The class of the next method is a subclass of the class of the previous method
         if(!ClassUtils.getAllSupers(nextNext.getDeclaringClass()).contains(next.getDeclaringClass()))
             return null;
-        // 2. 下下一个方法的类不能有next方法类的该方法
+// 2. The next method class cannot have the next method class.
         if (nextNext.getDeclaringClass().getMethodUnsafe(next.getSubSignature()) != null)
             return null;
 

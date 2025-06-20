@@ -64,7 +64,7 @@ public class Utils {
         return Scene.v().getSootClassUnsafe(className);
     }
 
-    // TODO: 是否需要考虑[]的情况
+// TODO: Do you need to consider the situation of []
     public static SootClass toSootClass(Type type){
         String className = type.toString().replace("[]", "");
         return Scene.v().getSootClassUnsafe(className);
@@ -72,7 +72,7 @@ public class Utils {
 
     public static HashSet<String> toStringSet(HashSet hashSet){
         return (HashSet<String>) hashSet.stream()
-                .map(Object::toString) // 将整数转化为字符串
+.map(Object::toString) // Convert integers to strings
                 .collect(Collectors.toSet());
     }
 
@@ -269,7 +269,7 @@ public class Utils {
         for (Value argValue: invokeExpr.getArgs()){
             SootClass argClz = Utils.toSootClass(argValue.getType());
             if (!argClz.equals(outerClz))   continue;
-            if (Utils.isTainted(argValue, descriptor.taints)) {   // 如果不可控，返回false
+if (Utils.isTainted(argValue, descriptor.tains)) { // If uncontrollable, return false
                return true;
             }
 
@@ -374,7 +374,7 @@ public class Utils {
      */
     public static LinkedList<String> extractArrayElementType(String typeSignature){
         LinkedList<String> extractedTypes = new LinkedList<>();
-        String pattern = "L(.*?);"; // 匹配以L开头，以;结尾的字符串内容
+String pattern = "L(.*?);"; // Match the content of a string starting with L and ending with;
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(typeSignature);
 
@@ -467,7 +467,7 @@ public class Utils {
 
     public static <T> Set<T> getRandomElements(HashSet<T> set, int n) {
         List<T> list = new ArrayList<>(set);
-        Collections.shuffle(list);  // 使用Collections.shuffle随机打乱列表
+Collections.shuffle(list); // Use Collections.shuffle to randomly disrupt the list
         return new HashSet<>(list.subList(0, Math.min(n, list.size())));
     }
 
@@ -479,8 +479,8 @@ public class Utils {
      */
     public static void printTimeConsume(long curTime, long startTime){
         long timeConsume = curTime - startTime;
-        long seconds = (timeConsume) / 1000; // 转换为秒
-        long minutes = seconds / 60; // 转换为分钟
+long seconds = (timeConsume) / 1000; // Convert to seconds
+long minutes = seconds / 60; // Convert to minutes
         long hours = minutes / 60;
 
         log.info("程序运行时长 : "+ hours +" h  : "+(minutes-hours * 60)+" m:  "+ (seconds -minutes*60)+" s");

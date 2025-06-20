@@ -75,7 +75,7 @@ public class SinkCheck implements InferRule{
                 LinkedHashSet<Integer> controllableParams = CustomCheckRule.getControllableParams(cumMark, methodSig);
                 for (Integer parmInd: controllableParams){
                     ValueBox tmpValueBox = RuleUtils.getValueBoxByParamIndex((Stmt) tfNode.node.unit, parmInd);
-//                    Value tmpValue = RuleUtils.getValueByParamIndex((Stmt) tfNode.node.unit, parmInd);
+// Value tmpValue = RuleUtils.getValueByParamIndex((Stmt) tfNode.node.unit, parmInd);
                     HashSet<SourceNode> controllableValues = RuleUtils.getTaintedFieldSourceNodesViaHeuristic(
                             tmpValueBox, tfNode, new LinkedList<>(gadgetInfosRecord.gadgets.subList(0,gadgetInfosRecord.gadgets.size()-1)), descriptor, gadgetInfosRecord);
                     if (controllableValues.isEmpty()) {
@@ -88,7 +88,7 @@ public class SinkCheck implements InferRule{
                 if (cumMark.equals("fastjson") && !sinkNode.controllableSinkValues.isEmpty()){
                     sinkNode.sinkType = SinkType.INVOKE;
                     sinkNode.sinkObject = sinkNode.controllableSinkValues.get(1).iterator().next();
-                    sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); // 由对象所具有的fields决定，攻击者无法完全控制调用的方法
+sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); // Determined by the fields that the object has, the attacker cannot fully control the called method
                 }
             }
         }
@@ -180,7 +180,7 @@ public class SinkCheck implements InferRule{
 
         InvokeExpr invokeExpr = tfNode.getUnitInvokeExpr();
 
-        // 解析 invoke 方法名应该设置在哪个对象
+// parse the invoke method name on which object should be set
         HashSet<SinkNode> sinkNodes = new HashSet<>();
 
         ValueBox methodValueBox = Parameter.getThisValueBox(tfNode.node);
@@ -199,7 +199,7 @@ public class SinkCheck implements InferRule{
             }
         }
 
-        // 解析 invoke 方法所属的类对象
+// parse the class object to which the invoke method belongs
         Value objValue = invokeExpr.getArg(0);
         HashSet<SourceNode> sinkObjectSources = RuleUtils.getTaintedFieldSourcesViaAF(objValue,gadgetInfoRecord, descriptor);
 

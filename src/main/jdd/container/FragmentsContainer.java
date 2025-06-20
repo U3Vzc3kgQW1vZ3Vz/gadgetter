@@ -56,14 +56,14 @@ public class FragmentsContainer {
     public static HashMap<Fragment.FRAGMENT_TYPE, LinkedHashSet<Fragment>> typeFragmentsMap = new HashMap<>();
     public static TreeMap<Integer, HashSet<Fragment>> sortedSinkFragmentsMap = new TreeMap<>();
     public static HashSet<Fragment> sinkFragments = new HashSet<>();
-    public static HashSet<InterimFragment> interimFragments = new HashSet<>(); // TODO: 加个已存储记录吧
+public static HashSet<InterimFragment> interimFragments = new HashSet<>(); // TODO: Add a stored record
 
     public static HashMap<HashSet<Integer>, HashSet<Fragment>> paramsTaitRequireSinkFragmentsMap = new HashMap<>();
     public static HashSet<Fragment> gadgetFragments = new HashSet<>();
 
     public static HashMap<SootMethod, HashSet<SootMethod>> dynSubMtdsMap = new HashMap<>();
-    // super method -> sub class
-    public static HashMap<SootMethod, HashSet<SootClass>> superMtdSources = new HashMap<>(); // 在分段检测的时候，用以处理 mtd->调用父类方法的情况
+// super method -> sub class
+public static HashMap<SootMethod, HashSet<SootClass>> superMtdSources = new HashMap<>(); // When segmented detection, it is used to handle the situation where mtd-> calls the parent class method
     public static HashSet<SootMethod> dynamicMtds = new HashSet<>();
     public static HashSet<Fragment> dynamicProxyFragments = new HashSet<>();
 
@@ -85,28 +85,28 @@ public class FragmentsContainer {
         sources = new HashSet<>(protocolCheckRule.getSourceMethods());
         log.info("Source Methods Number = "+sources.size());
 
-        // 加载CG
+// Load CG
         SootConfig.constructCG();
         endTime1 = System.currentTimeMillis();
-        log.info("[Call Graph构建时间]"); // 目前并未计算在检测总时间内
+log.info("[Call Graph build time]"); // It is not currently calculated within the total detection time
         Utils.printTimeConsume(endTime1, startTime);
 
         if (!RegularConfig.protocol.equals("json")
                 & !RegularConfig.derivationType.equals("SecondDesDerivation")
                 & !RegularConfig.derivationType.equals("InvokeDerivation")) {
-            setDetectSchemeOn(); // 设置开始检测的 flag
+setDetectSchemeOn(); // Set the flag to start detection
             protocolCheckRule.filterFixedEqualsMethods();
-            setDetectSchemeOff(); // 设置开始检测的 flag
+setDetectSchemeOff(); // Set the flag to start detection
         }
 
-        // 初始化存储结构
+// Initialize the storage structure
         for (Fragment.FRAGMENT_STATE state: Fragment.FRAGMENT_STATE.values())
             stateFragmentsMap.put(state, new LinkedHashSet<>());
         for (Fragment.FRAGMENT_TYPE type: Fragment.FRAGMENT_TYPE.values())
             typeFragmentsMap.put(type, new LinkedHashSet<>());
 
-        // 为 dynamic proxy fragments (这部分需要做一个轻量级的路径敏感) TODO: 暂时未并入
-//        generateInvocationHandlerFragments();
+// For dynamic proxy fragments (this part requires a lightweight path sensitivity) TODO: Not yet incorporated
+// generateInvocationHandlerFragments();
     }
 
     public static void reset(){
@@ -231,14 +231,14 @@ public class FragmentsContainer {
 
         Fragment recordedFragment = getFragment(callStack, invokedMethod);
 
-//        MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(callStack.getLast());
+// MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(callStack.getLast());
         if (((Stmt) tfNode.node.unit) instanceof AssignStmt){
             Value retValue = Parameter.getReturnedValue(tfNode.node);
             Taint newTaint = descriptor.getOrCreateTaint(retValue, new LinkedList<>());
             RuleUtils.addTaint(descriptor,newTaint);
         }
 
-        // 没有相同/相关已记录fragment的情况
+// There is no same/related record fragment
         if ((recordedFragment == null && (!invokedMethod.isConcrete()
                 || BasicDataContainer.isValidHeadOfObjectMethod(invokedMethod))
                 && !invokedMethod.isFinal()) || isSinkFlag){
@@ -390,9 +390,9 @@ public class FragmentsContainer {
         }
     }
 
-    // 仅当该方法中包含this.callee()的时候需要
+// It is only required if this.callee() is included in this method
     public static boolean needSearchMtdForSubClass(SootMethod mtd){
-        if (!superMtdSources.containsKey(mtd)) // 用于节省后续重复的检测
+if (!superMtdSources.containsKey(mtd)) // Used to save subsequent repeated detection
             superMtdSources.put(mtd, new HashSet<>());
         if (RuleUtils.isGeneticType(mtd.getDeclaringClass().getType()))
             return false;
@@ -432,7 +432,7 @@ public class FragmentsContainer {
     }
 
     public static void generateInterimFragment(MethodDescriptor descriptor){
-        // 检查, 如果不是source内的方法调用, 则不需要创建
+// Check, if it is not a method call in source, it does not need to be created.
         SootMethod head = descriptor.sootMethod;
         if (!searched.contains(head))
             return;
@@ -449,7 +449,7 @@ public class FragmentsContainer {
                                           TransformableNode tfNode,
                                           MethodDescriptor descriptor){
         HashSet<Fragment> fragments = generateFragments(descriptor, callStack, callStack.getLast(),tfNode, null,true);
-        // 对于 Sink Fragments 要设置对应的sink类型
+// For Sink Fragments to set the corresponding sink type
         if (fragments.isEmpty())    return;
 
         for (Fragment fragment: fragments) {
@@ -490,7 +490,7 @@ public class FragmentsContainer {
         if (thisValueBox == null)
             return ret;
 
-//        MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(callStack.getLast());
+// MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(callStack.getLast());
         HashSet<SourceNode> sourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(thisValueBox.getValue());
         if (sourceNodes.size() != 1)
             return ret;
@@ -515,7 +515,7 @@ public class FragmentsContainer {
             if ( SinkType.INVOKE.equals(recordedSinkFragment.sinkType)
                     & !recordedSinkFragment.end.isStatic()
                     & recordedSinkFragment.gadgets.size() < 3 ){
-                // 判断调用者是否为 chain 格式
+// Determine whether the caller is in chain format
 
                 if (ClassRelationshipUtils.isSubClassOf(
                         recordedSinkFragment.head.getDeclaringClass(), classOfField
@@ -527,7 +527,7 @@ public class FragmentsContainer {
                             recordedSinkFragment.invokeNode,recordedSinkFragment.endInvokableMethods);
                     if (fragment.isFlag()) {
                         fragment.sinkType = recordedSinkFragment.sinkType;
-                        // 创建 paramsTaitRequire 记录向前链接的规则, chain 类型的不需要污染参数, 可以直接构造
+// Create paramsTaitRequire rules to record forward links. Chain type does not require contamination parameters, and can be directly constructed.
                         fragment.connectRequire.paramsTaitRequire = new HashSet<>();
                         fragment.connectRequire.paramsTaitRequire.add(new HashSet<>());
                         updateFragments(fragment);

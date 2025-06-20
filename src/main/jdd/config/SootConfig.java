@@ -19,7 +19,7 @@ import java.util.*;
 @Slf4j
 public class SootConfig {
     public static List<String> ignoreInfo = getIgnoreInfo();
-    // 此处将同一个包下无法分析的类合并的阈值设置为10，比如a.b.c.D1-D11会被合并为a.b.c
+// Here we set the threshold for the unanalyzed class merging under the same package to 10, for example, a.b.c.D1-D11 will be merged into a.b.c
     public static int loadClassCounter = 0, maxPackageRecordTime = 10;
     public static HashMap<String, Integer> packageRecordTime = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class SootConfig {
         Scene.v().releaseFastHierarchy();
         Scene.v().releaseSideEffectAnalysis();
         Scene.v().releaseClientAccessibilityOracle();
-        //remove odd Application Class
+//remove odd Application Class
         SootConfig.removeAllAppClz();
 
         Options.v().set_src_prec(Options.src_prec_class);
@@ -45,7 +45,7 @@ public class SootConfig {
         Options.v().set_output_format(Options.output_format_jimple);
 //        Options.v().set_output_dir(RegularConfig.outputDir+"/JimpleOutput/framework1");
         Options.v().set_drop_bodies_after_load(false);
-        // Options.v().set_no_bodies_for_excluded(true);
+// Options.v().set_no_bodies_for_excluded(true);
         Options.v().setPhaseOption("cg", "all-reachable:true");
         Scene.v().setSootClassPath(Scene.v().getSootClassPath() + File.pathSeparator + RegularConfig.sootClassPath);
         Scene.v().loadDynamicClasses();
@@ -58,26 +58,26 @@ public class SootConfig {
         BasicDataContainer.cg = new CG(tmpMethods);
     }
 
-    // 去除所有的实现类
+// Remove all implementation classes
     public static void removeAllAppClz() {
         log.info("清除当前所有的Application Class");
-        //获取Scene对象
+//Get Scene object
         Scene scene = Scene.v();
-        //获取所有的应用类
+//Get all application classes
         Chain<SootClass> appClasses = scene.getApplicationClasses();
-        //创建一个临时列表，存储要删除的应用类
+//Create a temporary list to store the application class to be deleted
         List<SootClass> toRemove = new ArrayList<>();
-        //遍历所有的应用类，添加到临时列表中
+//Transfer all application classes and add them to the temporary list
         for (SootClass appClass : appClasses) {
             toRemove.add(appClass);
         }
-        //遍历临时列表，从Scene对象中移除每个应用类
+//Transf the temporary list and remove each application class from the Scene object
         for (SootClass appClass : toRemove) {
             scene.removeClass(appClass);
         }
     }
 
-    // 向soot中逐个加入需要被分析的类
+// Add the classes to be analyzed one by one to soot
     public static void loadTargetClass(){
         HashSet hashSet = new HashSet();
         String[] jdkPaths = RegularConfig.sootClassPath.split(File.pathSeparator);
@@ -87,13 +87,13 @@ public class SootConfig {
             for(String cl : SourceLocator.v().getClassesUnder(path)){
                 if(checkIgnore(cl)){ continue; }
                 try{
-                    // 限制load一个类的超时阈值为100秒
+// The timeout threshold for limiting loading is 100 seconds
                     (new TimeOutTask(){
                         @Override
                         protected void task() {
                             SootClass theClass = Scene.v().loadClassAndSupport(cl);
                             if (!theClass.isPhantom()) {
-                                // 这里存在类数量不一致的情况，是因为存在重复的对象
+// There is a situation where the number of classes is inconsistent here because there are duplicate objects
                                 theClass.setApplicationClass();
                                 hashSet.add(theClass);
                                 if(loadClassCounter % 10000 == 0){
@@ -116,7 +116,7 @@ public class SootConfig {
         log.info("共加载：" + hashSet.size() + "个类，App.Size" + Scene.v().getApplicationClasses().size());
     }
 
-    // 用于检查导入的类是否被认为忽略了
+// Check whether the imported class is considered to be ignored
     public static boolean checkIgnore(String clazzName){
 
         for(String ignoreInfoTmp : ignoreInfo){
@@ -127,7 +127,7 @@ public class SootConfig {
 
     }
 
-    // 获取外部用户指定的列表中的ignore classes
+// Get ignore classes in the list specified by an external user
     private static List<String> getIgnoreInfo() {
 
         List<String> lines = new LinkedList<>();
@@ -135,7 +135,7 @@ public class SootConfig {
         try{
             File ignoreFile = new File(ignoreListPath);
             lines = FileUtils.readLines(ignoreFile, StandardCharsets.UTF_8);
-            // 统计出现的包的次数，处理超过阈值的类，并将新的内容写入到文件中
+// Statistics the number of packets that appear, processes classes that exceed the threshold, and writes new content to the file
             String packageName;
             List<String> removePackageList = new ArrayList<>();
             for(String l : lines){
@@ -143,7 +143,7 @@ public class SootConfig {
                 packageName = getPackageName(l);
                 updatePackageRecordTime(packageName);
             }
-            if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // 避免出现异常情况
+if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exceptions
             if (packageRecordTime == null)
                 packageRecordTime = new HashMap<>();
             for(String key : packageRecordTime.keySet()){
@@ -155,10 +155,10 @@ public class SootConfig {
                     log.info(key + "包下有超过" + maxPackageRecordTime + "个类无法处理，忽略整个包");
                 }
             }
-            // 避免java.util.ConcurrentModificationException
+// Avoid java.util.ConcurrentModificationException
             for(String rmPackage : removePackageList){ packageRecordTime.remove(rmPackage); }
             FileUtils.writeLines(new File(ignoreListPath), lines, false);
-            // 如果以注释符#开始或者本身是空字符串就删除掉
+// If you start with comment # or it is an empty string, delete it
             lines.removeIf(line -> line.startsWith("#") || line.equals(""));
         }catch (IOException e){
             log.error("Load ignoreInfo from " + ignoreListPath + " failed!");
@@ -171,11 +171,11 @@ public class SootConfig {
     public static List<String> getBlackList(){
         List<String> lines = new LinkedList<>();
         String blackListPath = RegularConfig.configPath + File.separator + "testBlackList";
-        // RegularConfig.blackListPath
+// RegularConfig.blackListPath
         try{
             File blackListFile = new File(blackListPath);
             lines = FileUtils.readLines(blackListFile, StandardCharsets.UTF_8);
-            // 统计出现的包的次数，处理超过阈值的类，并将新的内容写入到文件中
+// Statistics the number of packets that appear, processes classes that exceed the threshold, and writes new content to the file
             String packageName;
             List<String> removePackageList = new ArrayList<>();
             for(String l : lines){
@@ -183,7 +183,7 @@ public class SootConfig {
                 packageName = getPackageName(l);
                 updatePackageRecordTime(packageName);
             }
-            if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // 避免出现异常情况
+if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exceptions
 
             if (packageRecordTime == null)
                 packageRecordTime = new HashMap<>();
@@ -196,10 +196,10 @@ public class SootConfig {
                     log.info(key + "包下有超过" + maxPackageRecordTime + "个类无法处理，忽略整个包");
                 }
             }
-            // 避免java.util.ConcurrentModificationException
+// Avoid java.util.ConcurrentModificationException
             for(String rmPackage : removePackageList){ packageRecordTime.remove(rmPackage); }
             FileUtils.writeLines(new File(blackListPath), lines, false);
-            // 如果以注释符#开始或者本身是空字符串就删除掉
+// If you start with comment # or it is an empty string, delete it
             lines.removeIf(line -> line.startsWith("#") || line.equals(""));
         }catch (IOException e){
             log.error("Load ignoreInfo from " + blackListPath + " failed!");
@@ -208,7 +208,7 @@ public class SootConfig {
         return lines;
     }
 
-    // 根据实际的情况更新packageRecordTime中的包出现的次数
+// Update the number of times the packages in packageRecordTime appears according to the actual situation
     public static void updatePackageRecordTime(String packageName){
         if(packageRecordTime == null) { packageRecordTime = new HashMap<>(); }
         if(packageRecordTime.containsKey(packageName)){
@@ -219,7 +219,7 @@ public class SootConfig {
         }
     }
 
-    // 工具类，给定一个用.分隔的完整类名，获取其包名
+// Tool class, give a complete class name separated by ., get its package name
     public static String getPackageName(String className){
 
         if(className.equals("") || className.startsWith("#")){

@@ -8,16 +8,16 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Taint{
-    public Value object; // 被污染的对象
-    public LinkedList<SootField> accessPath = new LinkedList<>(); // a.b -> b.c -> c.d  a.b.c.d->[b,c,d]如果accessPath.size为0，则整个对象被污染
+public Value object; // Polluted object
+public LinkedList<SootField> accessPath = new LinkedList<>(); // a.b -> b.c -> c.d a.b.c.d->[b,c,d]If accessPath.size is 0, the entire object is polluted
     public HashSet<Taint> aliases = new HashSet<>();
 
-    // 返回null表示不匹配，返回空list表示匹配到object自身的taint
-    // 用来查找b.field会带来的污点， b本身会带来的污点很容易找，只需要比较object即可
+// Return null indicates mismatch, return empty list indicates). taint matching object itself.
+// Used to find the stains that b will bring. The stains that b itself will bring are easy to find. You just need to compare the object.
     public LinkedList<SootField> match(Value object, SootField field){
         if(object.equals(this.object)){
             if(accessPath.isEmpty()) return new LinkedList<>();
-            if(accessPath.get(0).equals(field)){ // ToDo: get(0)?
+if(accessPath.get(0).equals(field)){ // ToDo: get(0)?
                 LinkedList<SootField> subList = new LinkedList<>();
                 for(int ind = 1; ind < accessPath.size(); ind++) subList.add(accessPath.get(ind));
                 return subList;
@@ -26,13 +26,13 @@ public class Taint{
         return null;
     }
 
-    // 判断一个taint 是否为本身 / 本身更细划分字段
+// Determine whether a taint is itself/ divides fields more detailedly
     public boolean match(Taint taint){
         if (taint.object != this.object) return false;
         if (taint.accessPath.size() < this.accessPath.size())
             return false;
 
-        // TODO: 为什么是 ++ind
+// TODO: Why ++ind
         for (Integer ind = 0; ind <this.accessPath.size(); ++ind){
             if (!this.accessPath.get(ind).equals(taint.accessPath.get(ind)))
                 return false;

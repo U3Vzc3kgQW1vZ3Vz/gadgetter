@@ -53,20 +53,20 @@ public class DataSaveLoadUtil {
         return gson.fromJson(json, clazzType);
     }
 
-    // 加载 ruleDataStructure
+// Load ruleDataStructure
     public static void loadRuleDataStructure() throws IOException {
         String rulesPath = RegularConfig.configPath + File.separator + "RuleDataStructure.json";
         String jsonContent = FileUtils.readFileToString(new File(rulesPath),"utf-8");
 
         RulesContainer.ruleDataStructure = (RuleDataStructure) toObject(jsonContent, RuleDataStructure.class);
-        // 初始化 Rules
+// Initialize Rules
         for (TaintSpreadRuleUnit taintSpreadRuleUnit: RulesContainer.ruleDataStructure.getTaintSpreadRuleUnits()){
             taintSpreadRuleUnit.init();
             BasicDataContainer.blackList.addAll(taintSpreadRuleUnit.methodSigs);
         }
     }
 
-    // 存储更新后的 ruleDataStructure
+// Store updated ruleDataStructure
     public static void saveRuleDataStructure(){
         if (RulesContainer.ruleDataStructure == null)
             return;
@@ -102,7 +102,7 @@ public class DataSaveLoadUtil {
                                              String fileName, boolean printFlag) throws IOException {
         SootMethod entryMtd = callStack.get(0);
         FileWriter out = openOrCreateFileWriter(fileName, true);
-//                new FileWriter(fileName,true);
+// new FileWriter(fileName,true);
         try {
             String first = "["+sinkType+" Gadget] "+entryMtd.getSignature();
             out.write(first);

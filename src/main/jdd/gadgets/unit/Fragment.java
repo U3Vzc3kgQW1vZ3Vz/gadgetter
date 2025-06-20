@@ -37,17 +37,17 @@ import static jdd.util.ClassRelationshipUtils.isValidSuperAbstractOrInterfaceMet
 @Getter
 @Setter
 public class Fragment {
-    boolean flag = true; // 标识该Fragment的合法性, 如果flag==false则移除Fragment
+boolean flag = true; // Identify the legality of the Fragment. If flag==false, remove the Fragment
     public enum FRAGMENT_STATE{SOURCE, FREE_STATE, SINK};
     public FRAGMENT_STATE state = null;
-    public enum FRAGMENT_TYPE{POLYMORPHISM, DYNAMIC_PROXY, REFLECTION} // 跟进head判断
+public enum FRAGMENT_TYPE{POLYMORPHISM, DYNAMIC_PROXY, REFLECTION} // Follow up on head judgment
     public FRAGMENT_TYPE type = null;
 
     public SinkType sinkType = null;
 
-    public SootMethod head = null; // 起始方法, 记录具体实现
+public SootMethod head = null; // Start method, record the specific implementation
 
-    public SootMethod end = null; // 动态方法调用, 记录的调用方法已经考虑指针分析结果
+public SootMethod end = null; // Dynamic method call, the recorded call method has taken into account the pointer analysis results
 
     public HashSet<SootMethod> endInvokableMethods = null;
 
@@ -60,7 +60,7 @@ public class Fragment {
 
     public int priority = 1;
 
-    public LinkedList<Integer> linkedFragments = new LinkedList<>(); //  顺序记录
+public LinkedList<Integer> linkedFragments = new LinkedList<>(); // Sequential record
     public LinkedList<SootMethod> linkedDynamicMethods = new LinkedList<>();
 
     private Fragment(Fragment fragment){
@@ -222,7 +222,7 @@ public class Fragment {
             }
         }
 
-        // 设置 type
+// Set type
         if (state.equals(FRAGMENT_STATE.SOURCE)) {
             if (RegularConfig.protocol.equals("json"))
                 type = FRAGMENT_TYPE.REFLECTION;
@@ -230,7 +230,7 @@ public class Fragment {
                 type = null;
         }
         else if (BasicDataContainer.commonMtdMap.get("invokeHandler").getSubSignature().equals(head.getSubSignature()))
-            type = FRAGMENT_TYPE.DYNAMIC_PROXY; // 包含POLYMORPHISM
+type = FRAGMENT_TYPE.DYNAMIC_PROXY; // 包含POLYMORPHISM
         else if (!preLinkableMethods.isEmpty())
             type = FRAGMENT_TYPE.POLYMORPHISM;
         else flag = false;
@@ -286,15 +286,15 @@ public class Fragment {
 
             TransformableNode addIfStmt = TransformableNode.ifStmtHashMap.get(hashCode > 0 ? hashCode:-hashCode);
             if (addIfStmt == null)  continue;
-            // 必要条件分支hashCode，便于进行后续的分支敏感验证
+// The necessary condition branch hashCode is used to facilitate subsequent branch sensitive verification
             connectRequire.condSet.add(hashCode);
-//            RecordUtils.extractMethodName(nextTfNode, descriptor);
+// RecordUtils.extractMethodName(nextTfNode, descriptor);
         }
     }
 
     public void setTaintsDependence(MethodDescriptor descriptor, Node invokeNode){
-//        MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(this.invokeNode.method);
-//        descriptor = BasicDataContainer.getOrCreateDescriptor(gadgets.getLast());
+// MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(this.invokeNode.method);
+// descriptor = BasicDataContainer.getOrCreateDescriptor(gadgets.getLast());
         assert descriptor != null;
 
         ValueBox thisValueBox = Parameter.getThisValueBox(invokeNode);

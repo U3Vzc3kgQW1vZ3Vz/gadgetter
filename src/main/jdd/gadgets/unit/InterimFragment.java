@@ -17,7 +17,7 @@ public class InterimFragment {
     public boolean flag = true;
     public SootMethod head;
     public Node invokedNode;
-    // 记录调用栈, 从head开始到一个具体方法实现;
+// Record the call stack, starting from head to implement a specific method;
     public LinkedList<SootMethod> callStack = new LinkedList<>();
     public HashSet<SootMethod> preLinkableMethods = new HashSet<>();
 

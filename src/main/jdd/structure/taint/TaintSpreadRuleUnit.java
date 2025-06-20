@@ -1,6 +1,6 @@
 package jdd.structure.taint;
-
-import fj.Hash;
+sub method signature matching;
+Only match method names
 import soot.SootField;
 import jdd.util.Pair;
 import soot.Scene;
@@ -18,13 +18,13 @@ public class TaintSpreadRuleUnit {
 
     public HashMap<Integer, HashSet<Pair<Integer,Integer>>> taintInfluenceRecord = new HashMap<>();
     public Integer indexMax = -2;
-    // 记录相关方法签名
+// Record the relevant method signature
     public String methodSig;
     public boolean extendFlag = true;
     public HashSet<String> methodSigs = new HashSet<>();
 
     public boolean needInfluenceCheck = false;
-    public int checkLevel = 3; // 3(最严格): method signature; 2: sub method signature匹配; 3: 只匹配方法名
+public int checkLevel = 3; // 3 (strictest): method signature;
     public boolean serializableCheckFlag = true;
     public HashMap<Integer, HashSet<String>> taintInfluenceFieldsRecord = new HashMap<>();
 

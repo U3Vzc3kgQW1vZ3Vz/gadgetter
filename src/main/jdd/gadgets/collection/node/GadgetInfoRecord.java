@@ -37,14 +37,14 @@ public class GadgetInfoRecord {
     public final Fragment fragment;
     public boolean flag = false;
     public boolean hashCollisionFlag = false;
-    public SootClass rootClass = null; //记录顶级 SootClass
+public SootClass rootClass = null; //Record top-level SootClass
     public ClassNode rootClassNode = null;
     public SootClass curClass = null;
     public SinkType sinkType;
     public LinkedList<SootMethod> gadgets = new LinkedList<>();
     public LinkedList<Fragment> linkedFragments = new LinkedList<>();
     public LinkedHashMap<SootClass, ClassNode> classFieldsGraph = new LinkedHashMap<>();
-    public LinkedHashMap<SootMethod, GadgetNode> gadgetNodesMap = new LinkedHashMap<>(); // 方便在输出数据时, 按顺序取出
+public LinkedHashMap<SootMethod, GadgetNode> gadgetNodesMap = new LinkedHashMap<>(); // It is convenient to retrieve data in order when outputting data
     public LinkedHashMap<SootClass, HashSet<ClassNode>> implicitClassFieldsGraph = new LinkedHashMap<>();
     public LinkedHashMap<SootClass, LinkedHashMap<SootMethod, GadgetNode>> implicitGadgetNodesMap = new LinkedHashMap<>();
     public HashSet<SinkNode> sinkNodes = new HashSet<>();
@@ -52,13 +52,13 @@ public class GadgetInfoRecord {
     public HashMap<SootClass, ConstantRecord> constantRecordHashMap = new HashMap<>();
     public HashSet<DependenceNode> dependenceNodes = new HashSet<>();
 
-    // TODO: 用来记录 动态代理方法跳转 [触发动态代理 Invocation Handler 的方法, 动态代理的 Invocation Handler 方法]
+// TODO: Used to record dynamic proxy method jump [the method that triggers dynamic proxy Invocation Handler, Invocation Handler method for dynamic proxy]
     public LinkedHashMap<SootMethod, SootMethod> dynamicProxyInvokeRecord = new LinkedHashMap<>();
 
     public CollisionNode collisionNode = null;
 
     public boolean inImplicitClassFlag = false;
-    public int hashCollisionReview = -1; // -1, 0, 1
+public int hashCollisionReview = -1; // -1, 0, 1
 
     public GadgetInfoRecord(Fragment sinkFragment, SinkType sinkType) {
         this.fragment = sinkFragment;
@@ -90,8 +90,8 @@ public class GadgetInfoRecord {
      * @return
      */
     public GadgetNode getGadgetNode(SootMethod sootMethod) {
-//        if (classFieldsGraph.get(curClass) == null)
-//            System.out.println("???");
+// if (classFieldsGraph.get(curClass) == null)
+// System.out.println("???");
         if (classFieldsGraph.containsKey(curClass)) {
             if (classFieldsGraph.get(curClass).gadgetNodes.containsKey(sootMethod))
                 return classFieldsGraph.get(curClass).gadgetNodes.get(sootMethod);
@@ -111,7 +111,7 @@ public class GadgetInfoRecord {
                                    LinkedList<SootMethod> callStack,
                                    boolean inImplicitClassFlag) {
         SootMethod sootMethod = descriptor.sootMethod;
-        // 静态方法不更新
+// Static method does not update
         if (sootMethod.isStatic() | descriptor.tempGeneratedObjs.contains(descriptor.paramIdMapLocalValue.get(-1)))
             return;
 
@@ -262,7 +262,7 @@ public class GadgetInfoRecord {
             if (conditionNode.isDominator) {
                 gadgetNode.dominatorConditions.put(ifStmt, conditionNode);
             } else gadgetNode.implicitConditions.put(ifStmt, conditionNode);
-            gadgetNode.allConditions.put(ifStmt, conditionNode); // 同步记录到 allConditions中
+gadgetNode.allConditions.put(ifStmt, conditionNode); // Synchronously record into allConditions
         }
 
         for (IfStmt toChangeIfStmt : toChange.keySet()) {
@@ -297,7 +297,7 @@ public class GadgetInfoRecord {
     public void addDependenceNode(DependenceNode dependenceNode, boolean flag) {
         if (!RuleUtils.isValidFieldsTypeForDpNode(dependenceNode))
             return;
-        // if flag == false, 则意味着不确定是否需要添加；此时如果已有fields相同但是dependence type 不同的节点，则不添加
+// if flag == false, it means that it is not sure whether it needs to be added; at this time, if there are nodes with the same fields but different dependence type, it will not be added.
         for (DependenceNode recordedDPNode : this.dependenceNodes) {
             if (recordedDPNode.equals(dependenceNode))
                 return;
@@ -339,9 +339,9 @@ public class GadgetInfoRecord {
     }
 
     public void recordForward(TransformableNode tfNode, MethodDescriptor descriptor){
-        // 记录fields的使用信息
+// Record the usage information of fields
         recordUsedFields(tfNode, descriptor);
-        // 记录方法/class中出现过的常量信息
+// Record constant information that appears in the method/class
 
     }
 
@@ -361,7 +361,7 @@ public class GadgetInfoRecord {
         HashSet<SourceNode> fieldSources = new HashSet<>();
         ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
         if (thisValueBox == null) {
-            // 如果是调用静态方法返回给某个field，则需要另外处理
+// If you call a static method and return it to a field, it needs to be processed separately
             fieldSources = RuleUtils.matchSNodeForInvokedAfterAssign(
                     descriptor, Parameter.getReturnedValueBox(tfNode.node), tfNode);
             if (fieldSources.isEmpty()) return null;
@@ -432,7 +432,7 @@ public class GadgetInfoRecord {
         valuesOfObjectType.removeAll(toDelete);
 
 
-        // 对 equals这种特殊情况进行污点补充
+// Replenish stains for special situations such as equals
         if (!this.flag
                 && descriptor.sootMethod.getSubSignature().equals("boolean equals(java.lang.Object)")
                 && (!invokedDescriptor.fieldsParamIndexRecord.containsKey(0)
@@ -469,7 +469,7 @@ public class GadgetInfoRecord {
 
             if (actualClass.hasOuterClass() & Utils.endWithNumber(actualClass.getName()))
                 actualClass = actualClass.getOuterClass();
-            // 判断调用子类的父类方法的情况
+// Determine the situation of calling the parent class method of the subclass
             if (!curClass.isConcrete() && ClassRelationshipUtils.isSubClassOf(actualClass, curClass)
                     && !curClass.getName().equals("java.lang.Object")){
                 SootClass fieldClass = Utils.toSootClass(fieldSourceNode.getType());
@@ -487,7 +487,7 @@ public class GadgetInfoRecord {
             SourceNode tmpSourceNode = FieldUtil.seletectPrioritySourceNode(fieldSources, fieldTypeOfClass);
             fieldSourceNode = tmpSourceNode!=null? tmpSourceNode: fieldSourceNode;
             ClassNode nextClassNode = new ClassNode(curClassNode, invokedDescriptor.sootMethod, actualClass, fieldSourceNode, this, valuesOfObjectType);
-            // thinking[Fix]: 如果在前继的类层次结构中，已经有相同的类示例对象，则补充id计数的更新
+// thinking[Fix]: If there is already the same class sample object in the previous class hierarchy, then the update of the supplementary id count is added.
             if (classFieldsGraph.containsKey(nextClassNode.sootClass)){
                 nextClassNode.classId = classFieldsGraph.get(nextClassNode.sootClass).classId+1;}
             if (!curClassNode.fields.containsKey(fieldSourceNode))
@@ -547,12 +547,12 @@ public class GadgetInfoRecord {
             return null;
 
         SootClass currentClass = descriptor.getCurrentClass();
-        if (currentClass == null)   return null; // 如果当前是静态方法，则不记录conField
+if (currentClass == null) return null; // If it is currently a static method, conField will not be recorded
 
         MethodDescriptor preDescriptor = BasicDataContainer.getOrCreateDescriptor(preMethod);
         SootClass preClass = preDescriptor.getCurrentClass();
 
-        // 1. 检查是否为某个 field 调用的方法
+// 1. Check whether a method called by a field
         ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node);
         SootMethod invokedMethod = invokedDescriptor.sootMethod;
         SootClass nextClass = invokedMethod.getDeclaringClass();
@@ -568,7 +568,7 @@ public class GadgetInfoRecord {
         if (ClassRelationshipUtils.isSubClassOf(tmpFieldClassOfType, nextClass))
             nextClass = tmpFieldClassOfType;
 
-        // 检查欲添加的 ClassFieldsNode 是否重复
+// Check whether the ClassFieldsNode you want to add is duplicated
         if (isDuplicationClassNode(currentClass, nextClass))  return null;
 
         ClassNode nextClassNode = new ClassNode(currentClassNode, invokedMethod, nextClass, fieldSourceNode, this, pair.getValue());

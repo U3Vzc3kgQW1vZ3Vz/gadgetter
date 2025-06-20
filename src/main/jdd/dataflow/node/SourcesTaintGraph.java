@@ -28,12 +28,12 @@ public class SourcesTaintGraph {
     public void addTaintedSourceNode(SourceNode sourceNode, Value value){
         if (sourceNode == null)
             return;
-        // 1. 考虑fields之间的影响关系, 查找影响源
+// 1. Consider the impact relationship between fields and find the impact source
         sourceNode = searchOriginalSourceNode(sourceNode, new LinkedList<>());
 
-        // 2. 记录 value <-> 影响源field的关系, 注意检查value是否在之前已经有对应记录, 避免出现多个相同的value键值
-        SourceNode inSourceNode = getRecordedKey(sourceNode);; // 用于记录已经存在的与key等价的键值
-        // 如果已经有记录, 则加入该field能影响的local value; 否则先创建, 再加入
+// 2. Record value <-> affects the relationship of the source field. Pay attention to check whether the value has already been recorded before, so as to avoid multiple identical value key values.
+SourceNode inSourceNode = getRecordedKey(sourceNode); // Used to record existing key values equivalent to key
+// If there is already a record, add the local value that the field can affect; otherwise create it first, and then add it
         if (inSourceNode != null){
             sources2TaintedValues.get(inSourceNode).add(value);
         }else {
@@ -107,7 +107,7 @@ public class SourcesTaintGraph {
                 if (!fieldPathFlag)
                     ret.add(sourceNode);
                 else if (sourceNode.isField()){
-                    //  对于taint, 要求fields污染层次比
+// For taint, fields pollution level ratio is required
                     if (sourceNode.field.equals(taint.accessPath))
                         ret.add(sourceNode);
                 }
@@ -133,13 +133,13 @@ public class SourcesTaintGraph {
                 for (SootField tmpSootField: taint.accessPath){
                     if (FieldUtil.hasField(lastFieldClass, tmpSootField)) {
                         newSourceNode.field.add(tmpSootField);
-                        // 更新最后一个信息
+// Update the last information
                         lastSootField = tmpSootField;
                         lastFieldClass = FieldUtil.getSootFieldType(lastSootField);
                     }
                     else {
                         ret.remove(newSourceNode);
-                        break; // 如果不存在, 则说明该记录存在问题
+break; // If it does not exist, it means there is a problem with the record.
                     }
                 }
             }
@@ -182,7 +182,7 @@ public class SourcesTaintGraph {
                                        boolean needSlzCheck){
         for (SourceNode sourceNode: matchTaintedSources(sourceValue)) {
             sourceNode.checkFlag = needSlzCheck;
-            // TODO: 根据类型检测一下, 污染源是否适合传播
+// TODO: Check according to the type, whether the pollution source is suitable for transmission
             if (needInfluenceCheck)
                 if (!couldInfluence(taintedValue.getType(), sourceNode.getType()))
                     continue;
@@ -205,7 +205,7 @@ public class SourcesTaintGraph {
         if (!couldInfluence(affected, affect))
             return;
 
-        // TODO: 由于没有实现路径敏感, 因此可能会引入错误的推断
+// TODO: Since path sensitivity is not implemented, incorrect inference may be introduced
         HashMap<SourceNode, SourceNode> toDelete = new HashMap<>();
         for (SourceNode recordedAffected: sourcesInfluenceRecord.keySet()){
             if (recordedAffected.equals(affected))

@@ -26,7 +26,7 @@ public class ConditionNode {
     boolean deleteLast = false;
 
     public int type = SINGLE;
-    public static int SINGLE = 0; // = and
+public static int SINGLE = 0; // = and
     public static int OR = 1;
     public static int UNCONTROLLABLE =2;
 
@@ -140,14 +140,14 @@ public class ConditionNode {
                                     Value condition,
                                     MethodDescriptor descriptor){
         for (ValueBox valueBox: condition.getUseBoxes()){
-            // 如果是常量，则认为是条件限制变量
-            if (valueBox.getValue() instanceof Constant){ // Constant
+// If it is a constant, it is considered a conditional restriction variable
+if (valueBox.getValue() instanceof Constant){ // Constant
                 if (reverse & !comparison.equals(Comparison.EQUAL) & !comparison.equals(Comparison.NO_EQUAL_TO))
                     flipComparison();
                 conditionValues.add(valueBox.getValue());
             }else {
                 if (!ConditionUtils.findControllableSourceDirect(this, descriptor,valueBox.getValue())) {
-                    // 可能存在一些复杂一些的数据流，查找所有定义语句并进行进一步解析
+// There may be some more complex data flows, find all definition statements and perform further analysis
                     HashSet<Node> sources = findAllDefUnitAffectThisValue(tfNode.node, valueBox);
                     ConditionUtils.parseSources(this, sources, valueBox.getValue(), descriptor);
                 }

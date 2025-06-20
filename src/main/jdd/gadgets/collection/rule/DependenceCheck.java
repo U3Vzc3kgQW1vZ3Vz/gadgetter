@@ -59,7 +59,7 @@ public class DependenceCheck implements InferRule {
                                                  Value left, Value right,
                                                  MethodDescriptor descriptor,
                                                  GadgetInfoRecord gadgetInfoRecord){
-//        HashSet<SourceNode> rightSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(right);
+// HashSet<SourceNode> rightSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(right);
         HashSet<SourceNode> rightSourceNodes = RuleUtils.getTaintedFieldSourcesViaAF(right, gadgetInfoRecord, descriptor);
 
         if (left instanceof JInstanceFieldRef){
@@ -74,13 +74,13 @@ public class DependenceCheck implements InferRule {
                 return;
             }
 
-            // TODO: 是否会需要考虑fields的情况, 暂时先不处理
+// TODO: Will fields need to be considered? I will not deal with it for the time being
             SootField sootField = ((JInstanceFieldRef) left).getField();
             LinkedList<SootField> fields = new LinkedList<>();
             fields.add(sootField);
             SourceNode leftSourceNode = new SourceNode(fields, descriptor.getCurrentClass());
 
-            // TODO: 任意类型的直接影响关系记录目前进行严格限制，考虑在writeObject过程中将transient field的值传递到fei transient field的关系
+// TODO: The direct impact relationship record of any type is currently strictly restricted, considering the value of the transient field to the relationship of the fei transient field during the writeObject process
             if (BasicDataContainer.stage == Stage.IOCD_SUPPLEMENT_INFER) {
                 if (!FieldUtil.isTransientType(left)) {
                     for (SourceNode rightSourceNode : rightSourceNodes) {
@@ -106,7 +106,7 @@ public class DependenceCheck implements InferRule {
             }
             if (isSubClassOf(Utils.toSootClass(left.getType()), BasicDataContainer.commonClassMap.get("Map"))
                     | isSubClassOf(Utils.toSootClass(left.getType()), BasicDataContainer.commonClassMap.get("List"))){
-                // TODO:加入 MAP/LIST等元素类型的识别机制
+// TODO: Adding MAP/LIST and other element types to identify
                 Tag signatureTag = sootField.getTag("SignatureTag");
                 if (signatureTag != null) {
                     LinkedList<String> extractedTypes = Utils.extractArrayElementType(signatureTag.toString());
@@ -157,8 +157,8 @@ public class DependenceCheck implements InferRule {
                 Value compareValue = RuleUtils.getValueByParamIndex(
                         (Stmt) tfNode.node.unit, ConditionUtils.compareMethodsMapInputArg.get(invokedMethodSig).getKey());
                 if (Utils.isTainted(comparedValue, descriptor.taints) & Utils.isTainted(compareValue, descriptor.taints)){
-//                    HashSet<SourceNode> comparedSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(comparedValue);
-//                    HashSet<SourceNode> compareSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(compareValue);
+// HashSet<SourceNode> comparedSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(comparedValue);
+// HashSet<SourceNode> compareSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(compareValue);
                     HashSet<SourceNode> comparedSourceNodes = RuleUtils.getTaintedFieldSourcesViaAF(comparedValue,gadgetInfoRecord,descriptor);
                     HashSet<SourceNode> compareSourceNodes = RuleUtils.getTaintedFieldSourcesViaAF(compareValue,gadgetInfoRecord,descriptor);
 
@@ -178,8 +178,8 @@ public class DependenceCheck implements InferRule {
                 if (thisValueBox != null & argValueBox != null) {
                     if (!descriptor.sourcesTaintGraph.matchTaintedSources(thisValueBox.getValue()).isEmpty()
                             & Utils.isTainted(argValueBox.getValue(), descriptor.taints)) {
-//                        HashSet<SourceNode> thisSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(thisValueBox.getValue());
-//                        HashSet<SourceNode> argSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(argValueBox.getValue());
+// HashSet<SourceNode> thisSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(thisValueBox.getValue());
+// HashSet<SourceNode> argSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(argValueBox.getValue());
                         HashSet<SourceNode> thisSourceNodes = RuleUtils.getTaintedFieldSourcesViaAF(thisValueBox.getValue(), gadgetInfoRecord, descriptor);
                         HashSet<SourceNode> argSourceNodes = RuleUtils.getTaintedFieldSourcesViaAF(argValueBox.getValue(), gadgetInfoRecord, descriptor);
                         for (SourceNode argSourceNode: argSourceNodes){
@@ -200,7 +200,7 @@ public class DependenceCheck implements InferRule {
             identifyReflectionDependenceForResolve(descriptor,tfNode,gadgetInfoRecord);
         }
     }
-    // 改成传入参数设定吧emmm <init也不错>
+// Change it to incoming parameter setting emmm <init is also good>
     public static void identifyReflectionDependenceForResolve(MethodDescriptor descriptor,
                                                               TransformableNode tfNode,
                                                               GadgetInfoRecord gadgetInfoRecord){

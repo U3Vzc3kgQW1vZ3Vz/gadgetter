@@ -1,4 +1,4 @@
-package jdd.tranModel.Rules;
+Detection of frame entry points
 
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.tranModel.Rule;
@@ -53,22 +53,22 @@ public class TaintGenerateRule implements Rule {
 
         TransformableNode tfNode = (TransformableNode) transformable;
 
-        Unit currentUnit = tfNode.node.unit; // 考虑到有些方法处理的是Stmt的父类Unit，为了避免错误做这步处理
+Unit currentUnit = tfNode.node.unit; // Considering that some methods deal with Stmt's parent class Unit, this step is done to avoid errors
         Stmt currentStmt = (Stmt) currentUnit;
 
-        // 处理赋值语句
-        // Step1: 进行框架入口点的检测
+// Process assignment statements
+// Step
 
         if (currentStmt instanceof AssignStmt) {
             Value left = ((AssignStmt) currentStmt).getLeftOp();
             Value right = ((AssignStmt) currentStmt).getRightOp();
 
-            // 1. 当调用方法时: (a) 跟踪不进去的方法处理; (b) readObject等相关方法的污点处理
+// 1. When calling the method: (a) Processing of methods that cannot be tracked; (b) Stainless treatment of related methods such as readObject
             if (currentStmt.containsInvokeExpr()){
                 SootMethod invokedMethod = tfNode.getUnitInvokeExpr().getMethod();
-//                TODO: (a) 先不处理, 观察一下是否还存在该问题
+// TODO: (a) Don't deal with it first, observe whether the problem still exists
 
-                boolean generateFlag = false; // 判断是否能生成污点的标识符
+boolean generateFlag = false; // Identifier for determining whether the stain can be generated
                 ValueBox thisValueBox = Parameter.getThisValueBox(currentStmt);
                 if (thisValueBox != null){
                     for (Taint taint: descriptor.getAllTaintsAboutThisValue(thisValueBox.getValue())){
@@ -83,12 +83,12 @@ public class TaintGenerateRule implements Rule {
                     Taint newTaint = descriptor.getOrCreateTaint(left, new LinkedList<>());
                     RuleUtils.addTaint(descriptor, newTaint);
 
-                    // (b-1) 为ObjectInput.readObject()读出的对象
-                    // (b-2) ObjectInputStream.GetField.get("fieldName",), 根据第一个参数获得field的名称, 然后取出对应的SootField
-                    // 从FieldsContainer中查找(根据全局信息)
+// (b-1) Object read for ObjectInput.readObject()
+// (b-2) ObjectInputStream.GetField.get("fieldName",), obtain the field name according to the first parameter, and then remove the corresponding SootField
+// Find from FieldsContainer (based on global information)
                     if (readObjectSigs.contains(invokedMethod.getSignature())) {
-                        if (BasicDataContainer.infosCollect) { // TODO: 找不到的话, 尝试根据类型匹配
-                            // TODO: 去 FieldsContainer.fieldRefValuesMap 中查找
+if (BasicDataContainer.infosCollect) { // TODO: If not found, try to match according to the type
+// TODO: Go to FieldsContainer.fieldRefValuesMap to find
                             SootField sootField = FieldsContainer.getSootFieldRefByStream(left, descriptor.sootMethod);
                             RuleUtils.createAndAddSourceNode(sootField, newTaint, null, descriptor);
                             if (BasicDataContainer.stage.equals(Stage.IOCD_GENERATING)
@@ -97,8 +97,8 @@ public class TaintGenerateRule implements Rule {
                                         ((AssignStmt) currentStmt).getLeftOpBox(), tfNode
                                 );
                             }
-//                        SourceNode newSourceNode = RuleUtils.createSourceNode(sootField, newTaint);
-//                        descriptor.sourcesTaintGraph.addTaintedSourceNode(newSourceNode, left);
+// SourceNode newSourceNode = RuleUtils.createSourceNode(sootField, newTaint);
+// descriptor.sourcesTaintGraph.addTaintedSourceNode(newSourceNode, left);
                         }
                     }else if (getFieldsFromInputSigs.contains(invokedMethod.getSignature())){
                         SootClass sootClass = descriptor.getCurrentClass();
@@ -128,7 +128,7 @@ public class TaintGenerateRule implements Rule {
                     if (right instanceof JInstanceFieldRef) {
                         SootField sootField = ((FieldRef) right).getField();
                         Value basedObj = ((JInstanceFieldRef) right).getBase();
-                        // 如果 basedObj 不是this，则进行field.field查找
+// If basedObj is not this, perform field.field search
                         LinkedList<SootField> accessPath = new LinkedList<>();
                         if (BasicDataContainer.stage.equals(Stage.IOCD_GENERATING)
                                 | BasicDataContainer.stage.equals(Stage.IOCD_SUPPLEMENT_INFER))
@@ -143,19 +143,19 @@ public class TaintGenerateRule implements Rule {
                         if (BasicDataContainer.infosCollect) {
                             RuleUtils.createAndAddSourceNode(sootField, newTaint,
                                     ((JInstanceFieldRef) right).getBase(), descriptor);
-//                    SourceNode newSourceNode = RuleUtils.createSourceNode(sootField, newTaint);
-//                    descriptor.sourcesTaintGraph.addTaintedSourceNode(newSourceNode,left);
+// SourceNode newSourceNode = RuleUtils.createSourceNode(sootField, newTaint);
+// descriptor.sourcesTaintGraph.addTaintedSourceNode(newSourceNode,left);
                         }
                     }
-                    // 3. 其他情况, 包括静态field, 不直接生成污点 (static field在反序列化过程中无法控制)
+// 3. Other situations, including static fields, do not directly generate taints (static fields cannot be controlled during deserialization)
                     else if (right instanceof StaticFieldRef){
                         SootField sootField = ((StaticFieldRef) right).getField();
                         Value recordedValue = FieldsContainer.getStaticSootFieldInfo(sootField, descriptor.getCurrentClass());
                         if (recordedValue != null){
-                            // 静态fields仅记录其为常数的情况, 因为为变量的话, 攻击者也无法控制
+// Static fields only record the situation where they are constants, because if they are variables, the attacker cannot control them.
                             if (recordedValue instanceof Constant){
                                 SourceNode sourceNode = new SourceNode(recordedValue);
-//                                sourceNode.constant = recordedValue;
+// sourceNode.constant = recordedValue;
                                 descriptor.sourcesTaintGraph.addTaintedSourceNode(sourceNode,left);
                             }
                         }

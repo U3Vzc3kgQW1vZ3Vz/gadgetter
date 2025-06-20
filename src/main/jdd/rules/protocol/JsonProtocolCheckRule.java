@@ -68,7 +68,7 @@ public class JsonProtocolCheckRule extends AbstractProtocolCheckRule {
             }
         }
         if (sootMethod.isStatic() || sootMethod.getParameterCount() > 0
-                || !sootMethod.isConcrete() || !sootMethod.isPublic()) // 比较严格的筛选规则，可以看情况自定义修改
+|| !sootMethod.isConcrete() || !sootMethod.isPublic()) // More strict filtering rules, you can customize and modify them according to the situation
             return false;
         if (RegularConfig.jsonSourceTypes.contains("getter")) {
             if (ClassRelationshipUtils.isGetterMethod(sootMethod) && sootMethod.getName().length() >= 4)

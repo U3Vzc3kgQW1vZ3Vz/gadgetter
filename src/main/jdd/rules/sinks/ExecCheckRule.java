@@ -49,7 +49,7 @@ public class ExecCheckRule extends AbstractCheckRule {
 
         HashSet<SootMethod> possibleSinks = MethodUtil.getMethodBySig("execCmd",3);
         possibleSinks.addAll(MethodUtil.getMethodBySig("exec", 3));
-        // 为避免误报，根据人工经验简单添加一些筛选策略
+// To avoid false positives, add some filtering strategies based on manual experience
         possibleSinks.removeIf(mtd-> mtd.getParameterCount()!=1
                 || Parameter.getArgByType(mtd, "java.lang.String") == null);
         riskyMethodSigs.addAll(Utils.toStringSet(possibleSinks));

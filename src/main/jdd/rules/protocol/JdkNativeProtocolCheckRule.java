@@ -31,11 +31,11 @@ public class JdkNativeProtocolCheckRule extends AbstractProtocolCheckRule {
 
     @Override
     public HashSet<SootMethod> getSourceMethods() {
-        doClassCheck(); // 筛选类
+doClassCheck(); // Filter class
 
         HashSet<SootMethod> sourceMethods = new HashSet<>();
         SootMethod equalMtd = Scene.v().getMethod("<java.lang.Object: boolean equals(java.lang.Object)>");
-        // 根据该协议的逻辑提取source methods
+// Extract source methods according to the logic of this protocol
         for (SootClass sootClass: candidateClassSet){
             sourceMethods.addAll(ClassRelationshipUtils.getMethods(sootClass,entryMethods));
 

@@ -16,8 +16,8 @@ import java.util.LinkedHashMap;
 
 public class GadgetNode {
     public int deep = 0;
-    public SootMethod sootMethod; // 标记方法
-    public SootClass sootClass; // 所属类
+public SootMethod sootMethod; // Tag method
+public SootClass sootClass; // Class to belong
 
     public HashMap<TransformableNode, Boolean> conditionPathStrategies = new HashMap<>();
 
@@ -109,7 +109,7 @@ public class GadgetNode {
         for (ConditionNode basicCon: dominatorConditions.values()){
             TransformableNode tfNode = basicCon.conditionNode;
             Stmt target = tfNode.getIfStmt().getTarget();
-            if (!basicCon.satisfyFlag) //
+if (!basicCon.satisfyFlag) //
                 target = AnalyzeUtils.getOtherSucStmt(basicCon.conditionNode, target);
 
             if (tfNode.precursors.size() != 1)  continue;

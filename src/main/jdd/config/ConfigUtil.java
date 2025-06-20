@@ -17,17 +17,17 @@ import java.util.jar.JarFile;
 public class ConfigUtil {
 
     public static Properties configProperties = new Properties();
-    // 解压过程中不做处理的文件夹列表
+// List of folders that are not processed during the decompression process
     private static String[] unDecompressDirList = { "META-INF", "OSGI-INF" };
     private static String[] specialDirList = { "/lib/", "WEB-INF/classes/" };
     private static HashSet<String> runtimeSpecialDirList = new HashSet<>();
     private static int classNums = 0;
 
-    // 用于初始化工作，包括目录创建、配置项加载和Soot初始化
+// Used for initialization work, including directory creation, configuration item loading and Soot initialization
     public static void init() throws FileNotFoundException {
 
         try{
-            // 加载配置文件, 读取参数
+// Load the configuration file and read the parameters
             initConfig();
             SootConfig.setSoot(RegularConfig.inputPath);
         }catch (FileNotFoundException e){
@@ -54,14 +54,14 @@ public class ConfigUtil {
 
         if(!dirFile.isDirectory()){ throw new IllegalArgumentException("Parameter dirFile should be DIRECTORY!"); }
         File[] filesUnderDir = dirFile.listFiles();
-        // 长度为零就直接删除掉，因为已经确定是文件夹File
-        // 因此不会出现为null的情况
+// If the length is zero, it will be deleted directly, because it has been confirmed that it is a folder File
+// Therefore, there will be no null
         if(filesUnderDir.length == 0){ return; }
-        // 如果长度不为零那就做递归处理
+// If the length is not zero, then recursively process it
         for(File file : filesUnderDir){
             if(file.isDirectory()){ deleteEmptyUnderDir(file); }
         }
-        // 递归返回后再次判断当前目录下的文件
+// After recursively returning, determine the files in the current directory again
         if(FileUtils.isEmptyDirectory(dirFile)){ FileUtils.deleteDirectory(dirFile);}
 
     }
@@ -77,9 +77,9 @@ public class ConfigUtil {
         File[] tmpFiles = dirFile.listFiles();
         List<File> jarFiles = new ArrayList<>();
         List<File> dirFiles = new ArrayList<>();
-        // 获取当前目录下的jar文件
+// Get the jar file in the current directory
         for(File file : tmpFiles){
-            // 对于目录作暂存处理
+// For temporary storage of the directory
             if(file.isDirectory()){
                 dirFiles.add(file);
                 continue;
@@ -89,7 +89,7 @@ public class ConfigUtil {
             jarFiles.add(file);
         }
         files.addAll(jarFiles);
-        // 获取当前目录下的子目录中的jar文件
+// Get the jar file in the subdirectory in the current directory
         for(File dFile : dirFiles){
             List<File> tmpJarFiles = getAllJarFiles(dFile.getAbsolutePath());
             files.addAll(tmpJarFiles);
@@ -104,9 +104,9 @@ public class ConfigUtil {
      */
     public static void decompressJarFromDir(String dir) throws IOException {
 
-        // 解压dir的所有jar文件到dir/tmp/目录下
+// Unzip all jar files of dir into the dir/tmp/ directory
         try{
-            // 创建临时文件夹
+// Create a temporary folder
             String tmpDir = "tmp/";
             File tmpDirFile = new File(dir + tmpDir);
             if(tmpDirFile.exists()){
@@ -114,15 +114,15 @@ public class ConfigUtil {
                 return;
             }
             tmpDirFile.mkdirs();
-            // 获取目录下所有的Jar文件
+// Get all Jar files in the directory
             List<File> jarFiles = getAllJarFiles(dir);
             for(File jarFile : jarFiles){
-                // 进行解压
+// Decompression
                 JarFile jar = new JarFile(jarFile);
                 decompressJar(jar, dir + tmpDir);
             }
             log.info("共解压" + classNums + "个类");
-            // 对一些特殊目录做处理，比如WEB-INF/classes，移动到tmp目录下，使得这个文件夹下的类的class path正确
+// Process some special directories, such as WEB-INF/classes, move them to the tmp directory, so that the class path of the class in this folder is correct
             for(String specialDir : runtimeSpecialDirList){
                 File srcDir = new File(specialDir);
                 if(FileUtils.isDirectory(srcDir)){
@@ -139,7 +139,7 @@ public class ConfigUtil {
                     }
                 }
             }
-            // 删除掉解压出的空文件夹
+// Delete the unzipped empty folder
             deleteEmptyUnderDir(tmpDirFile);
         }catch (IOException e){
             e.printStackTrace();
@@ -160,7 +160,7 @@ public class ConfigUtil {
             throw new IllegalArgumentException("Parameter outputDir should not be empty!");
         }
 
-        // 获取jarFile中的每个文件并提取到outputDir下
+// Get each file in jarFile and extract it to outputDir
         Enumeration<JarEntry> entries = jarFile.entries();
         List<String> newJarWarPaths = new ArrayList<>();
         while(entries.hasMoreElements()){
@@ -169,7 +169,7 @@ public class ConfigUtil {
             String entryName = entry.getName();
             String path = outputDir + entryName;
             File newFile = new File(path);
-            // 不处理{ META-INF, OSGI-INF }文件夹下的内容
+// Does not process the contents under the { META-INF, OSGI-INF } folder
             boolean flag = false;
             for (String ignoreDirName : unDecompressDirList) {
                 if(entryName.contains(ignoreDirName)){
@@ -178,19 +178,19 @@ public class ConfigUtil {
                 }
             }
             if(flag){ continue; }
-            // 如果是一些包含类的特殊文件夹，那么就记录下来
+// If it is some special folder containing the class, then record it
             for(String specialDir : specialDirList){
                 if(path.endsWith(specialDir)){
                     runtimeSpecialDirList.add(path);
                 }
             }
-            // 如果这个entry是一个文件夹且不存在，那么就新建它
+// If this entry is a folder and does not exist, then create it
             if(entry.isDirectory()){
                 if(!newFile.exists()) { newFile.mkdirs(); }
                 continue;
             }
-            // 如果是一个文件，那就判断它所处文件夹在不在。而后做解压处理
-            // 如果是一个jar/war文件，那么就将其就地解压并记录下等待下一轮的处理
+// If it is a file, then determine whether the folder it is in is there. Then decompression
+// If it is a jar/war file, then decompress it on the spot and record it waiting for the next round of processing.
             boolean isJar = false;
             if(entryName.endsWith(".jar") || entryName.endsWith(".war")){
                 isJar = true;
@@ -200,13 +200,13 @@ public class ConfigUtil {
                 newJarWarPaths.add(path);
                 newFile = new File(path);
             }
-            // 如果不是一个class文件，那么没有必要解压它
+// If it is not a class file, then there is no need to unzip it
             if(!entryName.endsWith(".class") && !isJar ) { continue; }
             File newFileParent = newFile.getParentFile();
             if(!newFileParent.exists()) { newFileParent.mkdirs(); }
             InputStream inputStream = jarFile.getInputStream(entry);
             OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(newFile));
-            // 解压处理
+// Decompression processing
             byte[] buffer = new byte[2048];
             int bytesNum = 0;
             while((bytesNum = inputStream.read(buffer)) > 0){ outputStream.write(buffer, 0, bytesNum); }
@@ -215,35 +215,35 @@ public class ConfigUtil {
             inputStream.close();
             classNums++;
         }
-        // 处理当前fat jar中被新解压出来的jar/war包
+// Handle the newly unzipped jar in the current fat jar
         for(String newJarWarPath : newJarWarPaths){
             JarFile newJarFile = new JarFile(newJarWarPath);
             decompressJar(newJarFile, outputDir);
-            // 删除掉这些中间jar包
+// Delete these intermediate jar packages
             FileUtils.delete(new File(newJarWarPath));
         }
     }
 
 
 
-    // 判断是否是类Unix系统
+// Determine whether it is a Unix-like system
     public static  boolean isOnServer(){
         return !System.getProperty("os.name").contains("Windows") & !System.getProperty("os.name").contains("Mac OS X");
     }
     private static String getWorkDir(){ return System.getProperty("user.dir") + "/"; }
-    // 判断是否是绝对路径
+// Determine whether it is an absolute path
     private static boolean isAbsolute(String path){
         if(isOnServer()){ return path.startsWith("/"); }
         return path.indexOf(":") > 0 | path.startsWith("/");
     }
 
     public static void initConfig() throws IOException {
-        // 加载配置项并设置jdk依赖类型
+// Load configuration items and set jdk dependency type
         ConfigUtil.loadConfig("config/config.properties");
         RegularConfig.sootClassPath = ConfigUtil.getJdkDependencies(RegularConfig.withAllJdk);
 
         log.info("[ detect project :" + RegularConfig.inputPath + " ]");
-        // 解压inputClassPath下所有的jar/war包
+// Unzip all jar/war packages under inputClassPath
         log.info("解压目录" + RegularConfig.inputPath + "的类信息");
         ConfigUtil.decompressJarFromDir(RegularConfig.inputPath);
         RegularConfig.inputPath = RegularConfig.inputPath + "tmp/";
@@ -252,9 +252,9 @@ public class ConfigUtil {
 
     private static String getPathProperty(String pathKey){
 
-        // 获取当前的程序的运行目录
+// Get the running directory of the current program
         String workDir = getWorkDir();
-        // 判断是对path进行的配置
+// The judgment is to configure the path
         String tmpValue = configProperties.getProperty(pathKey);
         if(Objects.equals(tmpValue, "") || Objects.equals(tmpValue, null)) {
             throw new IllegalArgumentException("Config property " + pathKey + " not found");
@@ -314,7 +314,7 @@ public class ConfigUtil {
             Reader configReader = new FileReader(filePath);
             configProperties.load(configReader);
 
-            // 加载配置项
+// Load configuration items
             RegularConfig.outputDir = getPathProperty(ConfigurationEnum.OUTPUT_DIR.toString());
             RegularConfig.inputPath = getPathProperty(ConfigurationEnum.INPUT_PATH.toString());
             RegularConfig.configPath = getPathProperty(ConfigurationEnum.CONFIG_PATH.toString());

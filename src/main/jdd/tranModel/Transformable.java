@@ -15,13 +15,13 @@ public class Transformable {
         ORIGIN, TRANSFORMED, TERMINATED
     }
 
-    // 规则容器
+// Rule container
     static List<Rule> rules = new LinkedList<>();
     static List<InferRule> inferRules = new LinkedList<>();
     static List<InferRule> extraInferRules = new LinkedList<>();
     public State state = State.ORIGIN;
 
-    // 清除规则
+// Clear the rules
     public static void clearRules(){
         rules = new LinkedList<>();
     }
@@ -34,7 +34,7 @@ public class Transformable {
         extraInferRules = new LinkedList<>();
     }
 
-    // 添加规则
+// Add rules
     public static void addRule(Rule rule){
         rules.add(rule);
     }
@@ -47,7 +47,7 @@ public class Transformable {
         extraInferRules.add(inferRule);
     }
 
-    // 用于应用数据流分析过程中的各种规则，比如别名、Point2、污点传播等
+// Used to apply various rules in the data flow analysis process, such as alias, Point2, stain propagation, etc.
     public void forward(MethodDescriptor descriptor){
         state = State.TRANSFORMED;
         for(Rule rule : rules){
@@ -55,7 +55,7 @@ public class Transformable {
         }
     }
 
-    // 用于risky call stack信息的收集
+// Used for the collection of risky call stack information
     public void forwardCheck(MethodDescriptor descriptor,
                              LinkedList<SootMethod> callStack) throws IOException {
         FragmentsContainer.protocolCheckRule.apply(descriptor, callStack, this);

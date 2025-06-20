@@ -50,24 +50,24 @@ public class SearchGadgetChains {
     public static DataflowDetect dataflowDetect = new DataflowDetect();
 
     public static void detect() throws Exception {
-        // 1. 初始化
+// 1. Initialization
         InitConfig.initAllConfig();
 
-        // 2. Gadget Fragment的搜索
+// 2. Search for Gadget Fragment
         log.info("[ Fragments Searching]");
         searchGadgetFragments();
 
-        // 3. Gadget Fragment的拼接
+// 3. Gadget Fragment splicing
         log.info("[ Fragments Linking]");
         linkFragments();
 
-        // 生成IOCD信息
+// Generate IOCD information
         if (RegularConfig.outPutIOCD) {
             System.out.println("[ IOCD Generating ]");
             buildIOCD();
         }else {
             System.out.println("[ Print Detected Gadget Chains ]");
-            // just print the detected chains, see the detected chains in DetectedGadgetChains.txt
+// just print the detected chains, see the detected chains in DetectedGadgetChains.txt
             String targetResultsPath = RegularConfig.outputDir + File.separator + "gadgets" + File.separator + RegularConfig.outPutDirName + File.separator;
             DataSaveLoadUtil.createDir(targetResultsPath);
             for (HashSet<Fragment> sinkFragments : FragmentsContainer.sortedSinkFragmentsMap.values()) {
@@ -81,14 +81,14 @@ public class SearchGadgetChains {
     }
 
     public static void searchGadgetFragments() {
-        setDetectSchemeOn(); // 设置开始检测的 flag
+setDetectSchemeOn(); // Set the flag to start detection
         while (!FragmentsContainer.sources.isEmpty()) {
             SootMethod headMtd = FragmentsContainer.sources.iterator().next();
             FragmentsContainer.sources.remove(headMtd);
             FragmentsContainer.searched.add(headMtd);
             searchFragment(headMtd, null);
 
-            if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
+if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
                 while (!FragmentsContainer.superMtdSources.get(headMtd).isEmpty()) {
                     SootClass thisClz = FragmentsContainer.superMtdSources.get(headMtd).iterator().next();
                     FragmentsContainer.superMtdSources.get(headMtd).remove(thisClz);
@@ -101,12 +101,12 @@ public class SearchGadgetChains {
     }
 
     public static boolean collectFields(SootMethod sootMethod, HashSet<SourceNode> usedFields) {
-        // 生成初始方法的污点信息
+// Generate stain information for the initial method
         MethodDescriptor descriptor = initDealBeforeSearching(sootMethod, null);
         LinkedList<SootMethod> callStack = new LinkedList<>();
         callStack.add(sootMethod);
 
-        // 展开数据流嗖嗖
+// Expand the data flow
         try {
             new TimeOutTask() {
                 @Override
@@ -137,14 +137,14 @@ public class SearchGadgetChains {
         MethodDescriptor descriptor = DataFlowAnalysisUtils.getMethodDescriptor(sootMethod);
         if (descriptor == null) return flag;
 
-        // 更新调用该method的方法到该方法的信息, ;过程间分析
+// Update the information of calling the method to the method; inter-process analysis
         HashSet<Value> hashCodeValues = new HashSet<>();
 
         DataFlowAnalysisUtils.updateInterInfos(descriptor);
         List<TransformableNode> topologicalOrder = TranUtil.getTopologicalOrderedTNodesFromCFG(descriptor.cfg);
         for (TransformableNode tfNode : topologicalOrder) {
             HashMap<SourceNode, HashSet<Pair<String, Integer>>> ret = DataFlowAnalysisUtils.extractUsedFields(tfNode, descriptor);
-            // 记录被使用的fields
+// Record the fields used
             for (SourceNode sourceNode : ret.keySet()) {
                 if (sourceNode.classOfField.equals(descriptor.getCurrentClass()))
                     usedFields.add(sourceNode);
@@ -152,7 +152,7 @@ public class SearchGadgetChains {
         }
 
         for (TransformableNode tfNode : topologicalOrder) {
-            // 记录被调用了hashCode()方法, 计算hashCode的fields对应的local values
+// The hashCode() method is called, and the local values corresponding to the fields of hashCode are calculated.
             if (tfNode.containsInvoke()) {
                 SootMethod invokedMethod = tfNode.getUnitInvokeExpr().getMethod();
 
@@ -262,7 +262,7 @@ public class SearchGadgetChains {
         LinkedList<SootMethod> callStack = new LinkedList<>();
         callStack.add(headMtd);
 
-        // 展开数据流嗖嗖
+// Expand the data flow
         try {
             new TimeOutTask() {
                 @Override
@@ -312,7 +312,7 @@ public class SearchGadgetChains {
         }
         int linkCount = 0;
 
-        // 迭代
+// Iteration
         while (!dynamicMethods.isEmpty() && linkCount <= BasicDataContainer.linkTimeLimit) {
             newSinkFragments.clear();
             HashSet<Fragment> toDelete = new HashSet<>();
@@ -322,7 +322,7 @@ public class SearchGadgetChains {
 
                 HashSet<Fragment> addSinkFragments = dataflowDetect.linkFreeStateFragments(freeStateFragment);
                 if (!addSinkFragments.isEmpty()) toDelete.add(freeStateFragment);
-                for (Fragment newSinkFragment : addSinkFragments) { // TODO: 增加开关，选择是否要开启启发式选择
+for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to select whether to enable heuristic selection
                     flushSinkFragmentsBasedOnPriority(newSinkFragment, allSinkFragments, newSinkFragments);
 
                     HashSet<SootMethod> newDynamicMtds = new HashSet<>(newSinkFragment.connectRequire.preLinkableMethods);
@@ -333,8 +333,8 @@ public class SearchGadgetChains {
                     }
                 }
             }
-            // 在获取所有的新增 Sink Fragments 后, 将全局的sinkFragments更新为本轮新增的,
-            // 并将这些Fragments从Free-State Fragments中删除
+// After obtaining all new Sink Fragments, update the global sinkFragments to the new ones added in this round.
+// and delete these Fragments from Free-State Fragments
             FragmentsContainer.sinkFragments = new HashSet<>(newSinkFragments);
             if (newSinkFragments.isEmpty() || dynamicMethodsNext.isEmpty()) {
                 break;
@@ -344,7 +344,7 @@ public class SearchGadgetChains {
             if (RegularConfig.linkMode.equals("strict")) {
                 for (Fragment freeStateFragment : toDelete) {
                     HashSet<Fragment> addSinkFragments = dataflowDetect.linkFreeStateFragments(freeStateFragment);
-                    for (Fragment newSinkFragment : addSinkFragments) { // TODO: 增加开关，选择是否要开启启发式选择
+for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to select whether to enable heuristic selection
                         flushSinkFragmentsBasedOnPriority(newSinkFragment, allSinkFragments, newSinkFragments);
                     }
                 }
@@ -352,8 +352,8 @@ public class SearchGadgetChains {
             }
             freeStateFragments.removeAll(toDelete);
 
-//            // 如果还没退出, 则计算和评估 Fragments 的优先级\
-//            DataFlowAnalysisUtils.calculatePriority(newSinkFragments, allSinkFragments);
+// // If you have not exited, calculate and evaluate the priority of Fragments\
+// DataFlowAnalysisUtils.calculatePriority(newSinkFragments, allSinkFragments);
         }
         FragmentsContainer.sinkFragments = allSinkFragments;
 
@@ -383,7 +383,7 @@ public class SearchGadgetChains {
         int count = 0, detectedCount = 0;
 
         Instruments instruments = new Instruments();
-        // 先检查结果的目标存储目录是否存在，如果不存在则创建
+// First check whether the target storage directory of the result exists, and if it does not exist, create it
         String targetResultsPath = RegularConfig.outputDir + File.separator + "gadgets" + File.separator + RegularConfig.outPutDirName + File.separator;
         DataSaveLoadUtil.createDir(targetResultsPath);
 
@@ -415,7 +415,7 @@ public class SearchGadgetChains {
 
         log.info("Number of gadget chains successfully generated for IOCD = " + count);
 
-        // 最后输出插桩信息
+// Finally output the insert information
         exportInstrumentsRecordJson(instruments, RegularConfig.outputDir + File.separator + "gadgets" + File.separator + RegularConfig.outPutDirName + File.separator);
     }
 

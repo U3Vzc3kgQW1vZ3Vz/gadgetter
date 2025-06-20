@@ -22,8 +22,8 @@ public class InputTaintGenerator {
 
         for(int ind = 0; ind < method.getParameterCount(); ind++) {
 
-//            if (ind == 1 & descriptor.isProxyMethodEntry)   continue;
-            // gadget方法入口形式参数的污染
+// if (ind == 1 & descriptor.isProxyMethodEntry) continue;
+// Contamination of gadget method entry-form parameters
             if (BasicDataContainer.gadgetParamsGenerate && BasicDataContainer.isEntryPolluteSelect){
                 LinkedList<SootField> accessPath = new LinkedList<>();
                 taintParam(ind, descriptor, accessPath);
@@ -43,8 +43,8 @@ public class InputTaintGenerator {
         }
 
         for(int ind = 0; ind < descriptor.sootMethod.getParameterCount(); ind++) {
-//            if (ind == 1 & descriptor.isProxyMethodEntry)   continue;
-            // gadget方法入口形式参数的污染
+// if (ind == 1 & descriptor.isProxyMethodEntry) continue;
+// Contamination of gadget method entry-form parameters
             if (BasicDataContainer.gadgetParamsGenerate){
                 LinkedList<SootField> accessPath = new LinkedList<>();
                 taintParam(ind, descriptor, accessPath);

@@ -7,8 +7,8 @@ import jdd.gadgets.collection.markers.DependenceType;
 @Getter
 @Setter
 public class DependenceRecord {
-    // E.g. ARRAY_SIZE: 左边是array,右边是size; Class_MethodName: 左边是class, 右边是其方法名
-    // ASSIGNED_REAL: 针对writeObject中检测出的fields之间赋值和被赋值关系
+// E.g. ARRAY_SIZE: The left is array, the right is size; Class_MethodName: The left is class, and the right is its method name
+// ASSIGNED_REAL: The value and the assigned relationship between fields detected in writeObject
     public String methodName = "";
     public DependenceType type;
     public FieldRecord leftRecordF;

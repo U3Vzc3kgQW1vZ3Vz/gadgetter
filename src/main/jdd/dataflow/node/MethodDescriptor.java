@@ -31,7 +31,7 @@ public class MethodDescriptor extends DefaultMethodDescriptor {
     public boolean isEntry = false;
     public boolean isDynProxyEntry = false;
 
-    // 局部的上下文敏感
+// Local context sensitivity
     public boolean visited  = false;
     public HashMap<TaintAndLinger, MethodResult> memorize = new HashMap<>();
     public SootField equalsField = null;
@@ -47,9 +47,9 @@ public class MethodDescriptor extends DefaultMethodDescriptor {
 
     public HashSet<Taint> taints = new HashSet<>();
     public HashSet<Taint> newtaints = new HashSet<>();
-    // 维护创建出的所有Taint， 其中的一些可能没有被实际污染（别名分析），实际污染的在taint里
+// Maintain all the created taits, some of which may not be actually contaminated (alias analysis), and the actual contaminated is in the tait
     public HashSet<Taint> allTaints = new HashSet<>();
-    // 记录返回值中被污染的对象
+// Record the polluted object in the return value
     public HashSet<Taint> retTainted = new HashSet<>();
     public ReturnStmt returnStmt = null;
 
@@ -72,7 +72,7 @@ public class MethodDescriptor extends DefaultMethodDescriptor {
             return true;
 
         int paramTaint = 0;
-        for (Integer ind: inputParamMapTaints.keySet()){    // 污点记录
+for (Integer ind: inputParamMapTaints.keySet()){ // Dirty record
             if (!inputParamMapTaints.get(ind).isEmpty()){
                 paramTaint |= (1 << (ind + 1));
             }
@@ -241,7 +241,7 @@ public class MethodDescriptor extends DefaultMethodDescriptor {
         HashSet<SourceNode> sources = sourcesTaintGraph.matchTaintedSources(valueBox.getValue());
         for (SourceNode source : sources){
             if (source.isField()){
-                SootField sootField = source.field.getLast(); // 默认返回最后一个, 就是最里层的field
+SootField sootField = source.field.getLast(); // The last one is returned by default, which is the innermost field
                 if (valueBox.getValue().getType().toString().equals("java.lang.Object")
                         | (valueBox.getValue().getType().equals(sootField.getType()))
                         | ClassRelationshipUtils.isSubClassOf(

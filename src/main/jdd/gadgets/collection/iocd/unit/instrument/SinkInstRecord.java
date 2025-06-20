@@ -8,7 +8,7 @@ import java.util.HashSet;
 @Getter
 @Setter
 public class SinkInstRecord {
-    public MethodInstRecord methodInstRecord; // 记录sink点方法
-    public HashSet<Integer> pollutedParams = new HashSet<>();   //  应该被污染的参数，用于动态检测这些参数是否被污染
+public MethodInstRecord methodInstRecord; // Record sink point method
+public HashSet<Integer> pollutedParams = new HashSet<>(); // Parameters that should be contaminated are used to dynamically detect whether these parameters are contaminated.
     public boolean flag = true;
 }

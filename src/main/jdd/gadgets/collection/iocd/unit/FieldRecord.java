@@ -9,16 +9,16 @@ import java.util.HashSet;
 @Getter
 public class FieldRecord{
 
-    public String classBelongTo; //是哪个类的field
-    public int classId; // 对应的Class Node的id
+public String classBelongTo; //What kind of field is it?
+public int classId; // The corresponding Class Node id
     public String fieldName;
-    public String fieldType; // 实际赋值类型 / field定义类型
+public String fieldType; // Actual assignment type/field definition type
     public String sig;
-    // 用于处理a.b()时，a不能够为null的情况。
+// When used to deal with a.b(), a cannot be null.
     public boolean isNotNull;
-    public boolean isTransient; // 是否为 transient 类型的field
+public boolean isTransient; // Is it a field of type transient
 
-    public HashSet<FieldRecord> fields = new HashSet<>(); // field.field
+public HashSet<FieldRecord> fields = new HashSet<>(); // field.field
 
     public int hashCode(){
         int hashCode = classBelongTo.hashCode()^13 + fieldName.hashCode()^7 + fieldType.hashCode();

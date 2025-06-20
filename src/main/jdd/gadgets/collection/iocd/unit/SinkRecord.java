@@ -18,8 +18,8 @@ public class SinkRecord {
     public FieldRecord sinkClassBelongToF;
     public FieldRecord sinkMethodNameF;
     public FieldRecord sinkMethodF;
-    public FieldRecord sinkProxyInvokeType; //记录是哪个代理，切换调用对象的时候需要更换这个值
-    public String trigger = "NONE";  // NONE: 未识别出限制/没有限制 ; getter ; setter
+public FieldRecord sinkProxyInvokeType; //Record which proxy is it. This value needs to be replaced when switching to call objects.
+public String trigger = "NONE"; // NONE: No limit is identified/no limit; getter; setter
     public LinkedHashSet<FieldRecord> sinkFilePathF = new LinkedHashSet<>();
     public FieldRecord sinkFileContentF;
 }
