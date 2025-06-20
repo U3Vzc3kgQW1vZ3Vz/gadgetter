@@ -14,10 +14,10 @@ import java.util.function.Function;
  *
  * @since 2.0
  */
-//@Slf4j
+//@slf4j
 public class CG {
 
-    public List<SootMethod> entryPoints;//入口方法
+public List<SootMethod> entryPoints;//Entrance method
     public static LinkedList<String> excludeList;
     public CallGraph callGraph;
     public ReachableMethods reachableMethods;
@@ -85,7 +85,7 @@ public class CG {
     }
 
     public void setFilter(Filter filter){
-//        该Filter用于在查找某指定方法的调用方法时过滤
+// This Filter is used to filter when looking for a calling method of a specified method.
         CG.filter=filter;
     }
 
@@ -97,7 +97,7 @@ public class CG {
     }
 
     private static void enableSparkCallGraph() {
-        //Enable Spark
+//Enable Spark
         HashMap<String,String> opt = new HashMap<String,String>();
         opt.put("propagator","worklist");
         opt.put("simple-edges-bidirectional","false");
@@ -116,7 +116,7 @@ public class CG {
     private static LinkedList<String> excludeList() {
         if(excludeList==null)
         {
-            excludeList = new LinkedList<String> (); // 扩展的基本函数package
+excludeList = new LinkedList<String> (); // Extended basic function package
             excludeList.add("java.");
             excludeList.add("javax.");
         }
@@ -124,7 +124,7 @@ public class CG {
     }
     private static void excludeJDKLibrary()
     {
-        //exclude jdk classes
+//exclude jdk classes
         Options.v().set_exclude(excludeList());
         Options.v().set_no_bodies_for_excluded(true);
         Options.v().set_allow_phantom_refs(true);
@@ -144,7 +144,7 @@ public class CG {
     }
 
     public List<SootMethod> callerIntoMethod(SootMethod method){
-//        获取指定方法的所有的调用者
+// Get all callers of the specified method
         List<SootMethod> callerList=new ArrayList<>();
         Iterator<Edge> edgeIterator = callGraph.edgesInto(method);
         while (edgeIterator.hasNext()){
@@ -154,7 +154,7 @@ public class CG {
     }
 
     public List<SootMethod> calleeOutOfMethod(SootMethod method){
-//        获取指定方法的被调用者
+// Get the callee of the specified method
         List<SootMethod> calleeList=new ArrayList<>();
         Iterator<Edge> edgeIterator = callGraph.edgesOutOf(method);
         while (edgeIterator.hasNext()){
@@ -164,7 +164,7 @@ public class CG {
     }
 
     public HashSet<SootMethod> getAllReachableMethodFromEntry(){
-//        返回从入口点可达的所有方法
+// Return all methods that are accessible from the entry point
         QueueReader<Edge> listener = callGraph.listener();
         HashSet<SootMethod> allReachableMethod=new HashSet<>();
         while (listener.hasNext()){
@@ -173,12 +173,12 @@ public class CG {
         return allReachableMethod;
     }
 
-    // 判断方法是否在CG中
+// Whether the method is in CG
     public boolean isMethodInCG(SootMethod method){
         return reachableMethods.contains(method);
     }
 
-    // 返回指定方法的所有直接或间接调用的方法
+// Return all direct or indirect methods called by the specified method
     public Iterator<MethodOrMethodContext> getAllMethodsCalledBy(SootMethod method){
         return transitiveTargets.iterator(method);
     }

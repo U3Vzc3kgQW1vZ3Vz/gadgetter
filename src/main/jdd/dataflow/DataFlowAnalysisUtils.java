@@ -1,5 +1,6 @@
-Record this pointer information
-Record parameter pointer information
+package jdd.dataflow;
+//Record this pointer information
+//Record parameter pointer information
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.config.RegularConfig;
 import soot.jimple.IfStmt;

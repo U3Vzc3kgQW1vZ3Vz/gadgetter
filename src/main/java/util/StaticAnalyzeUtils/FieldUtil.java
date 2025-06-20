@@ -34,7 +34,7 @@ public class FieldUtil {
         SootField sootField = sootClass.getFieldByNameUnsafe(fieldName);
         if (sootField != null)
             return sootField;
-                                                            // getAllDirectInterfaceAbstractClz
+// getAllDirectInterfaceAbstractClz
         for (SootClass superClass : ClassUtils.getAllSupers(sootClass)){
             sootField = superClass.getFieldByNameUnsafe(fieldName);
             if (sootField != null)
@@ -176,7 +176,7 @@ public class FieldUtil {
                             Utils.toSootClass("java.util.Collection"))))  continue;
             String fieldTypeSig = getDeTypeOfCollection(sourceNode.field.getLast());
             if (fieldTypeSig == null)   continue;
-            // FieldUtil.getDeTypeOfCollection(valuesOfObjectType.iterator().next().field.getLast())
+// FieldUtil.getDeTypeOfCollection(valuesOfObjectType.iterator().next().field.getLast())
             if (Utils.isElementContainsSet(superClassNames, fieldTypeSig))
                 return sourceNode;
         }

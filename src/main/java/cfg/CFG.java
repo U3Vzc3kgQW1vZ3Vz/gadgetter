@@ -28,7 +28,7 @@ public class CFG {
 
     public int maxDepth = 5;
 
-    public HashSet<String> selfDefinedToExpandMethodSet = null;//用户自定定义的应该展开的方法
+public HashSet<String> selfDefinedToExpandMethodSet = null;//User custom defined method that should be expanded
 
     public boolean isUseStandardLib = false;
 
@@ -115,7 +115,7 @@ public class CFG {
     }
 
     public void setCG(CG cg){
-//        为本ICFG指定cg
+// Specify cg for this ICFG
         this.cg=cg;
     }
 
@@ -126,7 +126,7 @@ public class CFG {
         try {
             body = sootMethod.retrieveActiveBody();
         }catch (Exception e){
-            // ToDo: 匿名内部类的run方法会存在大量无法retrieveActiveBody的情况
+// ToDo: There are many cases where the run method of anonymous inner class cannot retrieveActiveBody
             if(!sootMethod.getName().equals("run")) {
             }
 
@@ -145,7 +145,7 @@ public class CFG {
                     Node preNode = getNodeByUnit(preUnit);
                     if (!preNode.successorNodes.contains(node)) {
 
-                        // 过程内cfg
+// cfg in process
                         if (selfDefinedToExpandMethodSet!=null && selfDefinedToExpandMethodSet.isEmpty()){
                             preNode.successorNodes.add(node);
                             node.precursorNodes.add(preNode);
@@ -156,12 +156,12 @@ public class CFG {
                         if (stmt.containsInvokeExpr() && (!(stmt instanceof IfStmt)) && (!(stmt instanceof GotoStmt))) {
                             SootMethod method=null;
                             if(cg==null) {
-//                                如果没有提前为ICFG构建cg,则on-the-fly构建ICFG,结果是不精确的
+// If cg is not built for ICFG in advance, on-the-fly build ICFG, the result is inaccurate
                                  method = stmt.getInvokeExpr().getMethod();
                             }else {
-//                                soot中使用构建图的方法由于精确读度的问题，也可能会出现误报，这样的情况是我们为预料到的，因此
-//                                后面的数据流分析中没有考虑这种情况,为了减少大量的修改，我们默认只取一个方法，但是精确度仍然要
-//                                比之前的方法要高很多
+// The method of using the graph construction in soot may also cause false positives due to the exact readability problem. This situation is what we expected.
+// This situation was not considered in the subsequent data flow analysis. In order to reduce a large number of modifications, we only take one method by default, but the accuracy still requires
+// much higher than the previous method
                                 Iterator<Edge> edgeIterator = Scene.v().getCallGraph().edgesOutOf(preNode.unit);
                                 if (edgeIterator.hasNext()){
                                     method=edgeIterator.next().tgt();
@@ -173,22 +173,22 @@ public class CFG {
                                 continue;
                             }
                             if (selfDefinedToExpandMethodSet!=null&&!selfDefinedToExpandMethodSet.contains(method.getSignature())) {
-                                //如果用户自定义的需要展开的方法集合中不包含该方法
+//If the user-defined method collection that needs to be expanded does not contain this method
                                 preNode.successorNodes.add(node);
                                 node.precursorNodes.add(preNode);
                                 continue;
                             }
-                            if (visit.contains(method.getSignature())) {//如果该方法中含有路径上存在的方法，就说明有环
+if (visit.contains(method.getSignature())) {//If this method contains a method that exists on the path, it means there is a loop
                                 preNode.successorNodes.add(node);
                                 node.precursorNodes.add(preNode);
                                 continue;
                             }
-                            if (!method.isConcrete()) {//如果方法不是具体的
+if (!method.isConcrete()) {//If the method is not specific
                                 preNode.successorNodes.add(node);
                                 node.precursorNodes.add(preNode);
                                 continue;
                             }
-                            if (Util.isStandardLibrary(method.getDeclaringClass().getName())&&isUseStandardLib) {//用于表示安卓的标准库是否要展开
+if (Util.isStandardLibrary(method.getDeclaringClass().getName())&&isUseStandardLib) {// Whether the standard library used to indicate whether the Android standard library needs to be expanded
                                 preNode.successorNodes.add(node);
                                 node.precursorNodes.add(preNode);
                                 continue;
@@ -208,7 +208,7 @@ public class CFG {
 
                             Node beginNode = new Node("BEGIN");
                             preNode.successorNodes.add(beginNode);
-                            preNode.isExpand=true;//标记该处的方法被展开了
+preNode.isExpand=true;//The method to mark this is expanded
                             beginNode.precursorNodes.add(preNode);
                             for (Node head : headAndTail.headNodes) {
                                 beginNode.successorNodes.add(head);
@@ -224,17 +224,17 @@ public class CFG {
                             endNode.successorNodes.add(node);
                             node.precursorNodes.add(endNode);
 
-                        } else {//如果前驱不是调用方法，它的后继节点就是该节点
+} else {//If the predecessor is not a calling method, its successor node is the node
                             preNode.successorNodes.add(node);
                             node.precursorNodes.add(preNode);
                         }
                     }
                 }
             }
-            HeadAndTail headAndTail = new HeadAndTail();//返回展开语句的头和尾
+HeadAndTail headAndTail = new HeadAndTail();//Return the head and end of the expansion statement
             for (Unit unit : unitGraph.getHeads()) {
                 headAndTail.headNodes.add(getNodeByUnit(unit));
-//                headNode = getNodeByUnit(unit);//得到整个图的头节点
+// headNode = getNodeByUnit(unit);//Get the head node of the entire graph
             }
             for (Unit unit : unitGraph.getTails())
                 headAndTail.tailNodes.add(getNodeByUnit(unit));
@@ -273,76 +273,76 @@ public class CFG {
      * @return {@link List}&lt;{@link Path}&gt;
      */
     public static List<Path> findAllPathsBetweenUnits(Node srcNode,Node trgNode,int maxPathLength,int maxPathNum,int maxTarPathNum){
-        //返回两条语句间的所有路径,CFG是一个DAG
-        //我们设置路径的最大长度,当搜索的路径长度大于这个值时，还没有达到目标节点，这条路径就被放弃不再向下寻找
-        //我们设置两点间的所有路径数目满足要求和达到最大长度的所有路径数目的最大上限，当我们检索到这么多路径后，我们就不再寻找
-        HashMap<Node,List<Path>> node2Path=new HashMap<>();//用于保存节点到目标节点的所有路径
+//Return all paths between two statements, CFG is a DAG
+//We set the maximum length of the path. When the searched path length is greater than this value, the target node has not been reached, and the path is abandoned and no longer searches downward.
+//We set the maximum limit for the number of all paths between two points to meet the requirements and reach the maximum length. After we retrieve so many paths, we no longer look for them.
+HashMap<Node,List<Path>> node2Path=new HashMap<>();// Used to save all paths from node to target node
         HashMap<Node,Set<Node>> visitNode=new HashMap<>();
-        pathCount=0;//初始化全局变量
+pathCount=0;//Initialize global variables
         List<Path> result = dnfSearchPath(srcNode, trgNode, maxPathLength, maxPathNum, 0, new HashSet<Node>(), node2Path,visitNode,new HashSet<Node>(), maxTarPathNum);
         return result;
     }
 
     public static List<Path> dnfSearchPath(Node node,Node trgNode,int maxPathLength,int maxPathNum,int depth,HashSet<Node> visit,HashMap<Node,List<Path>> node2Path,HashMap<Node,Set<Node>> visitNode,HashSet<Node> mark,int maxTarPathNum){
-        //深度搜索所有满足条件的路径,我们要保证所有节点只访问一次
-        if(pathCount>maxPathNum)//如果检索到的路径超过我们设置的最大上限，我们也放弃继续寻找
+// In-depth search of all paths that meet the conditions, we must ensure that all nodes only access once
+if(pathCount>maxPathNum)//If the retrieved path exceeds the maximum limit we set, we also give up on searching
             return null;
-        if(visit.contains(node)){//防止有环
+if(visit.contains(node)){//Prevent rings
             pathCount++;
             return null;
         }
-        if(depth>=maxPathLength) {//如果该条路径的深度已经达到了我们设置的最大上限还没有找到目标节点，我们就放弃
+if(depth>=maxPathLength) {//If the depth of the path has reached the maximum limit we set, we will give up
             pathCount++;
             return null;
         }
-        if(node==trgNode){//如果找到了目标节点，就返回
+if(node==trgNode){//If the target node is found, return
             pathCount++;
             Path path =new Path();
             path.nodes.add(node);
-            // log.info("找到目标节点"+node.unit);
+// log.info("find the target node"+node.unit);
             List<Path> result=new ArrayList<>();
             result.add(path);
             node2Path.put(node,result);
             return result;
-        }else {//如果没有找到，就需要继续向下查找
-            if(node.successorNodes.isEmpty()){//如果该节点没有后继
+}else {//If it is not found, you need to continue searching downwards
+if(node.successorNodes.isEmpty()){//If the node has no successor
                 pathCount++;
                 return null;
             }else {
                 HashSet<Node> addVisit = new HashSet<>(visit);
                 addVisit.add(node);
                 List<Path> result=new ArrayList<>();
-                for (Node succor : node.successorNodes) {//从孩子节点找到所有到目标节点的路径
+for (Node succor: node.successorNodes) {//Find all paths to the target node from the child node
                     int beginSize=result.size();
-                    if(mark.contains(succor)&&node2Path.containsKey(succor)) {//如果该节点曾经访问过并且它含有到达目标节点的路径，我们就直接使用它之前保存记录的信息
-                        addNode2Path(result,node2Path.get(succor),node);//将现在的节点和他之前的路径结合
-                    }else if(!mark.contains(node)){//如果没有访问过该节点，我们就查询他到目标节点的路径
+if(mark.contains(succor)&&node2Path.containsKey(succor)) {//If the node has visited and it contains the path to the target node, we will directly use it to save the recorded information before it
+addNode2Path(result,node2Path.get(succor),node);//Combines the current node with its previous path
+}else if(!mark.contains(node)){//If we have not visited this node, we will query the path to the target node
                         List<Path> paths = dnfSearchPath(succor, trgNode, maxPathLength, maxPathNum, depth + 1, addVisit, node2Path,visitNode,mark,maxTarPathNum);
-                        if(paths!=null){//如果该子节点到目标节点之间存在路径，就把路径与该机欸但几个并记录下来
+if(paths!=null){//If there is a path between the child node and the target node, record the path and the machine.
                             addNode2Path(result,paths,node);
                         }
                     }
                     int endSize=result.size();
-                    if(beginSize!=endSize&&endSize!=0) {//如果从该子节点到目的节点中存在路径
-                        //进行内存的一些处理工作
+if(beginSize!=endSize&&endSize!=0) {//If there is a path from this child node to the destination node
+//Carry some memory processing work
                         Set<Node> father = new HashSet<>();
                         father.add(node);
-                        if (!visitNode.containsKey(succor)) {//visitNode用于记录节点的父节点中访问的数目
+if (!visitNode.containsKey(succor)) {//visitNode is used to record the number of accesses in the parent node of the node
                             visitNode.put(succor, father);
                         } else {
                             visitNode.get(succor).add(node);
                         }
-                        if (visitNode.get(succor).size() == succor.precursorNodes.size()) {//如果所有的父节点都访问过该节点，说明所有父节点都记录了到目标节点的路径，我们就应该删除这些节点保存的路径
+if (visitNode.get(succor).size() == succor.precursorNodes.size()) {//If all parent nodes have access to the node, it means that all parent nodes have recorded the path to the target node, we should delete the path saved by these nodes
                             if (node2Path.get(succor) != null) {
                                 node2Path.remove(succor);
                             }
                         }
                     }
                 }
-                mark.add(node);//标记该节点的路径信息已经查明
-                if(result.size()!=0) {//如果该节点到目标节点中有路径，就将得到的路径保存下来
-                    // log.info("路径数目为："+result.size());
-                    if(result.size()>maxTarPathNum){//如果该节点到目标节点的路径数目大于我们最大的数目，我们就在这些路径中随机选择最大数目的一半
+mark.add(node);//The path information that marks the node has been found
+if(result.size()!=0) {//If there is a path to the target node, save the obtained path
+// log.info("number of paths is: "+result.size());
+if(result.size()>maxTarPathNum){//If the number of paths from this node to the target node is greater than our maximum number, we will randomly select half of the maximum number among these paths
                         List<Path> reducePath=new ArrayList<>();
                         for(int index=0;index<maxTarPathNum/2;index++){
                             reducePath.add(result.get(index));
@@ -353,13 +353,13 @@ public class CFG {
                     node2Path.put(node,result);
                     return result;
                 }
-                // log.info("本节点到目标节点的路径为空");
+// log.info("The path from this node to the target node is empty");
                 return null;
             }
         }
     }
 
-    public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node node){//向每条路径的末尾添加指定的节点
+public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node node){//Add the specified node to the end of each path
         for(Path path:pathList){
             Path newPath=new Path();
             newPath.nodes.add(node);
@@ -375,7 +375,7 @@ public class CFG {
      * <br><b>示例</b>
      * <pre>
      * {@code
-     * //下面的例子将使用一个永远接收的过滤器，得到CFG中的所有语句。
+* //The following example will use a permanently received filter to get all statements in the CFG.
      * HashSet<Unit> registerReceiverUnits = cfg.findUnitWithFilter(new Function<Unit, Boolean>(){
      *       @Override
      *       public Boolean apply(Unit unit) {

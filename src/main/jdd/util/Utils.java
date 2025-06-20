@@ -269,7 +269,7 @@ public class Utils {
         for (Value argValue: invokeExpr.getArgs()){
             SootClass argClz = Utils.toSootClass(argValue.getType());
             if (!argClz.equals(outerClz))   continue;
-if (Utils.isTainted(argValue, descriptor.tains)) { // If uncontrollable, return false
+if (Utils.isTainted(argValue, descriptor.taints)) { // If uncontrollable, return false
                return true;
             }
 

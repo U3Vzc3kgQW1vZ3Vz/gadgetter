@@ -1,6 +1,8 @@
-Encapsulate all Nodes in cfg as TransformableNode
-Record the number of forward nodes of TransformableNode as the entry level when the loop is ringed in the subsequent processing cycle
-Fill the encapsulated TransformableNode into waiting for processing
+//Encapsulate all Nodes in cfg as TransformableNode
+//Record the number of forward nodes of TransformableNode as the entry level when the loop is ringed in the subsequent processing cycle
+//Fill the encapsulated TransformableNode into waiting for processing
+package jdd.tranModel;
+import java.cfg.CFG;
 import java.cfg.Node;
 import lombok.extern.slf4j.Slf4j;
 import soot.jimple.IfStmt;

@@ -12,7 +12,7 @@ import java.util.*;
 @Slf4j
 public class ClassUtils {
     public static HashSet<SootClass> forceGetConcreteClass(SootClass sootClass, int num){
-        // BFS search for concrete subclass , return num classes at most
+// BFS search for concrete subclass , return num classes at most
         HashSet<SootClass> concreteClasses = new HashSet<>();
         Queue<SootClass> queue = new LinkedList<>();
         queue.add(sootClass);
@@ -85,7 +85,7 @@ public class ClassUtils {
         }
     }
 
-    // getAllSubClassAndInterfaces的封装
+// The packaging of getAllSubClassAndInterfaces
     public static HashSet<SootClass> getAllSubs(SootClass sootClass){
         HashSet<SootClass> res = new HashSet<>();
         getAllSubClassAndInterfaces(sootClass, res);
@@ -101,9 +101,9 @@ public class ClassUtils {
         if(result.contains(sootClass)) return;
         if (sootClass.resolvingLevel()<1) return;
 
-        result.add(sootClass); // ToDo: 古怪的写法
-        // 如果是接口，那么就获取他的子接口和实现类并且递归处理
-        // 如果不是接口，那么就获取当前类的子类并且递归处理
+result.add(sootClass); // ToDo: Weird way to write
+// If it is an interface, then it will obtain its subinterface and implementation class and process it recursively.
+// If it is not an interface, then the subclass of the current class is retrieved and processed recursively
         if(sootClass.isInterface()) {
             for(SootClass superClass : Scene.v().getActiveHierarchy().getSubinterfacesOf(sootClass)) {
                 getAllSubClassAndInterfaces(superClass, result);

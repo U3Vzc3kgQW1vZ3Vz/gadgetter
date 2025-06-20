@@ -12,14 +12,14 @@ import java.util.Iterator;
 @Setter
 public class Node {
     public Unit unit;
-    public HashSet<Node> precursorNodes = new HashSet<>();//保存语句的直接前驱节点
-    public HashSet<Node> successorNodes = new HashSet<>();//保存语句的后继
+public HashSet<Node> precursorNodes = new HashSet<>();//The direct predecessor node that saves the statement
+public HashSet<Node> successorNodes = new HashSet<>();//Save the successor of the statement
     public String tag;
-    public boolean isExpand=false;//如果节点是方法，标记该处的方法是展开了
-    public SootMethod sootMethod; // 该Node所属于的SootMethod
+public boolean isExpand=false;//If the node is a method, the method marked there is expanded
+public SootMethod sootMethod; // The SootMethod to which the Node belongs
 
-    public HashSet<Node> originPreNode=new HashSet<>();//用于保存最初始的前驱节点
-    public HashSet<Node> originSuccorNode=new HashSet<>();//用于保存最初始的后继节点
+public HashSet<Node> originPreNode=new HashSet<>();// Used to save the initial predecessor node
+public HashSet<Node> originSuccorNode=new HashSet<>();// Used to save the initial successor node
 
     public Node(Unit unit) {
         this.unit = unit;

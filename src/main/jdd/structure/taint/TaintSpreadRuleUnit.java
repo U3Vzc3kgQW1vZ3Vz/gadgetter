@@ -1,6 +1,6 @@
 package jdd.structure.taint;
-sub method signature matching;
-Only match method names
+//sub method signature matching;
+//Only match method names
 import soot.SootField;
 import jdd.util.Pair;
 import soot.Scene;

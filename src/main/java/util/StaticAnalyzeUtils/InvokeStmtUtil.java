@@ -62,7 +62,7 @@ public class InvokeStmtUtil {
 
         String invokedMethodSubSig = tfNode.getUnitInvokeExpr().getMethod().getSubSignature();
         String invokedMethodName = tfNode.getUnitInvokeExpr().getMethod().getName();
-        // 1. 获取准确的方法实现 [注意: 一般而言, 应该排除java.lang.Object, 此处默认需要排除的话在调用该方法前就排除, 否则即会筛选出Object类的具体方法]
+// 1. Obtain the accurate method implementation [Note: Generally speaking, java.lang.Object should be excluded. If it needs to be excluded by default, it will be excluded before calling the method, otherwise the specific methods of the Object class will be filtered out]
         if (expectClass.isConcrete()){
             for (SootClass sootClass: ClassUtils.getAllSupers(expectClass)){
                 SootMethod tmpInvokedMethod = sootClass.getMethodUnsafe(invokedMethodSubSig);
@@ -72,13 +72,13 @@ public class InvokeStmtUtil {
                 }
             }
         }
-        // 2. 如果type为非具体方法, 则筛选possibleMethods中所属类为type对应的类的子类的
+// 2. If the type is a non-specific method, filter the class in possibleMethods that belongs to the class corresponding to the type.
         else {
             ret = ClassRelationshipUtils.getAllSubMethods(expectClass, invokedMethodSubSig);
 //            ret.retainAll(possibleMethods);
         }
 
-        // 考虑一次取出了init等相关方法的情况, 即不能直接返回, 需要从possibleMethods中保留这些方法
+// Consider the case where init and other related methods are taken out at once, that is, they cannot be returned directly. These methods need to be retained from possibleMethods
         for (SootMethod tmpInvokedMethod: possibleMethods){
             if (!tmpInvokedMethod.getSubSignature().equals(invokedMethodSubSig)
                     && !tmpInvokedMethod.getName().equals(invokedMethodName))
@@ -105,8 +105,8 @@ public class InvokeStmtUtil {
         String invokedMethodSubSig = tfNode.getUnitInvokeExpr().getMethod().getSubSignature();
         String invokedMethodName = tfNode.getUnitInvokeExpr().getMethod().getName();
 
-        // 求解约束类型之间的共同子类; 默认在指针信息存储的时候就进行过筛选, 存储下来的类约束信息应当是存在"解"的
-        // 先进行类型约束求解, 再进一步求解方法
+// Solve common subclasses between constraint types; by default, filtering is performed when pointer information is stored, and the stored class constraint information should have a "solution"
+// First perform type constraint solution, and then further solve the method
         HashSet<SootClass> sameSubClasses = ClassUtils.getAllSubs(invokedMethod.getDeclaringClass());
         for (SootClass expectClass: expectClasses){
             if (expectClass.isConcrete()) {
@@ -120,7 +120,7 @@ public class InvokeStmtUtil {
             return ret;
 
         for (SootClass expectClass: sameSubClasses){
-            // 直接取方法, 如果没有, 则查找父类
+// Get the method directly, if not, look for the parent class
             SootMethod tmpInvokedMethod = expectClass.getMethodUnsafe(invokedMethodSubSig);
             if (tmpInvokedMethod != null) {
                 if (tmpInvokedMethod.isConcrete())
@@ -138,7 +138,7 @@ public class InvokeStmtUtil {
             }
         }
 
-        // 考虑一次取出了init等相关方法的情况, 即不能直接返回, 需要从possibleMethods中保留这些方法
+// Consider the case where init and other related methods are taken out at once, that is, they cannot be returned directly. These methods need to be retained from possibleMethods
         for (SootMethod tmpInvokedMethod: possibleMethods){
             if (!tmpInvokedMethod.getSubSignature().equals(invokedMethodSubSig)
                     && !tmpInvokedMethod.getName().equals(invokedMethodName))

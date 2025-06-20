@@ -1,5 +1,6 @@
-key(a), value(b), Node_
-key(b), value(a)
+//key(a), value(b), Node_
+//key(b), value(a)
+package jdd.gadgets.collection.node;
 import jdd.dataflow.node.SourceNode;
 import soot.SootMethod;
 

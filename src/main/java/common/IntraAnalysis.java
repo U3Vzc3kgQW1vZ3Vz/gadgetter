@@ -41,7 +41,7 @@ public class IntraAnalysis {
         return definedValue.contains(valueString);
     }
 
-    // 检查某个临时变量是否为类的Field
+// Check whether a temporary variable is a Field of the class
     public static boolean localIsField(CFG cfg, Unit sourceUnit, Value local){
         Node sourceNode = cfg.getNodeByUnit(sourceUnit);
         List<Node> processedNodes = new ArrayList<>();
@@ -79,7 +79,7 @@ public class IntraAnalysis {
         while (!queue.isEmpty()) {
             Unit unit = queue.poll();
             processedUnit.add(unit);
-            // 自后向前找
+// Looking from behind
             for (Unit pred : unitGraph.getPredsOf(unit)) {
                 if (processedUnit.contains(pred))
                     continue;
@@ -112,7 +112,7 @@ public class IntraAnalysis {
             return res;
         }
         else {
-            // 依赖于动态函数返回值，无法处理，E.g., DcTracker-mProvisionActionName
+// Relying on dynamic function return value, cannot be processed, E.g., DcTracker-mProvisionActionName
             if (sootField.getSignature().equals("<com.android.internal.telephony.dataconnection.DcTracker: java.lang.String mProvisionActionName>"))
                 return "com.android.internal.telephony.PROVISION"+"0";
             for (SootMethod sootMethod:declaringClass.getMethods()){
@@ -140,7 +140,7 @@ public class IntraAnalysis {
             body = sootMethod.retrieveActiveBody();
         }catch (Exception e){
             e.printStackTrace();
-            // System.out.println(("retrieveActiveBody出错，当前方法为" + sootMethod.getName()));
+// System.out.println((("retrieveActiveBody error, the current method is " + sootMethod.getName()));
             return null;
         }
 
@@ -154,7 +154,7 @@ public class IntraAnalysis {
             }
         }
         if (res != null){
-            // 如果是常量，则直接返回，若为变量，则进一步分析
+// If it is a constant, it will be returned directly. If it is a variable, it will be further analyzed.
             if (res instanceof Constant)
                 return res.toString();
             else{
@@ -168,13 +168,13 @@ public class IntraAnalysis {
         return null;
     }
 
-    // 为def value寻找可能的常量值
+// Find possible constant values for def value
     public static String getConstantOfDefValue(Body body, Unit defUnit){
         if (defUnit instanceof AssignStmt) {
             if (((Stmt)defUnit).containsInvokeExpr()){
                 String invokeMethodSig = ((Stmt) defUnit).getInvokeExpr().getMethodRef().getSignature();
                 InvokeExpr invokeExpr = ((Stmt) defUnit).getInvokeExpr();
-                // 获取 invoke object 的定义信息
+// Get the definition information of invoke object
                 Value invokeObjectValue = invokeExpr.getUseBoxes().get(invokeExpr.getUseBoxes().size()-1).getValue();
                 Unit invokeObjectDefUnit = findDirectDefUnits(body,defUnit,invokeObjectValue).iterator().next();
                 Value right = ((AssignStmt) invokeObjectDefUnit).getRightOp();
@@ -195,7 +195,7 @@ public class IntraAnalysis {
                     case "<java.lang.Class: java.lang.Package getPackage()>":
                         if (right instanceof Constant){
                             String className = parseClassNameFromUnit(right.toString());
-                            // 直接默认返回package name
+// Return package name directly by default
                             if (className!=null)
                                 return className.substring(0,className.lastIndexOf("."));
                         }else if (right instanceof InvokeExpr){
@@ -211,10 +211,10 @@ public class IntraAnalysis {
                         LogUtil.debug("NUll for class name (3) - "+invokeObjectDefUnit.toString()+" - "+body.getMethod().getSignature());
                         return null;
                     case "<java.lang.Package: java.lang.String getName()>":
-                        // 默认该函数调用依赖于 getPackage()
+// By default, this function call depends on getPackage()
                         return getConstantOfDefValue(body,invokeObjectDefUnit);
                     case "<java.lang.StringBuilder: java.lang.String toString()>":
-                        // 这里仅处理顺序的append字符串
+// Only the append strings in order are processed here
                         BriefUnitGraph unitGraph = new BriefUnitGraph(body);
                         Unit curUnit = invokeObjectDefUnit;
                         StringBuilder sb = new StringBuilder();
@@ -263,13 +263,13 @@ public class IntraAnalysis {
     }
 
 
-    // 分析函数返回值是否为直接返回一个Field
+// Whether the return value of the analysis function is directly returned to a Field
     public static SootField fetchRetField(SootMethod sootMethod){
         Body body;
         try{
             body = sootMethod.retrieveActiveBody();
         }catch (Exception e){
-            //System.out.println(("retrieveActiveBody出错，当前方法为：" + sootMethod.getName()));
+//System.out.println(("retrieveActiveBody error, the current method is: " + sootMethod.getName()));
             return null;
         }
         BriefUnitGraph briefUnitGraph = new BriefUnitGraph(body);
@@ -286,7 +286,7 @@ public class IntraAnalysis {
         return null;
     }
 
-    // 分析函数返回值是否为一个常数
+// Whether the return value of the analysis function is a constant
     public static HashSet<String> fetchRetConstants(SootMethod sootMethod){
         HashSet<String> constants = new HashSet<>();
         Body body;
@@ -307,13 +307,13 @@ public class IntraAnalysis {
     }
 
 
-    // 获取函数返回值为什么类型
+// Get the function return value and why type
     public static String fetchRetInstanceType(SootMethod sootMethod){
         Body body;
         try{
             body = sootMethod.retrieveActiveBody();
         }catch (Exception e){
-            //System.out.println(("retrieveActiveBody出错，当前方法为：" + sootMethod.getName()));
+//System.out.println(("retrieveActiveBody error, the current method is: " + sootMethod.getName()));
             return null;
         }
         BriefUnitGraph briefUnitGraph = new BriefUnitGraph(body);

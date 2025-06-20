@@ -30,7 +30,7 @@ public class StringUtil {
         List<String> insertMark= Arrays.asList(".","$","[","]","(",")");
             StringBuilder stringBuilder=new StringBuilder();
             for(int i=0;i<str.length();i++){
-                if(insertMark.contains(str.substring(i,i+1)))//如果是分割符，我们就
+if(insertMark.contains(str.substring(i,i+1)))//If it is a splitter, we will
                     stringBuilder.append("\\");
                 stringBuilder.append(str.substring(i,i+1));
             }
@@ -96,7 +96,7 @@ public class StringUtil {
         return res;
     }
 
-    // String Util
+// String Util
 
     public static String formatQuotation(String raw){
         if(raw.length() >= 2 && raw.endsWith("\"") && raw.startsWith("\"")) return raw.substring(1, raw.length() - 1);

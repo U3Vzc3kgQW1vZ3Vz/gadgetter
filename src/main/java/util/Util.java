@@ -5,13 +5,13 @@ import java.util.Random;
 import java.util.Set;
 
 public class Util {
-    public static boolean isStandardLibrary(String methodSignature) {//判断是不是标准库的方法
+public static boolean isStandardLibrary(String methodSignature) {//How to determine whether it is a standard library
         if (methodSignature.startsWith("java") || methodSignature.startsWith("android") || methodSignature.startsWith("androidx") || methodSignature.startsWith("kotlin"))
             return true;
         return false;
     }
 
-    public static Set<Integer> random(int low,int high,int size){//获取指定范围的指定个数的不同数字
+public static Set<Integer> random(int low,int high,int size){//Get different numbers of the specified number of the specified range
         HashSet<Integer>  set=new HashSet<>();
         Random rand=new Random();
         while (set.size()<size){

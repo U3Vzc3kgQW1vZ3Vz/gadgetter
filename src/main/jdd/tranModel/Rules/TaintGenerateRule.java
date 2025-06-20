@@ -1,5 +1,5 @@
-Detection of frame entry points
-
+//Detection of frame entry points
+package jdd.tranModel.Rules;
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.tranModel.Rule;
 import jdd.tranModel.Taint.Taint;

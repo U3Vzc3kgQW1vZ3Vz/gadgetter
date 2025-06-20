@@ -54,12 +54,12 @@ public class Parameter {
                 continue;
             }
             if(paramInd == -1) {
-                // "this"
+// "this"
                 if(node.successorNodes.size() == 0) break;
                 node = node.successorNodes.iterator().next();
                 continue;
             }
-            // affected
+// affected
             ArrayList<Event> taintedEvent = new ArrayList<>();
             HashMap<Node, ValueBox> tmp = new HashMap<>();
             tmp.put(node, node.unit.getDefBoxes().get(0));
@@ -69,7 +69,7 @@ public class Parameter {
                 Event event = new Event(entry.getKey(), entry.getValue());
                 taintedEvent.add(event);
             }
-            // 直接引用
+// Direct Quote
 //            List<Event> taintedEvent = DataFlow.getValueBoxRefEvents(node.unit.getDefBoxes().get(0), node);
             paramMapTaintedEvent.put(paramInd, taintedEvent);
             if(node.successorNodes.size() == 0) break;
@@ -175,7 +175,7 @@ public class Parameter {
         return null;
     }
 
-    // eg. O.method->O
+// eg. O.method->O
     public static ValueBox getThisValueBox(Node node){
         if (!((Stmt) node.unit).containsInvokeExpr())
             return null;
@@ -185,7 +185,7 @@ public class Parameter {
             InstanceInvokeExpr instanceInvokeExpr = (InstanceInvokeExpr) invokeExpr;
             return instanceInvokeExpr.getBaseBox();
         }
-        // hack
+// hack
         ValueBox thisBox = null;
         HashSet<ValueBox> argBoxes = getAllArgValueBoxes(node);
         for (ValueBox valueBox:invokeExpr.getUseBoxes()){
@@ -194,7 +194,7 @@ public class Parameter {
         return thisBox;
     }
 
-    // eg. O.method->O
+// eg. O.method->O
     public static ValueBox getThisValueBox(Stmt stmt){
         InvokeExpr invokeExpr = stmt.getInvokeExpr();
         if(invokeExpr instanceof InstanceInvokeExpr) {
@@ -239,7 +239,7 @@ public class Parameter {
         return null;
     }
 
-    // 找到某一个static field常量对应的实际值
+// Find the actual value corresponding to a static field constant
     public static Value getStaticFieldValue(FieldRef fieldRef){
         SootClass sootClass = fieldRef.getFieldRef().declaringClass();
 
@@ -253,7 +253,7 @@ public class Parameter {
                     Value left = assignStmt.getLeftOp();
                     Value right = assignStmt.getRightOp();
 
-                    if (left instanceof FieldRef) { //  检测是否为field，是的话提取对应的值
+if (left instanceof FieldRef) { // Check whether it is field, if it is yes, extract the corresponding value
                         if (((FieldRef) left).toString().equals(fieldRef.toString())) {
                             return right;
                         }
@@ -272,7 +272,7 @@ public class Parameter {
      */
     public static ValueBox getArgByType(InvokeExpr invokeExpr, String type){
         ValueBox testArg = null;
-        // 要创建的类的内容需要可控
+// The content of the class to be created needs to be controllable
         for (int ind = 0; ind < invokeExpr.getArgCount(); ind++){
             ValueBox arg = invokeExpr.getArgBox(ind);
             if (arg.getValue().getType().toString().equals(type))
@@ -284,7 +284,7 @@ public class Parameter {
 
     public static Integer getArgByType(SootMethod sootMethod, String type){
         Integer testArgIndex = null;
-        // 要创建的类的内容需要可控
+// The content of the class to be created needs to be controllable
         for (int ind = 0; ind < sootMethod.getParameterCount(); ind++){
             Type argType = sootMethod.getParameterType(ind);
             if (argType.toString().equals(type))
@@ -324,7 +324,7 @@ public class Parameter {
         return null;
     }
 
-    // 解析是第几个参数
+// What parameter is the analysis
     public static Integer getParamIndex(String sig){
         String[] sp = sig.split("[@:]");
         if (sp.length >= 3 && sp[1].contains("parameter")){

@@ -9,7 +9,7 @@ public class TimeMeasurement {
     private long gadgetEndTime;
     private String gadgetSignature;
 
-    //private long endTime;
+//private long endTime;
     public static void begin() {
         startTime = System.currentTimeMillis();
     }
