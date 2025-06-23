@@ -47,7 +47,7 @@ public class ConfigUtil {
     }
 
     /**
-     * 给定封装了该文件夹dir的File句柄，删除掉该文件夹下所有的空文件夹
+     * Given the File handle that encapsulates the folder dir, delete all empty folders under the folder.
      * @param dirFile
      */
     public static void deleteEmptyUnderDir(File dirFile) throws IOException {
@@ -99,8 +99,8 @@ public class ConfigUtil {
 
 
     /**
-     * 解压制定目录dir下的所有jar包到outPutDir/tmp/目录下
-     * @param dir 格式为/path/to/lib/dir/
+     * Unzip all jar packages in directory dir to outPutDir/tmp/ directory
+     * @param dir format is /path/to/lib/dir/
      */
     public static void decompressJarFromDir(String dir) throws IOException {
 
@@ -147,9 +147,9 @@ public class ConfigUtil {
     }
 
     /**
-     *  解压单个jar包的功能函数
-     *  @param jarFile 被JarFile对象封装的Jar包
-     *  @param outputDir 解压的目录
+     * Functional functions for decompressing a single jar package
+     * @param jarFile Jar package encapsulated by JarFile objects
+     * @param outputDir decompressed directory
      */
     public static void decompressJar(JarFile jarFile, String outputDir) throws IOException {
 
@@ -265,9 +265,9 @@ public class ConfigUtil {
     }
 
     /**
-     * 用于获取运行程序机子上的jdk依赖，我们默认只使用{ lib/jce.jar, lib/rt.jar, lib/ext/nashron.jar }这几个
+     * Used to obtain the jdk dependencies on the running program machine. We only use { lib/jce.jar, lib/rt.jar, lib/ext/nashron.jar } by default.
      * @param withAllJdk
-     * @return jdkDependencies，是一个String。即用File.pathSeparator分隔的依赖的classpath
+     * @return jdkDependencies, is a String. That is, the dependency classpath separated by File.pathSeparator
      */
     public static String getJdkDependencies(String withAllJdk){
         String javaHome = System.getProperty("java.home");
@@ -301,7 +301,7 @@ public class ConfigUtil {
 
 
     /**
-     * 用于从特定的文件路径中获得配置项，默认为config/config.properties
+     * Used to obtain configuration items from a specific file path, default is config/config.properties
      * @param filePath
      */
     public static void loadConfig(String filePath){

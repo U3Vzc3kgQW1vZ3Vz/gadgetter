@@ -13,7 +13,7 @@ import java.util.LinkedHashSet;
 
 public class FieldUtil {
     /**
-     * 解析sootField所属的类型, 返回该类所属的SootClass
+     * parse the type to which sootField belongs, and return the SootClass to which the class belongs
      * @param sootField
      * @return
      */
@@ -25,7 +25,7 @@ public class FieldUtil {
     }
 
     /**
-     * 根据 fieldName 取出对应的 sootField
+     * Remove the corresponding sootField according to fieldName
      * @param sootClass
      * @param fieldName
      * @return
@@ -55,7 +55,7 @@ public class FieldUtil {
     }
 
     /**
-     * 根据 field 当前所属的 SootClass 创建出 SootFieldRef
+     * Create a SootFieldRef based on the SootClass that the field currently belongs to
      */
     public static SootFieldRef getSootFieldRef(SootClass sootClass, SootField sootField){
         if (sootClass == null | sootField == null)
@@ -71,7 +71,7 @@ public class FieldUtil {
     }
 
     /**
-     * 判断 sootField 是否为 transient 类型
+     * Determine whether the sootField is transient type
      */
     public static boolean isTransientType(SootField sootField){
         return Modifier.isTransient(sootField.getModifiers());
@@ -84,7 +84,7 @@ public class FieldUtil {
     }
 
     /**
-     * 判断 sootField是否为抽象/接口类型
+     * Determine whether sootField is an abstract/interface type
      * @param sootField
      * @return
      */
@@ -110,7 +110,7 @@ public class FieldUtil {
     }
 
     /**
-     * 检查sootClass是否包含sootField
+     * Check whether sootClass contains sootField
      * @param sootClass
      * @param sootField
      * @return
@@ -121,7 +121,7 @@ public class FieldUtil {
     }
 
     /**
-     * 从SootFieldRef得到SootField
+     * Get SootField from SootFieldRef
      * @param sootFieldRef
      * @return
      */
@@ -131,7 +131,7 @@ public class FieldUtil {
 
 
     /**
-     * Soot 只能获取当前类申明的field, 因此遍历父类(包含sootClass)
+     * Soot can only get the field declared by the current class, so iterates over the parent class (including sootClass)
      * @param sootClass
      * @return
      */
@@ -144,7 +144,7 @@ public class FieldUtil {
     }
 
     /**
-     * 返回方法的参数类型, 返回类型签名
+     * Returns the parameter type of the method, return type signature
      */
     public static String getDeTypeOfCollection(SootField sootField){
         Tag tag = sootField.getTag("SignatureTag");

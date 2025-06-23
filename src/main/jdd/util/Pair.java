@@ -4,11 +4,12 @@ package jdd.util;
 import java.io.Serializable;
 
 /**
- * 完全Copy util.Pair
- * 解决服务器上openjdk缺少util.Pair的问题
+ * Complete Copy util.Pair
+ * Solve the problem of openjdk missing util.Pair on the server
  * <p>A convenience class to represent name-value pairs.</p>
  * @since JavaFX 2.0
  */
+
 public class Pair<K,V> implements Serializable{
 
     /**

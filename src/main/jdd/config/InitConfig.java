@@ -6,7 +6,7 @@ import java.io.IOException;
 import static jdd.config.SootConfig.constructCG;
 
 /**
- * 用于初始化整个项目的配置
+ * Used to initialize the entire project configuration
  */
 public class InitConfig {
     public static void initAllConfig() throws IOException {

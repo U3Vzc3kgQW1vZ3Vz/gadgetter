@@ -280,7 +280,7 @@ boolean flag = false; // Record whether the detected fields are 0 because the nu
     }
 
     /**
-     * 提取方法返回值相关的fields和调用了 hashCode 方法的fields
+     * Extract the fields related to the return value of the method and fields that have called the hashCode method
      * @param descriptor
      * @return
      */

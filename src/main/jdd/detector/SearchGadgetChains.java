@@ -211,9 +211,8 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
         return flag;
     }
 
-
     /**
-     * 构建以sootMethod作为entry的 fields-taints Graph
+     * Build fields-taints Graph with sootMethod as entry
      *
      * @param sootMethod
      */
@@ -245,10 +244,10 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
 
 
     /**
-     * 对 startMtd 作为起始方法, 搜索并记录 Fragment 信息
-     * (1) 搜索过程中检测到的其他动态方法
-     * (2) 入参与动态方法调用参数之间的映射关系
-     * (3) 生成的Fragment的相关信息: Fragment类型,
+     * Search and record Fragment information for startMtd as the starting method
+     * (1) Other dynamic methods detected during the search process
+     * (2) Enter the mapping relationship between participating dynamic method call parameters
+     * (3) Related information about the generated Fragment: Fragment type,
      *
      * @param headMtd
      */
@@ -287,8 +286,8 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
     }
 
     /**
-     * 进行 Fragments 的拼接
-     * TODO 未迁移的功能: 拼接后更细粒度的污点检查 & 无用fragments的
+     * Splicing Fragments
+     * TODO Unmixed Features: Fine-grained stain check after splicing & useless fragments
      */
     public static void linkFragments() {
         if (!FragmentsContainer.protocolCheckRule.openBPLink()) {
@@ -374,7 +373,7 @@ for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to selec
     }
 
     /**
-     * 对检测出的 gadget Fragments 收集信息, 生成 IOCD
+     * Collect information on detected gadget Fragments to generate IOCD
      */
     public static void buildIOCD() throws Exception {
         BasicDataContainer.stage = Stage.IOCD_GENERATING;

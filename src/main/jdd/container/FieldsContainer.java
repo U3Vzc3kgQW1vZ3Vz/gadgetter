@@ -34,10 +34,10 @@ public class FieldsContainer {
         constructFieldsPointerGraph();
     }
 
-
     /**
-     * 捕获fields在初始化过程中的赋值信息
+     * Capture the assignment information of fields during initialization
      */
+
     public static void constructFieldsPointerGraph(){
         HashSet<SootClass> allSootClz = new HashSet<>(Scene.v().getApplicationClasses());
         allSootClz.addAll(Scene.v().getClasses());

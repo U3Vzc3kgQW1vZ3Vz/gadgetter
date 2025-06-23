@@ -35,7 +35,7 @@ import static jdd.util.ClassRelationshipUtils.containsInCallStack;
 @Slf4j
 public class DataflowDetect {
     /**
-     *  收集sootMethod中涉及到的fields
+     * Collect fields involved in sootMethod
      * @param sootMethod
      * @param usedFields
      */

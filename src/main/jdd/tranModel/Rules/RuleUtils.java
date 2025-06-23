@@ -47,7 +47,7 @@ import static jdd.gadgets.collection.AnalyzeUtils.*;
 
 public class RuleUtils {
     /**
-     * 生成并添加污点
+     * Generate and add blemishes
      * @param object
      * @param accessPath
      * @param descriptor
@@ -60,8 +60,8 @@ public class RuleUtils {
     }
 
     /**
-     * 向descriptor.taints, descriptor.newTaints中添加污点信息, 不进行别名分析
-     * 看情况记录fields污点影响关系信息
+     * Add stain information to descriptor.tains, descriptor.newTaints, without alias analysis
+     * Record the information on the situation and the fields' impact on the relationship
      * @param descriptor
      * @param taint
      */
@@ -73,8 +73,8 @@ public class RuleUtils {
     }
 
     /**
-     * 向descriptor.taints, descriptor.newTaints中添加污点信息, 并进行别名分析
-     * 看情况记录fields污点影响关系信息
+     * Add taint information to descriptor.taints, descriptor.newTaints and perform alias analysis
+     * Record the information on the situation and the fields' impact on the relationship
      * @param descriptor
      * @param taint
      */
@@ -185,7 +185,7 @@ ret.remove(sourceNode); // TODO: Delete directly
     }
 
     /**
-     * 直接创建 SourceNode, 不考虑和已有的 source nodes之间的关联性，也不考虑可能需要的source node修正
+     * Create SourceNode directly, without considering the correlation with existing source nodes, nor may it consider the source node corrections that may be required
      * @param source
      * @param descriptor
      * @return
@@ -251,8 +251,9 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
         }
         return ret;
     }
+
     /**
-     * 启发式匹配source node
+     * Heuristic matching source node
      * @param descriptor
      * @param valueBox
      * @param tfNode
@@ -406,7 +407,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
 
 
     /**
-     * 应用 RulesContainer.ruleDataStructure 中的规则进行污染传播检查
+     * Use rules in RulesContainer.ruleDataStructure to conduct contamination transmission checks
      * @param descriptor
      * @param stmt
      */
@@ -510,8 +511,8 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * 根据参数索引返回对应的Value
-     * 本项目, -2 -- invokeExpr.getArgCount
+     * Return the corresponding Value according to the parameter index
+     * This project, -2 -- invokeExpr.getArgCount
      * -1: this
      * -2: return
      * @param stmt
@@ -559,7 +560,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * 做一些基本的类型转换, 得到更基础的 local value
+     * Do some basic type conversion to get a more basic local value
      * @param value
      * @return
      */
@@ -572,8 +573,8 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * 根据指令信息提取从InputStream中读出的fields
-     * (1) 仅考虑从InputStream中读取的, 直接申明的不考虑
+     * Extract fields read from InputStream based on instruction information
+     * (1) Only read from InputStream, no consideration is given directly
      * @param tfNode
      * @return
      */
@@ -680,7 +681,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * 特定于Gadget chains检测场景的方法调用规则，如果要改成通用检测，请删除
+     * Method calling rules specific to Gadget chains detection scenarios. If you want to change it to general detection, please delete it.
      * @return
      */
     public static boolean invokeContinueCheck(InvokeExpr invokeExpr,
@@ -755,7 +756,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * 在IOCD生成时，对于一些污点传播过于复杂，可能难以准确追踪时，采取的启发式Class-Fields约束推断方法。
+     * When IOCD generation, some stain propagation is too complex and may be difficult to accurately track.
      * @param thisValueBox
      * @param invokeExpr
      * @param tfNode
@@ -856,10 +857,10 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * 过滤器: 根据经验总结, 提升静态部分gadget chains检测准确性
+     * Filter: Based on experience summary, improve the accuracy of static gadget chains detection
      * @param descriptor
      * @param valueBox
-     * @return true: 清理
+     * @return true: Clean up
      */
     public static boolean sanitizerArrayElement(MethodDescriptor descriptor, ValueBox valueBox){
         for (SourceNode sourceNode: descriptor.sourcesTaintGraph.matchTaintedSources(valueBox.getValue())){
@@ -947,9 +948,9 @@ HashSet<SourceNode> ret = new HashSet<>(); // Record source nodes that pass the 
     }
 
     /**
-     * 检查在 sootClass 中 transient 类型的 field 是否在反序列化的过程中能被攻击者控制
-     * (1) 检查 readObject 等方法
-     * (2) 此处做简单处理, 仅分析在方法中是否用到该 sootFields? (或者直接把来源在此处就分析出来呢)
+     * Check whether the field of transient type in sootClass can be controlled by the attacker during deserialization.
+     * (1) Check readObject and other methods
+     * (2) Here is a simple process, and only analyze whether the sootFields is used in the method? (or directly analyze the source here)
      * @param sootClass
      * @param sootField
      * @return
@@ -1110,9 +1111,9 @@ return false; // If the corresponding field cannot be found, it is considered to
     }
 
     /**
-     * 获取 sootMethod 中使用了的所有fields
+     * Get all fields used in sootMethod
      * @param sootMethod
-     * @param flag 是否考虑 方法签名中已经记录的源追踪情况
+     * @param flag Whether to consider the source tracking situation that has been recorded in the method signature
      * @return
      */
     public static HashSet<SourceNode> getFieldsUsedInMethod(SootMethod sootMethod, boolean flag){
@@ -1325,7 +1326,7 @@ return false; // If the corresponding field cannot be found, it is considered to
     }
 
     /**
-     * 检查是否存在 hash 碰撞方法, 如果存在则进行连接
+     * Check whether the hash collision method exists, and if it exists, connect it
      * @param gadgetInfoRecord
      * @return true:
      */
@@ -1388,7 +1389,7 @@ return false; // If the corresponding field cannot be found, it is considered to
 
     /**
      * @param gadgetInfoRecord
-     * @param linkedFragments 从source fragment 到最后 sink Fragment 的有序 fragment 拼接序列
+     * @param linkedFragments Ordered fragment splicing sequence from source fragment to last sink Fragment
      * @return
      */
     public static boolean detectAndRecordHashCollision(GadgetInfoRecord gadgetInfoRecord,
@@ -1415,7 +1416,8 @@ return false; // If the corresponding field cannot be found, it is considered to
             if (equalsMtdCount == 2
                     && FragmentsContainer.isSingleFixedEqualsMethod(firstEqualsFragment.head)
                     && FragmentsContainer.isFixedEqualsMethod(secondEqualsFragment.head)
-                    /*&& RuleUtils.recordCollisionForSingle(linkedFragments, firstEqualsFragment, gadgetInfoRecord)*/){
+                /*&& RuleUtils.recordCollisionForSingle(linkedFragments, firstEqualsFragment, gadgetInfoRecord)*/
+            ){
                 recordCollisionForSameMtd(firstEqualsFragment.head, gadgetInfoRecord);
 // Record the situation of a single collision
                 return true;
@@ -1559,8 +1561,8 @@ return false; // If the corresponding field cannot be found, it is considered to
 
 
     /**
-     * 将某个对象的hashCode相关的fields直接设置为相同来完成hash 碰撞
-     * 要求后续的类层次结构关系中, 不存在两个不同类实例对象是同一个类实例对象的相同的fields [添加标识, 在后续进行复查]
+     * Set the hashCode-related fields of an object directly to the same to complete hash collision
+     * It is required that in the subsequent class hierarchy relationship, there are no identical fields where two different class instance objects are the same class instance objects [add the identifier and review it in the subsequent context]
      * @param gadgetInfoRecord
      * @param linkedFragments
      * @param firstEqualsFragment
@@ -1608,15 +1610,15 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
     }
 
     /**
-     * 属于启发式规则中的一条, 可以去掉;
-     * 用于避免出现一些 exploitable 但是没有太大意义的gadget chains
+     * It belongs to one of the heuristic rules and can be removed;
+     * Used to avoid some exploitable but not much sense gadget chains
      * @param head
      * @param end
      * @return
      * end.getSubSignature().equals(" boolean equals ( java.lang.Object)")
      *                     & !end.getSubSignature().equals("java.lang.String toString()")
      *                     & !end.getSubSignature().equals("<java.util.Map: boolean containsValue(java.lang.Object)>")
-     *                     & !isSinkFlag
+     * &! Sinkflag
      */
     public static boolean isValidEqualsMethod(SootMethod head, SootMethod end, Fragment.FRAGMENT_STATE state){
         if (head.getSubSignature().equals("boolean equals(java.lang.Object)")) {
@@ -1660,7 +1662,7 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
     }
 
     /**
-     * 根据经验模型记录一些无效的end方法
+     * Record some invalid end methods based on empirical model
      * @param sootMethod
      * @return
      */
@@ -1685,7 +1687,7 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
     }
 
     /**
-     * 取出 firstEqFragment 之后，即hash碰撞之后调用的方法配对
+     * After taking out firstEqFragment, the method pairing called after hash collision
      * @param linkedFragments
      * @param firsrEqFragment
      * @param gadgetInfoRecord
@@ -1736,10 +1738,10 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
     }
 
     /**
-     * 过滤掉冗余的调用方法
-     * E.g. 同时存在 a.method, a_superClass.method: 删除掉a_superClass.method
-     * 但考虑精细检查所消耗的时候可能比检查更高(因为符合这类情况的可能不是很多）
-     * 因此此处暂时仅过滤简单常见的情况
+     * Filter out redundant call methods
+     * E.g. There is also a.method, a_superClass.method: delete a_superClass.method
+     * But considering fine inspections may consume higher than inspections (because there may not be many that meet this situation)
+     * Therefore, only simple and common situations are filtered here for the time being
      * @param invokedMethods
      */
     public static void filterInvokedMethods(HashSet<SootMethod> invokedMethods, SootMethod invokedMethod){
@@ -1844,8 +1846,9 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
                 || (!couldSetGenericTypeObj(fsn.getType())
                         && !ClassRelationshipUtils.isSubClassOf(fieldTypeOfClass, Utils.toSootClass(fsn.getType()))));
     }
+
     /**
-     * 利用启发式规则取出的sources可能
+     * Sources taken out using heuristic rules may
      */
     public static void filterSourcesForHC(HashSet<SourceNode> fieldSources,
                                           MethodDescriptor descriptor) {
@@ -1858,25 +1861,25 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
         fieldSources.removeAll(toDelete);
     }
 
+/**
+ * Determine whether a variable can be controlled by the attacker
+ * (1) Whether it is contaminated
+ * (2) Find out whether the pollution source is controllable
+ * (a) Types other than fields will not be fine-grained for the time being
+ * (b) field: Check whether the attacker is controllable during serialization and deserialization. E.g. Transient fields
+ * @param descriptor
+ * @param valueBox
+ * @param tfNode
+ * @return
+ */
+
+
     /**
-     * 判断某个变量能否被攻击者控制
-     * (1) 是否被污染
-     * (2) 查找污染源能否可控
-     *      (a) fields以外的类型暂时不做细粒度检查
-     *      (b) field: 检查是否在序列化和反序列化过程中攻击者可控. E.g. Transient fields
-     * @param descriptor
-     * @param valueBox
-     * @param tfNode
-     * @return
+     * Check whether the end of the Fragment to be generated can be controlled by the attacker; (can also be added in the continueCheck method)
+     * @return true: The attacker can control end / is static method (sinks)
+     * flase: The attacker cannot control it
      */
 
-
-
-    /**
-     * 检查要生成的Fragment的end是否能被攻击者控制; (也可以加在 continueCheck 方法里面)
-     * @return true: 攻击者可以控制end / 是static method (sinks)
-     *         flase: 攻击者无法控制
-     */
     public static boolean isEndMtdControllableHC(MethodDescriptor descriptor,
                                                TransformableNode tfNode,
                                                LinkedList<SootMethod> callStack) {
@@ -1902,9 +1905,10 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
             "java.util.concurrent.ConcurrentHashMap",
             "java.util.HashMap", "java.util.Hashtable"
     ));
+
     /*
-    启发式筛选，基于一些人工经验设定 (如果不需要可以移除该方法，但会多输出一些作用不是那么大的衍生链，建议添加)
-     */
+    Heuristic filtering, based on some manual experience setting (if you don’t need it, you can remove this method, but you will output more derivative chains that are not that effective, so it is recommended to add them)
+    */
     public static boolean heuristicGadgetChainLink(Fragment fragment, Fragment sucFragment){
         if ( Fragment.FRAGMENT_STATE.SOURCE.equals(fragment.state)
                 &&(isEqMethod(fragment.end)
@@ -1919,13 +1923,13 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
             return false;
         return true;
     }
-
     /**
-     * 启发式算法筛掉一些意义不大的替换链
+     * Heuristic algorithms screen out some substitution chains that are of little significance
      * @param preFragment
      * @param linkableSinkFragments
      * @return
      */
+
     public static HashSet<Fragment> heuristicEqChainLink(Fragment preFragment, HashSet<Fragment> linkableSinkFragments){
         HashSet<Fragment> ret = new HashSet<>();
         if (isEqMethod(preFragment.end) && BasicDataContainer.hashCollisionModeSelect){
@@ -1990,7 +1994,7 @@ if (hashCodeSources.size() > 2) // Heuristic, pruning
     }
 
     /**
-     * 检查fields的类型是否与要添加的dependence node含义相匹配 (粗粒度筛选)
+     * Check if the type of fields matches the meaning of dependence node to be added (coarse-grained filter)
      * @param dependenceNode
      * @return
      */

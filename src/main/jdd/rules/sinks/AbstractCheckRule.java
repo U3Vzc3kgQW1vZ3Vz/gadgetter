@@ -18,8 +18,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
- * Gadget Sink检测规则的抽象类
- * 用于检查生成Sink Fragment
+ * Abstract class for Gadget Sink detection rules
+ * Used to check the generation of Sink Fragment
  */
 
 public abstract class AbstractCheckRule implements CheckRule {
@@ -28,9 +28,9 @@ public abstract class AbstractCheckRule implements CheckRule {
     boolean isClassLoadGadget = false;
 
     /**
-     * @param callStack     在进行数据流分析时候的调用栈，我们会在该过程中检测是否当前数据流所在的方法为预设的risky方法
-     * @param descriptor    用于描述当前方法的上下文
-     * @param transformable 用于标识当前分析的Jimple IR
+     * @param callStack In the call stack when performing data flow analysis, we will detect whether the current data flow is a preset risky method in the process.
+     * @param descriptor Used to describe the context of the current method
+     * @param transformable Used to identify the Jimple IR for the current analysis
      */
     public void apply(MethodDescriptor descriptor,
                       LinkedList<SootMethod> callStack,
@@ -40,10 +40,10 @@ public abstract class AbstractCheckRule implements CheckRule {
     public boolean checkRisky(MethodDescriptor descriptor, TransformableNode tfNode){ return false;}
 
     /**
-     * 检查同一 Sink Type 下的 Fragments 中, 是否存在 call stack 重复的
+     * Check whether there are duplicate call stack in Fragments under the same Sink Type
      * @param callStack
      * @param sinkType
-     * @return true: 重复; false: 不重复
+     * @return true: repeat; false: not repeat
      */
     protected boolean checkGadgetDuplication(LinkedList<SootMethod> callStack, SinkType sinkType) {
 // This check is only performed during the Fragment search phase

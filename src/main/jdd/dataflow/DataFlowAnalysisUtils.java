@@ -116,7 +116,7 @@ public class DataFlowAnalysisUtils {
     }
 
     /**
-     * 初始化方法的参数和对应的local values之间的关系
+     * The relationship between the parameters of the initialization method and the corresponding local values
      * @param descriptor
      */
     public static void initLocalValueFormMethod(MethodDescriptor descriptor){
@@ -183,7 +183,7 @@ public class DataFlowAnalysisUtils {
     }
 
     /**
-     * 在分析完方法的所有指令后, 更新信息: 存储分析结果, 减少上下文敏感的分析负担 (减少重复分析)
+     * After analyzing all instructions for the method, update the information: store the analysis results and reduce the context-sensitive analysis burden (reduce duplicate analysis)
      * @param descriptor
      */
     public static void updateAfterAnalysisMtd(MethodDescriptor descriptor) {
@@ -314,12 +314,13 @@ if(ind == -1){ // TODO: Add processing for <init>
     }
 
     /**
-     * 对要添加的污点进行筛选, 对通过筛选的污点记录以下信息: Taint, 指针信息, 污染源信息
-     * 筛选准则:
-     * (1) 污染源在检测的class chain范围内
+     * Filter the stains to be added, and record the following information on the stains that have passed the screen: Tait, pointer information, pollution source information
+     * Filter criteria:
+     * (1) The pollution source is within the range of the class chain of the detection
      * @param descriptor
      * @param invokedDescriptor
      */
+
 
     public static void filterAndAddTaints(MethodDescriptor descriptor,
                                           MethodDescriptor invokedDescriptor,
@@ -338,7 +339,7 @@ if(ind == -1){ // TODO: Add processing for <init>
     }
 
     /**
-     * 用在 IOCD 构建的信息推断阶段, 对污点进行筛选
+     * Used in the information inference stage of IOCD construction to filter stains
      * @param descriptor
      * @param invokedDescriptor
      * @param taintTo
@@ -443,7 +444,7 @@ if(ind == -1){ // TODO: Add processing for <init>
     }
 
     /**
-     * 判断是否要继续检查该invokedMethod
+     * Determine whether to continue checking the invokedMethod
      * @param callStack
      * @param invokedMethod
      * @return
@@ -471,9 +472,9 @@ ValueBox thisValueBox = Parameter.getThisValueBox(tfNode.node); // TODO: collect
     }
 
     /**
-     * 进行 Serializable 继承情况检测
+     * Perform Serializable inheritance detection
      * @param invokedMethod
-     * @param tfNode: 当前语句
+     * @param tfNode: Current statement
      * @return RuleUtils.checkTransientControllableSimply(tfNode.context.sootClass, getMethodDescriptor(tfNode.method).getField(tfNode.node,thisValueBox))
      */
     public static boolean serializableIntercept(MethodDescriptor descriptor,
@@ -657,7 +658,7 @@ if (next == null && blackFlag) // Abstract method in the blacklist, if not follo
     }
 
     /**
-     * 根据指针分析获取调用方法所属的实际类
+     * Obtain the actual class to which the call method belongs according to pointer analysis
      * @param inputCallFrame
      * @return
      */
@@ -672,11 +673,12 @@ if (next == null && blackFlag) // Abstract method in the blacklist, if not follo
     }
 
     /**
-     * 根据指令和指针信息获取可能被调用的方法
-     * 利用 Pointer.extraTypes 添加多类型筛选分析, E.g. 强制转换提示了多种类型约束
+     * Obtain methods that may be called based on instructions and pointer information
+     * Use Pointer.extraTypes to add multi-type filtering analysis, E.g. Cases prompt multiple type constraints
      * @param tfNode
      * @return
      */
+
     public static HashSet<SootMethod> getInvokedMethods(TransformableNode tfNode, MethodDescriptor descriptor){
         SootMethod invokedMethodViaNode = null;
 
@@ -734,9 +736,9 @@ invokedMethodViaNode = tfNode.getUnitInvokeExpr().getMethod(); // In this case, 
     }
 
     /**
-     * 给定一个包含了方法调用的Unit, 进行污点分析判断是否需要继续分析
-     * (1) 非静态方法, this必须污染
-     * (2) 静态方法, 入参至少有一个被污染
+     * Given a Unit containing method calls, perform stain analysis to determine whether there is any need to continue analysis
+     * (1) Non-static method, this must be contaminated
+     * (2) Static method, at least one of the incoming ginseng is contaminated
      * @param tfNode
      * @param descriptor
      * @return
@@ -802,16 +804,17 @@ if (FieldUtil.isTransientType(sootField)) { // TODO: This field may not belong t
         return false;
     }
 
-    /** Thinking: 检查直接父类还是所有父类为好？
-     * 检查invoked method 和已有的方法调用序列中的方法是否具有相同的接口，如果有则不继续跟紧 (最短优先准则)
-     * E.g. invokedMethod, method 继承了相同的方法
-     * (1) invoked method 是 method继承方法的父类方法 --> invoked method具有强大的方法调用权限
-     * Thinking: 检查的时候要注意筛选的是具有相同方法定义的父类/接口方法, 而非所有的父类/接口类
-     * 因为是在一个Fragment中的重复检查，所以无需考虑复杂的 equals 嵌套情况
+    /** Thinking: Is it better to check for direct parent classes or all parent classes?
+     * Check whether the invoked method and the existing method call sequence have the same interface, and if so, do not continue to follow (shortle priority criteria)
+     * E.g. invokedMethod, method inherits the same method
+     * (1) invoked method is the parent class method of the method inherited from the method --> invoked method has strong method calling permissions
+     * Thinking: When checking, you should pay attention to filtering for parent class/interface methods with the same method definition, rather than all parent class/interface classes
+     * Because it is a repeated check in a Fragment, there is no need to consider complex equals nesting situations
      * @param invokedMethod
      * @param callStack
      * @return
      */
+
     public static boolean isDupInvokedMethodInFragment(SootMethod invokedMethod, LinkedList<SootMethod> callStack){
         LinkedHashSet<SootMethod> invokedSuperMethods = ClassRelationshipUtils.getAllSuperMethods(invokedMethod, false);
         if (callStack.getLast().equals(invokedMethod))  return true;
@@ -836,8 +839,8 @@ if (FieldUtil.isTransientType(sootField)) { // TODO: This field may not belong t
     }
 
     /**
-     * 根据方法调用的Unit, 提取上文的指针信息
-     * (1) 调用的
+     * Extract the above pointer information based on the Unit called by the method
+     * (1) Called
      */
     public static HashMap<Integer, Pointer> getMethodBaseParamInfo(TransformableNode tfNode, MethodDescriptor descriptor) {
         Stmt stmt = (Stmt) tfNode.node.unit;
@@ -885,13 +888,14 @@ descriptor.equalsField = sootField; // Record the field that calls the next equa
     }
 
     /**
-     * 利用污点传播模型进行污点分析, Sink分析
+     * Use stain propagation model to perform stain analysis, Sink analysis
      * @param tfNode
      * @param descriptor
      * @param callStack
      * @return
      * @throws IOException
      */
+
     public static boolean checkTransformable(TransformableNode tfNode, MethodDescriptor descriptor, LinkedList<SootMethod> callStack) throws IOException {
         tfNode.forward(descriptor);
         if (!tfNode.exec | !tfNode.containsInvoke())
@@ -1077,7 +1081,7 @@ for (Integer hashCode: matchedFragments){ // TODO: Evaluate the score of adding 
     }
 
     /**
-     * 匹配存在相同片段的 Fragments
+     * Match Fragments with the same fragment
      * (1)
      * @param fragment
      * @param allFragments
@@ -1104,10 +1108,10 @@ if (!allSinkFragmentsMap.containsKey(hashCode)) // There is a problem with match
     }
 
     /**
-     * 判断Fragments拼接是否存在重复 (接口, 具体方法)
+     * Determine whether there is duplication of Fragments splicing (interface, specific method)
      * @param preFragment
      * @param sucFragment
-     * @return true: 存在重复
+     * @return true: There is a duplication
      */
     public static boolean isDuplicate(Fragment preFragment, Fragment sucFragment){
 // 1. Check whether the method is repeated
@@ -1152,15 +1156,15 @@ if (!allSinkFragmentsMap.containsKey(hashCode)) // There is a problem with match
     }
 
     /**
-     * 应用启发式规则比较两个Sink Fragments哪个优先级高，若需要严格保证输出结果的完备性，建议关掉该步骤
-     * (1) 比如中间多一个 fragments 被认为优先级更低
-     * (2) 具有相同可调用方法的head, end, 栈长度过大的被认为优先级更低;
+     * Use heuristic rules to compare which of the two Sink Fragments has a higher priority. If you need to strictly ensure the completeness of the output results, it is recommended to turn off this step.
+     * (1) For example, one more fragments in the middle is considered to have a lower priority
+     * (2) Head, end, and those with the same callable method with too large stack length are considered to have lower priority;
      * @param testedSinkFragment
      * @param recordedSinkFragment
-     * @return testedSinkFragment 是否具有比 recordedSinkFragment 更高的优先级
-     * 1: testedSinkFragment 优先级高 (删除 recordedSinkFragment)
-     * 0: 差不多, 无需操作
-     * -1: recordedSinkFragment 优先级高 (删除 testedSinkFragment)
+     * @return testedSinkFragment has a higher priority than recordedSinkFragment
+     * 1: testedSinkFragment has high priority (delete recordedSinkFragment)
+     * 0: Almost, no operation is required
+     * -1: recordedSinkFragment has high priority (delete testedSinkFragment)
      */
     public static int isHeuristicPriority(Fragment testedSinkFragment, Fragment recordedSinkFragment){
         if (testedSinkFragment.linkedDynamicMethods.isEmpty() || recordedSinkFragment.linkedDynamicMethods.isEmpty())

@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
- * 用作文件写入类sink的检测规则
+ * Used as detection rules for file writing class sink
  */
 public class FileCheckRule extends AbstractCheckRule {
 

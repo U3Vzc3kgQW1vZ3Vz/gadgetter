@@ -39,9 +39,9 @@ import static jdd.gadgets.collection.iocd.TransformerUtils.transformGadgetRecord
 @Slf4j
 public class DataSaveLoadUtil {
     /**
-     * 工具类，用于将对象进行Json的序列化
+     * Tool class, used to serialize objects in Json
      * @param o
-     * @return Json序列化后的数据
+     * @return Json serialized data
      */
     public static String toGJson(Object o){
         Gson gson = new Gson();
@@ -94,7 +94,7 @@ public class DataSaveLoadUtil {
     }
 
     /**
-     * 将 call stack - sink类型信息 记录到输出文件中
+     * Record call stack - sink type information into the output file
      * @param callStack
      * @param sinkType
      */

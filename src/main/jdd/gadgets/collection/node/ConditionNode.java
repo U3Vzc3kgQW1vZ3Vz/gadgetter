@@ -117,10 +117,9 @@ public static int SINGLE = 0; // = and
                 comparison = Comparison.EQUAL;
         }
     }
-
     /**
-     * 检测comparison与该condition node 的comparison是否矛盾
-     * 不做过于惊喜的判别, 认为 > 和 >= 并不矛盾
+     * Check whether the comparison and the comparison of the condition node are in conflict
+     * Don't make too surprising judgments, think > and >= are not contradictory
      * @param comparison
      * @return
      */

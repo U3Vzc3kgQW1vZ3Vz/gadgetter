@@ -478,8 +478,8 @@ if (!superMtdSources.containsKey(mtd)) // Used to save subsequent repeated detec
     }
 
     /**
-     * 对于 chained Method.invoke 类型的 Fragments 生成新的 Sink Fragments
-     * return: 是否生成了 chained invoke Fragments
+     * Generate new Sink Fragments for chained Method.invoke type Fragments
+     * return: Whether chained invoke Fragments were generated
      */
     public static HashSet<Fragment> generateChainedInvokeFragments(MethodDescriptor descriptor , LinkedList<SootMethod> callStack,
                                                          SootMethod invokedMethod,

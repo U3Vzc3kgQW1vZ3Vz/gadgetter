@@ -9,7 +9,7 @@ import soot.tagkit.*;
 import java.util.*;
 
 /**
- * 静态分析基本能力
+ * Basic static analysis capabilities
  */
 public class Method {
     public static List<SootMethod> getCallPath(SootMethod src, SootMethod tgt, CG cg){

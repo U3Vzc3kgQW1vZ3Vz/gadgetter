@@ -4,9 +4,8 @@ import java.cfg.Node;
 import soot.ValueBox;
 
 import java.util.regex.Pattern;
-
 /**
- * 静态分析基本能力
+ * Basic static analysis capabilities
  */
 public class IfStmtUtil {
     public static ValueBox getConditionExprBox(Node node){

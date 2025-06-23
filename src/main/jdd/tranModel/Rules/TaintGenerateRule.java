@@ -42,9 +42,8 @@ public class TaintGenerateRule implements Rule {
             }
         }
     }
-
     /**
-     * 将field / ObjectInputStream 作为污点源
+     * Use field/ObjectInputStream as a blemish source
      * @param transformable
      * @param descriptor
      */

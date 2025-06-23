@@ -81,9 +81,8 @@ gadgets.add(newGadgetNode.sootMethod); // Only recorded in gadget chain
             return gadgetNodes.get(sootMethod);
         else return implicitGadgetNodes.get(sootMethod);
     }
-
     /**
-     * 创建并添加 Gadget Node
+     * Create and add Gadget Node
      * @param invokedDescriptor
      * @return
      */

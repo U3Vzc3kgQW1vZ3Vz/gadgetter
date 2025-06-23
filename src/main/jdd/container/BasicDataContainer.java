@@ -14,9 +14,8 @@ import jdd.util.ClassRelationshipUtils;
 import jdd.util.Utils;
 
 import java.util.*;
-
 /**
- * 存储一些全局可能要用到的基本信息
+ * Store some basic information that may be used globally
  */
 public class BasicDataContainer {
     public static CG cg = null;

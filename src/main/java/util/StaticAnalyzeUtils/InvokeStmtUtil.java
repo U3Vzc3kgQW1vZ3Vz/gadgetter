@@ -9,9 +9,8 @@ import jdd.util.ClassRelationshipUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 /**
- * 静态分析基本能力
+ * Basic static analysis capabilities
  */
 public class InvokeStmtUtil {
 
@@ -52,8 +51,8 @@ public class InvokeStmtUtil {
     }
 
     /**
-     * 从众多CHA方法中找到来自这个类型的准确实现, 如果它自己没有实现, 找它的父类;
-     * 如果type为非具体方法, 则筛选possibleMethods中所属类为type对应的类的子类的
+     * Find the exact implementation from this type from many CHA methods, if it does not implement it itself, find its parent class;
+     * If type is a non-specific method, filter the possibleMethods class that belongs to the subclass of the class corresponding to type.
      */
     public static HashSet<SootMethod> findExactMethodFromCHAMethods(Set<SootMethod> possibleMethods, SootClass expectClass,
                                                      TransformableNode tfNode){
@@ -89,7 +88,7 @@ public class InvokeStmtUtil {
     }
 
     /**
-     * 针对多个不存在相互包含关系的 expect class 的处理场景
+     * For multiple expected class processing scenarios that do not have mutually inclusive relationships
      * @param possibleMethods
      * @param expectClasses
      * @param tfNode
@@ -163,7 +162,7 @@ public class InvokeStmtUtil {
     }
 
     /**
-     * 当sootMethod是接口方法时，查找其所有方法实现
+     * When sootMethod is an interface method, find all its method implementations
      */
     public static HashSet<SootMethod> findConcreteImplementations(SootMethod sootMethod){
         HashSet<SootMethod> implementations = new HashSet<>();

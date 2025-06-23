@@ -19,7 +19,7 @@ public class TranUtil {
     public static boolean DEBUG = false;
 
     /**
-     * 给定cfg返回一个根据该cfg进行拓扑排序的TransformableNode列表
+     * Given cfg returns a TransformableNode list that is topologically sorted according to the cfg
      * @param cfg
      * @return List<TransformableNode>
      */

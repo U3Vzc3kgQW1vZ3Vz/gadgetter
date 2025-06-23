@@ -1,14 +1,13 @@
 package java.DefaultDetector;
-
 /**
- * 方法描述的接口，特定场景的方法描述可以选择实现该接口
+ * The interface described by the method, the method description of a specific scenario can be used to implement the interface.
  */
 public interface IMethodDescriptor {
     boolean isCompletelyDescribed();
     void forceSetDescribed();
 
     /**
-     * 用来限制调用栈层数
+     * Used to limit the number of call stack layers
      */
     class BaseStateFlag{
         public int distance;

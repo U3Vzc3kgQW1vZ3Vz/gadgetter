@@ -11,8 +11,8 @@ public class ConnectRequire {
 public HashSet<SootMethod> preLinkableMethods = new HashSet<>(); // Fragment jump condition
 public HashSet<HashSet<Integer>> paramsTaitRequire = null; // taint requirement
     public HashSet<Integer> condSet = new HashSet<>();
-    
-    /** 其他链接条件 */
+
+    /** Other link conditions */
 // Currently consider two types: method name limitation/type limitation to which the method belongs
     public HashMap<String, HashSet<String>> dynamicProxyLinkCheck = new HashMap<>();
     

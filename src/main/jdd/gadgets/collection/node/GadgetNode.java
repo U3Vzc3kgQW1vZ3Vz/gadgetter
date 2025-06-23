@@ -33,7 +33,7 @@ public SootClass sootClass; // Class to belong
     }
 
     /**
-     * 根据 IfStmt 索引 Condition Node
+     * Index Condition Node according to IfStmt
      * @param ifStmt
      * @return
      */
@@ -56,7 +56,7 @@ public SootClass sootClass; // Class to belong
     }
 
     /**
-     * 记录tfNode前的必要条件约束
+     * Record the necessary condition constraints before tfNode
      * @param tfNode
      * @param gadgetInfoRecord
      * @param descriptor

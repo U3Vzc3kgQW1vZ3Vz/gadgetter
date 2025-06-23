@@ -55,7 +55,7 @@ public class JsonProtocolCheckRule extends AbstractProtocolCheckRule {
     }
 
     /**
-     * 根据不同的反射点，采用不同的定制规则
+     * Use different custom rules according to different reflection points
      * @param sootMethod
      * @return
      */

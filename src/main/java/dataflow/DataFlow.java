@@ -11,7 +11,7 @@ import java.util.StringUtil;
 import java.util.*;
 
 /**
- * 提供数据流分析功能的工具类
+ * Tools that provide data flow analysis functions
  *
  * @since 2.0
  */
@@ -174,11 +174,11 @@ if (isValueUsedInUnit(node.unit, valueBox.getValue())) {//If there is a misplace
     }
 
     /**
-     * 找到所有影响某个变量的定义语句
+     * Find all definition statements that affect a variable
      *
-     * @param sourceNode  这个变量所在的语句（需要使用这个参数定位变量在cfg中的位置）
-     * @param valueBox   变量
-     * @return {@link HashSet}&lt;{@link Node}&gt;
+     * @param sourceNode statement where this variable is located (you need to use this parameter to locate the position of the variable in cfg)
+     * @param valueBox variable
+     * @return {@link HashSet}<{@link Node}>
      */
 public static LinkedHashSet<Node> findAllDefUnitAffectThisValue(Node sourceNode, ValueBox valueBox) {//Reverse search data propagation
         HashSet<Event> processedEvent = new HashSet<>();
@@ -275,12 +275,12 @@ for (Node beginNode : originPre.successorNodes) {//We should
     }
 
     /**
-     * 判断一个变量是否依赖另一个变量
+     * Determine whether a variable depends on another variable
      *
-     * @param srcNode     污点变量所在的语句（需要使用这个参数定位变量在cfg中的位置）
-     * @param srcValueBox 污点变量
-     * @param tarNode     目标语句
-     * @return boolean  能否被污染
+     * @param srcNode Statement where the stain variable is located (you need to use this parameter to locate the position of the variable in cfg)
+     * @param srcValueBox blemish variable
+     * @param tarNode Target Statement
+     * @return boolean Can it be contaminated
      */
 public boolean isDependencyBetweenValue(Node srcNode, ValueBox srcValueBox, Node tarNode) {//Judge the independence between data
         HashMap<Node, ValueBox> mp = new HashMap<>();
@@ -290,10 +290,10 @@ public boolean isDependencyBetweenValue(Node srcNode, ValueBox srcValueBox, Node
     }
 
     /**
-     * 找到以某个变量作为源头，能够影响的所有变量
+     * Find all variables that can affect using a variable as the source
      *
-     * @param sourceMap 污染源头
-     * @return {@link HashMap}&lt;{@link Node}, {@link ValueBox}&gt; 污染传播后的所有污染点
+     * @param sourceMap Source of pollution
+     * @return {@link HashMap}<{@link Node}, {@link ValueBox}> All pollution points after pollution spread
      */
     public static HashMap<Node, ValueBox> findAllUnitAndValueAffectedByPath(Path path, HashMap<Node, ValueBox> sourceMap) {
 //path, an execution path

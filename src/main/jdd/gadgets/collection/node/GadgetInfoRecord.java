@@ -72,7 +72,7 @@ public int hashCollisionReview = -1; // -1, 0, 1
     }
 
     /**
-     * 判断是否具有该class对应的Class Node
+     * Determine whether there is a Class Node corresponding to the class
      * @return
      */
     public boolean hasClass(SootClass sootClass){
@@ -82,10 +82,8 @@ public int hashCollisionReview = -1; // -1, 0, 1
     }
 
     /**
-     * 根据当前的 class 取出sootMethod对应的 Gadget Node
-     * (1) supplement阶段则从implicitGadgetNodesMap中取
-     * (2) 否则, 直接从 classFieldsGraph 中取
-     *
+     * Get the Gadget Node corresponding to sootMethod according to the current class
+     * (1) In the supplement phase, get it from implicitGadgetNodesMap * (2) Otherwise, get it directly from classFieldsGraph *
      * @param sootMethod
      * @return
      */
@@ -346,8 +344,7 @@ gadgetNode.allConditions.put(ifStmt, conditionNode); // Synchronously record int
     }
 
     /**
-     * 创建新的 ClassNode, 并建立和已有 ClassNode 之间的关系
-     *
+     * Create a new ClassNode and establish a relationship with the existing ClassNode *
      * @param tfNode
      * @param invokedDescriptor
      * @param descriptor
@@ -502,7 +499,7 @@ gadgetNode.allConditions.put(ifStmt, conditionNode); // Synchronously record int
     }
 
     /**
-     * 获取callStack对应的fragment, 如果当前的方法调用序列偏离了gadget chain, 则返回最近的fragment
+     * Get the fragment corresponding to callStack. If the current method call sequence deviates from the gadget chain, return the nearest fragment
      * @param callStack
      * @return
      */

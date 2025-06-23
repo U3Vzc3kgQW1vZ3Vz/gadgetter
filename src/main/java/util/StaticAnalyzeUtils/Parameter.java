@@ -14,7 +14,7 @@ import jdd.tranModel.TransformableNode;
 import java.util.*;
 
 /**
- * 静态分析基本能力
+ * Basic static analysis capabilities
  */
 @Slf4j
 public class Parameter {
@@ -26,9 +26,9 @@ public class Parameter {
     }
 
     /**
-     * 获取形参/this和与当前方法内局部变量的对应关系
-     * 并将这种关系保留于descriptor.paramIdMapLocalValue
-     *  返回值中 -1 : this对应的value
+     * Get the correspondence between formal parameters/this and local variables in the current method
+     * And keep this relationship in descriptor.paramIdMapLocalValue
+     * The return value is -1: the value corresponding to this
      */
     public static HashMap<Integer, Value> getParametersLocalValues(CFG cfg){
         HashMap<Integer, Value> paramMapValue = new HashMap<>();
@@ -92,9 +92,9 @@ public class Parameter {
     }
 
     /**
-     * 给定一个Unit：
-     * 1、判断其是是IdentifyStmt
-     * 2、判断其DefBox是否来源于方法形参或者this，如果是则返回对应的索引
+     * Given a Unit:
+     * 1. Determine that it is IdentifyStmt
+     * 2. Determine whether its DefBox comes from the method formal parameters or this, if so, return the corresponding index
      * @param unit
      * @return
      */
@@ -121,9 +121,9 @@ public class Parameter {
     }
 
     /**
-     * 给定Node，获取unit中指定argIndex的方法参数的ValueBox
+     * Given Node, get the ValueBox of the method parameter specified in unit.
      * @param node
-     * @param argIndex
+     * @param argindex
      * @return
      */
     public static ValueBox getArgValueBox(Node node, int argIndex){
@@ -205,10 +205,10 @@ public class Parameter {
     }
 
     /**
-     * 得到函数调用返回的对象值
+     * Get the object value returned by the function call
      * eg. r1=r0.method -> r1
      * @param node
-     * @return 如果提供的Unit是赋值语句那就返回函数调用返回值所赋予的那个Value，否则就返回null
+     * @return If the provided Unit is an assignment statement, then return the value assigned by the function call return value, otherwise return null
      */
     public static ValueBox getReturnedValueBox(Node node){
         if (node.unit instanceof AssignStmt){
@@ -265,10 +265,10 @@ if (left instanceof FieldRef) { // Check whether it is field, if it is yes, extr
     }
 
     /**
-     * 指定type，获取调用语句invokeExpr中的调用函数中对应的参数ValueBox
+     * Specify type to get the corresponding parameter ValueBox in the calling function in the calling statement invokeExpr
      * @param invokeExpr
      * @param type
-     * @return 如果没有就返回null
+     * @return If not, return null
      */
     public static ValueBox getArgByType(InvokeExpr invokeExpr, String type){
         ValueBox testArg = null;

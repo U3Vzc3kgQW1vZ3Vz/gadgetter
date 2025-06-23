@@ -1,11 +1,11 @@
 package jdd.tranModel.Rules;
 
-import jdd.tranModel.Rule;
-import jdd.tranModel.Transformable;
-import jdd.tranModel.TransformableNode;
 import jdd.container.BasicDataContainer;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.markers.Stage;
+import jdd.tranModel.Rule;
+import jdd.tranModel.Transformable;
+import jdd.tranModel.TransformableNode;
 import soot.jimple.IfStmt;
 import soot.jimple.Stmt;
 
@@ -13,17 +13,19 @@ import java.util.HashSet;
 
 public class JoinRule implements Rule {
     /**
-     * 一般是用来处理控制流汇聚点，合并状态。
-     *      1. 在检测到sink点后是否需要继续在当前callstacks路径深入搜索；
-     *      2. 信息收集的时候用来收集该语句前面的条件分支信息记录的。
-     *  记录的前继节点信息：后续在动态代理模块轻量级的路径敏感
-     *      不是常用的路径敏感，而是在到达某个节点后，通过查看前置的条件节点的信息，以推断要执行到该节点所必须满足的条件，并在拼接时进行更细粒度的检测
-     * @param transformable
+     * It is generally used to handle the control flow convergence point and merge state.
+     * 1. After detecting the sink point, whether you need to continue searching in depth in the current callstacks path;
+     * 2. It is used to collect the conditional branch information before the statement when collecting information.
+     * Recorded forward node information: subsequent lightweight path sensitivity in dynamic proxy module
+     * It is not commonly used path sensitive, but after reaching a node, you can view the information of the pre-condition node to infer the conditions that must be met to perform to that node, and perform finer granular detection during splicing.
+     *
+     * @Param transformable
      */
+
     @Override
     public void apply(Transformable transformable, MethodDescriptor descriptor) {
 
-        if (!BasicDataContainer.openJoinRule)  return;
+        if (!BasicDataContainer.openJoinRule) return;
         TransformableNode tfNode = (TransformableNode) transformable;
 // If there is no successor node, no analysis is required
         if (tfNode.precursors.isEmpty()
@@ -32,8 +34,8 @@ public class JoinRule implements Rule {
             return;
 
         HashSet<Integer> path_record = new HashSet<>();
-        for(TransformableNode precursor : tfNode.precursors){
-            if (!precursor.exec){
+        for (TransformableNode precursor : tfNode.precursors) {
+            if (!precursor.exec) {
                 tfNode.exec = false;
             }
 
@@ -46,7 +48,7 @@ public class JoinRule implements Rule {
 // }
     }
 
-    public void recordPath(TransformableNode tfNode){
+    public void recordPath(TransformableNode tfNode) {
         Stmt stmt = (Stmt) tfNode.node.unit;
 
         if (stmt instanceof IfStmt) {
@@ -56,11 +58,11 @@ public class JoinRule implements Rule {
 // TransformableNode.ifStmtHashMap.put(ifStmt.hashCode(),transformableNode);
             BasicDataContainer.conditionTfNodesMap.put(ifStmt.hashCode(), tfNode);
 
-            for (TransformableNode success: tfNode.successors){
-                if (((Stmt)success.node.unit).equals(target) ){
+            for (TransformableNode success : tfNode.successors) {
+                if (((Stmt) success.node.unit).equals(target)) {
                     if (!tfNode.isCycle)
                         success.path_record.add(ifStmt.hashCode());
-                }else {
+                } else {
                     success.path_record.add(-ifStmt.hashCode());
                 }
             }

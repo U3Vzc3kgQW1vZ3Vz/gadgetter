@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * 控制流图（Control Flow Graph）
+ * Control Flow Graph
  *
  * @since 2.0
  */
@@ -38,19 +38,21 @@ public HashSet<String> selfDefinedToExpandMethodSet = null;//User custom defined
 
     public CG cg=null;
 
+
     /**
-     * 初始化CFG，详尽的构造器。
-     * 不会构建CFG图，构建应使用buildCFG()
+     * Initialize CFG, detailed constructor.
+     * CFG graphs will not be built, buildCFG() should be used for construction
      *
-     * <br><b>示例</b><br>
+     * <br><b>Example</b><br>
      * CFG cfg = new CFG(entryPoint, maxDepth, selfDefinedToExpandMethodSet, isUseStandardLib);<br>
      * cfg.buildCFG();<br>
      *
-     * @param entryPoint                   入口方法
-     * @param maxDepth                     展开函数的最大深度
-     * @param selfDefinedToExpandMethodSet 自定义展开条件
-     * @param isUseStandardLib             是否展开标准库
+     * @param entryPoint entry method
+     * @param maxDepth Maximum depth of expansion function
+     * @param selfDefinedToExpandMethodSet Custom Expand Conditions
+     * @param isUseStandardLib Whether to expand the standard library
      */
+
     public CFG(SootMethod entryPoint, int maxDepth, HashSet<String> selfDefinedToExpandMethodSet, boolean isUseStandardLib) {
         this.entryPoint = entryPoint;
         this.maxDepth = maxDepth;
@@ -62,15 +64,15 @@ public HashSet<String> selfDefinedToExpandMethodSet = null;//User custom defined
     }
 
     /**
-     * 初始化CFG。
-     * 不会构建CFG图，构建应使用buildCFG()
+     * Initialize CFG.
+     * CFG graphs will not be built, buildCFG() should be used for construction
      *
-     * <br><b>示例</b><br>
+     * <br><b>Example</b><br>
      * CFG cfg = new CFG(entryPoint, maxDepth);<br>
      * cfg.buildCFG();<br>
      *
-     * @param entryPoint                   入口方法
-     * @param maxDepth                     展开函数的最大深度
+     * @param entryPoint entry method
+     * @param maxDepth Maximum depth of expansion function
      */
     public CFG(SootMethod entryPoint, int maxDepth) {
         this.entryPoint = entryPoint;
@@ -78,21 +80,22 @@ public HashSet<String> selfDefinedToExpandMethodSet = null;//User custom defined
     }
 
     /**
-     * 初始化CFG，精简的构造器。
-     * 不会构建CFG图，构建应使用buildCFG()<br>
+     * Initialize CFG, a streamlined constructor.
+     * CFG graphs cannot be built, buildCFG() should be used for construction<br>
      *
-     * <br><b>示例</b><br>
+     * <br><b>Example</b><br>
      * CFG cfg = new CFG(entryPoint);<br>
      * cfg.buildCFG();<br>
      *
-     * @param entryPoint                   入口方法
+     * @param entryPoint entry method
      */
+
     public CFG(SootMethod entryPoint){
         this.entryPoint = entryPoint;
     }
 
     /**
-     * 过程内的，sft use
+     * In the process, sft use
      *
      * @param sootMethod
      * @param innerProcess
@@ -105,9 +108,9 @@ public HashSet<String> selfDefinedToExpandMethodSet = null;//User custom defined
     }
 
     /**
-     * 构建cfg
+     * Build cfg
      *
-     * @return {@link Node} 头节点
+     * @return {@link Node} header node
      */
     public Node buildCFG(){
         buildGraph(entryPoint,new HashSet<>(),0);
@@ -250,7 +253,7 @@ HeadAndTail headAndTail = new HeadAndTail();//Return the head and end of the exp
     }
 
     /**
-     * 重置这个cfg图
+     * Reset this cfg image
      */
     public void reset() {
         headNode = null;
@@ -263,14 +266,14 @@ HeadAndTail headAndTail = new HeadAndTail();//Return the head and end of the exp
     }
 
     /**
-     * 找到语句之间的所有路径，为了防止内存溢出，后三个参数用来限制深度优先搜索，我们提供推荐值。
+     * Find all paths between statements. In order to prevent memory overflow, the last three parameters are used to limit depth-first searches, and we provide recommended values.
      *
-     * @param srcNode       源语句节点
-     * @param trgNode       目的语句节点
-     * @param maxPathLength 搜索时的最大路径长度，超过此长度的路径不再继续搜索。
-     * @param maxPathNum    总的存储的路径上限
-     * @param maxTarPathNum 递归查找中递归的路径的上限
-     * @return {@link List}&lt;{@link Path}&gt;
+     * @param srcNode source statement node
+     * @param trgNode Destination statement node
+     * @param maxPathLength The maximum path length when searching, paths beyond this length will no longer be searched.
+     * @param maxPathNum The total storage path upper limit
+     * @param maxTarPathNum The upper limit of recursive paths in recursive search
+     * @return {@link List}<{@link Path}>
      */
     public static List<Path> findAllPathsBetweenUnits(Node srcNode,Node trgNode,int maxPathLength,int maxPathNum,int maxTarPathNum){
 //Return all paths between two statements, CFG is a DAG
@@ -370,12 +373,12 @@ public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node
     }
 
     /**
-     * 寻找CFG中所有满足特定要求的语句<br>
-     * 可以通过重载filter中的apply函数实现自定义的过滤器
-     * <br><b>示例</b>
+     * Find all statements in CFG that meet specific requirements<br>
+     * Custom filters can be implemented by overloading the apply function in filter
+     * <br><b>Example</b>
      * <pre>
      * {@code
-* //The following example will use a permanently received filter to get all statements in the CFG.
+     * //The following example will use a permanently received filter to get all statements in the CFG.
      * HashSet<Unit> registerReceiverUnits = cfg.findUnitWithFilter(new Function<Unit, Boolean>(){
      *       @Override
      *       public Boolean apply(Unit unit) {
@@ -385,8 +388,8 @@ public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node
      * }
      * </pre>
      *
-     * @param filter 过滤器函数
-     * @return {@link HashSet}&lt;{@link Unit}&gt;
+     * @param filter filter function
+     * @return {@link HashSet}<{@link Unit}>
      */
     public HashSet<Unit> findUnitWithFilter(Function<Unit, Boolean> filter) {
         HashSet<Unit> ret = new HashSet<>();
@@ -398,11 +401,11 @@ public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node
     }
 
     /**
-     * 寻找CFG中所有满足特定要求的语句,返回它们所在的node<br>
-     * 可以通过重载filter中的apply函数实现自定义的过滤器
+     * Find all statements in CFG that meet specific requirements and return the node they are located in<br>
+     * Custom filters can be implemented by overloading the apply function in filter
      *
-     * @param filter 过滤器函数
-     * @return {@link HashSet}&lt;{@link Node}&gt;
+     * @param filter filter function
+     * @return {@link HashSet}<{@link Node}>
      */
     public HashSet<Node> findNodeWithFilter(Function<Node, Boolean> filter) {
         HashSet<Node> ret = new HashSet<>();
@@ -415,12 +418,12 @@ public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node
 
 
     /**
-     * 输出一个节点附近的节点，reverse为false时，打印该语句后继的count条语句；reverse为true时打印该语句前驱的count条语句。
-     * 输出结果从起始语句到结束语句缩进的空格数递减。
+     * Output a node near a node. When reverse is false, print the subsequent count statement of the statement; when reverse is true, print the count statement predecessor of the statement.
+     * The output result is decremented from the number of spaces indented from the start statement to the end statement.
      *
-     * @param node    节点
-     * @param count   打印的范围
-     * @param reverse 选择前驱或后继
+     * @param node
+     * @param count Printed range
+     * @param reverse Select front-driver or successor
      */
     public void printNearbyNodes(Node node, int count, boolean reverse){
         if(count == 0)return;
@@ -464,9 +467,9 @@ public static List<Path> addNode2Path(List<Path> result,List<Path> pathList,Node
     }
 
     /**
-     * 获取方法中可以被用户获取的输入，作为正向污点分析的起点
-     * （1.参数 2.getIntent()）
-     * 需解决的特殊情况：getIntent()函数并不一定在函数开始时初始化，而是在某些callee中初始化;
+     * The input that can be obtained by the user in the acquisition method is used as the starting point for forward stain analysis
+     * (1. Parameters 2.getIntent())
+     * Special cases to be solved: the getIntent() function is not necessarily initialized at the beginning of the function, but is initialized in some calls;
      * @return
      */
     public HashMap<Node, ValueBox> fetchControlledInputData(){

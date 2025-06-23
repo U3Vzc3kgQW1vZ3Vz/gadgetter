@@ -68,7 +68,7 @@ class DetectorRuntimeExceptionHandler implements Thread.UncaughtExceptionHandler
         String msg = e.getMessage();
         handleExceptionMsg(msg);
     }
-
+    
     /**
      * Handle the exception message and get the name of the class that caused the exception
      * @param msg exception message

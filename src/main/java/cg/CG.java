@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * 调用图（Call Graph）
+ * Call Graph
  *
  * @since 2.0
  */

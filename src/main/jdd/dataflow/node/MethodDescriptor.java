@@ -110,12 +110,12 @@ for (Integer ind: inputParamMapTaints.keySet()){ // Dirty record
     }
 
     /**
-     * 返回已有的污点或者新建一个污点：
-     * 1、如果object为null，那就直接返回new Taint(null, accessPath);
-     * 2、如果object不为null：
-     *  a. accessPath为null，那就查看是否存在已有的污点，有就返回没有就新建后返回
-     *  b. accessPath不为null，同上
-     * accessPath是用于记录一个类中被污染了的field
+     * Return an existing stain or create a new stain:
+     * 1. If object is null, then return directly to new Taint(null, accessPath);
+     * 2. If object is not null:
+     * a. AccessPath is null, then check whether there is an existing stain. If there is one, return it if it does not. If it does not, it will be created and returned.
+     * b. accessPath is not null, same as above
+     * accessPath is used to record a polluted field in a class
      * @param object
      * @param accessPath
      * @return
@@ -164,8 +164,8 @@ for (Integer ind: inputParamMapTaints.keySet()){ // Dirty record
     }
 
     /**
-     * 获得所有有关这个Value的新增的taint，排除初始传入的taint
-     * 和getAllTaintsAboutThisValue一样, 都是不考虑fields敏感的匹配
+     * Get all new taints about this value, excluding the initial incoming taints
+     * Like getAllTaintsAboutThisValue, both fields-sensitive matches are not considered
      */
     public List<Taint> getAllNewTaintsAboutThisValue(Value object){
         List<Taint> taintsForValue = new LinkedList<>();
@@ -178,8 +178,8 @@ for (Integer ind: inputParamMapTaints.keySet()){ // Dirty record
     }
 
     /**
-     * 1、给定mayTaint判断是否存在与当前的污点列表中，如果在便返回ture不是则返回false
-     * 2、给定与mayTaint相关的beAddBox，比如a = b.Fuc(c); 如果c是污点，那么显然污点需要传递到a
+     * 1. Given mayTaint to determine whether there is a current stain list. If it returns ture, it returns false
+     * 2. Given a beAddBox related to mayTaint, such as a = b.Fuc(c); If c is a stain, then obviously the stain needs to be passed to a
      * @param mayTaint
      * @param beAddBox
      * @return
@@ -202,8 +202,8 @@ for (Integer ind: inputParamMapTaints.keySet()){ // Dirty record
     }
 
     /**
-     * 检查污点情况, 进行必要的更新
-     * (1) 检查污点是否合法: 是否为 null
+     * Check the stains and make necessary updates
+     * (1) Check whether the stain is legal: whether it is null
      */
     public void flushTaints(){
         HashSet<Taint> toDelete = new HashSet<>();

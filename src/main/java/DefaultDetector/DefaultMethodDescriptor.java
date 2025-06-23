@@ -3,7 +3,7 @@ package java.DefaultDetector;
 import soot.SootMethod;
 
 /**
- * 方法描述类，用于在检测时记录一个方法的检测结果，避免多次检测。
+ * Method description class, used to record the detection results of a method during detection, avoiding multiple detections.
  */
 public class DefaultMethodDescriptor implements IMethodDescriptor{
 

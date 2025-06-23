@@ -9,8 +9,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /**
- * Gadget Sink检测规则的接口
+ * Gadget Sink detection rules interface
  */
+
 public interface CheckRule {
     void apply(MethodDescriptor descriptor,
                LinkedList<SootMethod> callStack,

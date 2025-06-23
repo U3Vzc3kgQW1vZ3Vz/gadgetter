@@ -7,7 +7,7 @@ import soot.SootClass;
 import java.util.*;
 
 /**
- * 静态分析基本能力
+ * Basic static analysis capabilities
  */
 @Slf4j
 public class ClassUtils {
@@ -42,7 +42,7 @@ public class ClassUtils {
     }
 
     /**
-     * 得到所有的父类 & 接口
+     * Get all parent classes & interfaces
      */
     private static void getAllSuperClassAndInterfaces(SootClass sootClass, LinkedHashSet<SootClass> result){
         if(result.contains(sootClass)) return;
@@ -93,9 +93,9 @@ public class ClassUtils {
     }
 
     /**
-     * 查找实现了sootClass的所有子类
-     * @param sootClass 目标CLass
-     * @param result 保存结果的HashSet
+     * Find all subclasses that implement sootClass
+     * @param sootClass Target CLass
+     * @param result HashSet that saves the result
      */
     private static void getAllSubClassAndInterfaces(SootClass sootClass, HashSet<SootClass> result){
         if(result.contains(sootClass)) return;
@@ -123,8 +123,8 @@ result.add(sootClass); // ToDo: Weird way to write
     }
 
     /**
-     * 广度优先的顺序逐层得到所有父类,大部分情况下（不考虑接口Default方法），他应该是一条链
-     * 包含sootClass
+     * The breadth priority order gets all parent classes layer by layer. In most cases (not considering the interface Default method), it should be a chain
+     * Includes sootClass
      */
     public static LinkedList<SootClass> getAllSupers_BFS(SootClass sootClass){
         LinkedList<SootClass> ret = new LinkedList<>();
@@ -148,7 +148,7 @@ result.add(sootClass); // ToDo: Weird way to write
     }
 
     /**
-     * 广度优先的顺序逐层得到所有子类
+     * Breadth priority order to obtain all subclasses layer by layer
      */
     public static List<SootClass> getAllSubs_BFS(SootClass sootClass){
         List<SootClass> ret = new LinkedList<>();

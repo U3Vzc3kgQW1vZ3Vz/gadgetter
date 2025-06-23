@@ -4,8 +4,8 @@ import soot.SootClass;
 import soot.SootMethod;
 
 /**
- * 该类用于记录一个sootMethod和声明他的sootClass
- * 用于TransformableNode中
+ * This class is used to record a sootMethod and declare its sootClass
+ * Used in TransformableNode
  */
 public class Context {
     public SootMethod method;

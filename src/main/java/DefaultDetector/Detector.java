@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * 实现了一些检测器的基础功能，可以选择继承它来复用
+ * Implemented some basic functions of detectors, you can choose to inherit it to reuse
  */
 @Slf4j
 public class Detector {

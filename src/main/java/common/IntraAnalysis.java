@@ -17,7 +17,7 @@ public class IntraAnalysis {
     private static final HashMap<SootField,String> fieldMapValue = new HashMap<>();
 
     /**
-     * 批量分析应用时应该重置static类型变量
+     * When batch analysis is applied, the static type variable should be reset.
      */
     public static void reset(){
         fieldMapValue.clear();

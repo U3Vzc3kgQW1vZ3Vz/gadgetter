@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * 通过ClassLoader加载恶意类导致RCE攻击检测
+ * Loading malicious classes through ClassLoader causes RCE attack detection
  * (1) ClassLoader.defineClass : Class clazz = ClassLoader.defineClass -> clazz.newInstance
  * (2) URLClassLoader : URLClassLoader urlClassLoader = URLClassLoader(new URL[], ...)
  *                   -> Class clazz = Class.forName(String name, boolean initialize, *ClassLoader loader) / urlClassLoader.loadClass(String name)
@@ -44,7 +44,7 @@ public class ClassLoaderCheckRule extends AbstractCheckRule {
     public static void init() {
         callStacksRecord.clear();
         classLoaderRiskyMethodSigs.put("ClassLoader.defineClass", ClassRelationshipUtils.getAllSubMethodSigs(Arrays.asList("java.lang.ClassLoader"),"(defineClass)"));
-        /** 进行一次参数筛选，否则会在verify时遗漏 */
+/** Perform a parameter filter, otherwise it will be missed when verifying */
         HashSet<String> toDelete = new HashSet<>();
         for (String methodSig : classLoaderRiskyMethodSigs.get("ClassLoader.defineClass")){
             if (!methodSig.contains("byte[]"))

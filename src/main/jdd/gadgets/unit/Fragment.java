@@ -32,8 +32,9 @@ import static jdd.util.ClassRelationshipUtils.isDynamicMethod;
 import static jdd.util.ClassRelationshipUtils.isValidSuperAbstractOrInterfaceMethod;
 
 /**
- * Fragment数据结构
+ * Fragment data structure
  */
+
 @Getter
 @Setter
 public class Fragment {
@@ -263,7 +264,7 @@ type = FRAGMENT_TYPE.DYNAMIC_PROXY; // 包含POLYMORPHISM
     }
 
     /**
-     * 目前采取简化处理的方法: Fragment(Proxy) head->end
+     * Currently, simplified processing method is adopted: Fragment(Proxy) head->end
      */
     public void recordProxyRequires(MethodDescriptor descriptor){
         if (!ClassRelationshipUtils.isProxyMethod(head))
