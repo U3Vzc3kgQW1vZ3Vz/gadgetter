@@ -17,7 +17,7 @@ import jdd.rules.sinks.CheckRule;
 import jdd.rules.sinks.JNDICheckRule;
 import soot.*;
 import soot.jimple.InvokeExpr;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;

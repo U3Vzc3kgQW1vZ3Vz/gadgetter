@@ -3,17 +3,14 @@ package jdd.dataflow;
 //Record parameter pointer information
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.config.RegularConfig;
-import soot.jimple.IfStmt;
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.Taint.Taint;
 import jdd.tranModel.TransformableNode;
-import java.cfg.CFG;
+import callgraph.cfg.CFG;
 import jdd.container.BasicDataContainer;
-import jdd.container.FieldsContainer;
 import jdd.container.FragmentsContainer;
 import jdd.dataflow.node.SourceNode;
 import jdd.dataflow.node.MethodDescriptor;
-import jdd.dataflow.node.UndeterminedFieldNode;
 import jdd.dataflow.node.paramResult.MethodResult;
 import jdd.dataflow.node.paramResult.TaintAndLinger;
 import jdd.gadgets.collection.AnalyzeUtils;
@@ -30,13 +27,12 @@ import soot.jimple.AssignStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.ClassUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.InvokeStmtUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.InvokeStmtUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
-import javax.xml.transform.Source;
 import java.io.IOException;
 import java.util.*;
 

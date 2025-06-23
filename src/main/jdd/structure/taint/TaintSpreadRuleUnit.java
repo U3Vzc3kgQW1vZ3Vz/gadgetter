@@ -1,12 +1,10 @@
 package jdd.structure.taint;
 //sub method signature matching;
 //Only match method names
-import soot.SootField;
 import jdd.util.Pair;
 import soot.Scene;
 import soot.SootMethod;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.MethodUtil;
 import jdd.util.Utils;
 
 import java.util.HashMap;

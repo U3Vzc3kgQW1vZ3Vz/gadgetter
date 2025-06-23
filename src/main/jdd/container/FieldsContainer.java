@@ -1,23 +1,18 @@
 package jdd.container;
 
 import jdd.PointToAnalyze.pointer.Pointer;
-import jdd.dataflow.DataFlowAnalysisUtils;
 import jdd.dataflow.node.MethodDescriptor;
-import jdd.dataflow.node.UndeterminedFieldNode;
-import jdd.detector.SearchGadgetChains;
 import jdd.detector.SearchUtils;
 import jdd.tranModel.TranUtil;
 import jdd.tranModel.TransformableNode;
-import jdd.util.Pair;
-import jdd.rules.protocol.JdkNativeProtocolCheckRule;
 import soot.*;
 import soot.jimple.AssignStmt;
 import soot.jimple.Constant;
 import soot.jimple.FieldRef;
 import soot.jimple.Stmt;
-import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.ClassUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
+
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
 
 import java.util.HashMap;
 import java.util.HashSet;

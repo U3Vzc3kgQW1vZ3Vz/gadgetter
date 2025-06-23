@@ -1,10 +1,9 @@
 package jdd.container;
 
 import jdd.tranModel.TransformableNode;
-import java.cg.CG;
+import callgraph.cg.CG;
 import jdd.config.SootConfig;
 import jdd.dataflow.node.MethodDescriptor;
-import jdd.gadgets.unit.Fragment;
 import jdd.markers.Stage;
 import jdd.rules.sinks.ClassLoaderCheckRule;
 import soot.Scene;

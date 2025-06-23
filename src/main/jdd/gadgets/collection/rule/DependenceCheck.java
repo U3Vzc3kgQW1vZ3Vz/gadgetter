@@ -16,17 +16,14 @@ import soot.jimple.*;
 import soot.jimple.internal.JInstanceFieldRef;
 import soot.tagkit.Tag;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.util.*;
 
-import javax.xml.transform.Source;
 import java.io.IOException;
 
-import static jdd.tranModel.Rules.RuleUtils.checkTransientControllableSimply;
-import static jdd.tranModel.Rules.RuleUtils.transientCheckForResolve;
 import static jdd.util.ClassRelationshipUtils.isSubClassOf;
 
 public class DependenceCheck implements InferRule {

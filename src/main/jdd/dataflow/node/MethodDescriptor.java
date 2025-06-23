@@ -1,12 +1,12 @@
 package jdd.dataflow.node;
 
-import java.DefaultDetector.DefaultMethodDescriptor;
+import callgraph.DefaultDetector.DefaultMethodDescriptor;
 import jdd.PointToAnalyze.pointer.PointTable;
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.tranModel.Taint.Taint;
 import jdd.tranModel.TransformableNode;
-import java.cfg.CFG;
-import java.cfg.Node;
+import callgraph.cfg.CFG;
+import callgraph.cfg.Node;
 import jdd.dataflow.node.paramResult.MethodResult;
 import jdd.dataflow.node.paramResult.TaintAndLinger;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import jdd.util.Utils;
 
 import java.util.*;
 
-import static java.dataflow.DataFlow.findAllDefUnitAffectThisValue;
+import static callgraph.dataflow.DataFlow.findAllDefUnitAffectThisValue;
 
 @Slf4j
 public class MethodDescriptor extends DefaultMethodDescriptor {

@@ -1,10 +1,8 @@
 package jdd.detector;
 
 import jdd.PointToAnalyze.pointer.Pointer;
-import jdd.config.ConfigUtil;
 import jdd.config.InitConfig;
 import jdd.config.RegularConfig;
-import jdd.config.SootConfig;
 import jdd.container.BasicDataContainer;
 import jdd.container.FragmentsContainer;
 import jdd.dataflow.DataFlowAnalysisUtils;
@@ -12,37 +10,31 @@ import jdd.dataflow.DataflowDetect;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.dataflow.node.SourceNode;
 import jdd.dataflow.node.UndeterminedFieldNode;
-import fj.P;
 import jdd.gadgets.collection.iocd.unit.instrument.Instruments;
 import jdd.gadgets.collection.node.ClassNode;
 import jdd.gadgets.collection.node.GadgetInfoRecord;
 import jdd.gadgets.unit.Fragment;
 import lombok.extern.slf4j.Slf4j;
-import jdd.markers.SinkType;
 import jdd.markers.Stage;
 import soot.*;
 import soot.jimple.AddExpr;
 import soot.jimple.Expr;
 import soot.jimple.XorExpr;
-import jdd.tranModel.Rule;
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.TranUtil;
 import jdd.tranModel.TransformableNode;
 import jdd.util.DataSaveLoadUtil;
 import jdd.util.Pair;
-import java.util.StaticAnalyzeUtils.Parameter;
-import java.util.TimeOutTask;
-import jdd.util.Utils;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.TimeOutTask;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 import static jdd.dataflow.DataFlowAnalysisUtils.flushSinkFragmentsBasedOnPriority;
 import static jdd.detector.SearchUtils.*;
 import static jdd.gadgets.collection.iocd.TransformerUtils.*;
-import static jdd.util.ClassRelationshipUtils.isProxyMethod;
 
 @Slf4j
 public class SearchGadgetChains {

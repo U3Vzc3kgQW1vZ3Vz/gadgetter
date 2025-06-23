@@ -1,24 +1,13 @@
 package jdd.util;
 
-import java.cfg.Node;
 import com.google.gson.Gson;
 import jdd.config.RegularConfig;
 import jdd.container.BasicDataContainer;
 import jdd.container.RulesContainer;
-import jdd.gadgets.collection.iocd.IOCD;
-import jdd.gadgets.collection.iocd.unit.ConditionRecord;
-import jdd.gadgets.collection.iocd.unit.instrument.IfStmtInstRecord;
-import jdd.gadgets.collection.iocd.unit.instrument.Instruments;
-import jdd.gadgets.collection.iocd.unit.instrument.MethodInstRecord;
-import jdd.gadgets.collection.node.ConditionNode;
-import jdd.gadgets.collection.node.GadgetInfoRecord;
-import jdd.gadgets.collection.node.GadgetNode;
 import lombok.extern.slf4j.Slf4j;
 import jdd.markers.SinkType;
 import org.apache.commons.io.FileUtils;
-import soot.SootClass;
 import soot.SootMethod;
-import soot.jimple.IfStmt;
 import jdd.structure.RuleDataStructure;
 import jdd.structure.taint.TaintSpreadRuleUnit;
 
@@ -29,12 +18,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-
-import static jdd.gadgets.collection.AnalyzeUtils.*;
-import static jdd.gadgets.collection.iocd.TransformerUtils.transformGadgetRecord;
 
 @Slf4j
 public class DataSaveLoadUtil {

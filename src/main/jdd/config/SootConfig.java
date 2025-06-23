@@ -1,6 +1,6 @@
 package jdd.config;
 
-import java.cg.CG;
+import callgraph.cg.CG;
 import jdd.container.BasicDataContainer;
 import jdd.container.FragmentsContainer;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import soot.*;
 import soot.options.Options;
 import soot.util.Chain;
-import java.util.TimeOutTask;
+import callgraph.utilClass.TimeOutTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,6 +1,6 @@
 package jdd.gadgets.collection.node;
 
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.dataflow.node.SourceNode;
 import jdd.markers.SinkType;
 import soot.SootClass;

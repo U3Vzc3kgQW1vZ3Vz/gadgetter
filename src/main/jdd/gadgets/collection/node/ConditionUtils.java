@@ -1,9 +1,8 @@
 package jdd.gadgets.collection.node;
 
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.dataflow.node.SourceNode;
-import jdd.tranModel.TransformableNode;
 import jdd.util.Pair;
 import jdd.gadgets.collection.markers.Comparison;
 import soot.SootMethod;
@@ -12,13 +11,12 @@ import soot.Value;
 import soot.ValueBox;
 import soot.jimple.*;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static java.dataflow.DataFlow.findAllDefUnitAffectThisValue;
 import static jdd.tranModel.Rules.RuleUtils.getValueByParamIndex;
 
 public class ConditionUtils {

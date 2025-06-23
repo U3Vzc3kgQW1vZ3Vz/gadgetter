@@ -2,12 +2,8 @@ package jdd.gadgets.collection.node;
 
 import jdd.container.FragmentsContainer;
 import jdd.gadgets.collection.iocd.unit.ConstantRecord;
-import jdd.gadgets.collection.iocd.unit.MethodRecord;
 import jdd.gadgets.unit.Fragment;
-import jdd.gadgets.unit.RecordUtils;
-import jdd.rules.protocol.AbstractProtocolCheckRule;
 import soot.jimple.InvokeExpr;
-import jdd.tranModel.Rule;
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.TransformableNode;
 import jdd.container.BasicDataContainer;
@@ -19,19 +15,17 @@ import jdd.markers.SinkType;
 import soot.*;
 import soot.jimple.IfStmt;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.ClassUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import static jdd.dataflow.DataFlowAnalysisUtils.extractUsedFields;
-import static jdd.gadgets.collection.AnalyzeUtils.getHashCodeMtd;
 
 public class GadgetInfoRecord {
     public final Fragment fragment;

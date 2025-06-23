@@ -16,8 +16,8 @@ import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.Transformable;
 import jdd.tranModel.TransformableNode;
 import jdd.util.DataSaveLoadUtil;
-import jdd.util.Pair;
-import java.util.StaticAnalyzeUtils.Parameter;
+
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;

@@ -1,7 +1,6 @@
 package jdd.rules.sinks;
 
 import jdd.PointToAnalyze.pointer.Pointer;
-import jdd.container.FieldsContainer;
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.Transformable;
 import jdd.tranModel.TransformableNode;
@@ -17,8 +16,8 @@ import soot.Value;
 import soot.ValueBox;
 import soot.jimple.InvokeExpr;
 import jdd.util.DataSaveLoadUtil;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;

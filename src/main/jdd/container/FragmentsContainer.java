@@ -2,11 +2,7 @@ package jdd.container;
 
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.dataflow.DataFlowAnalysisUtils;
-import jdd.dataflow.DataflowDetect;
-import jdd.detector.SearchGadgetChains;
-import jdd.gadgets.collection.AnalyzeUtils;
 import lombok.extern.slf4j.Slf4j;
-import soot.jimple.InvokeExpr;
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.Taint.Taint;
 import jdd.tranModel.TransformableNode;
@@ -28,9 +24,9 @@ import soot.*;
 import soot.jimple.AssignStmt;
 import soot.jimple.Stmt;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.ClassUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;
@@ -40,7 +36,6 @@ import static jdd.dataflow.DataFlowAnalysisUtils.serializableIntercept;
 import static jdd.detector.SearchUtils.*;
 import static jdd.gadgets.unit.Fragment.FRAGMENT_STATE.*;
 import static jdd.tranModel.Rules.RuleUtils.detectAndRecordHashCollision;
-import static jdd.util.ClassRelationshipUtils.getOuterClass;
 import static jdd.util.ClassRelationshipUtils.isDynamicMethod;
 
 @Slf4j

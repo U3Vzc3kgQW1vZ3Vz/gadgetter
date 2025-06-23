@@ -1,7 +1,7 @@
 package jdd.gadgets.collection.node;
 
 import jdd.tranModel.TransformableNode;
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.dataflow.node.SourceNode;
 import jdd.gadgets.collection.markers.Comparison;
@@ -13,7 +13,7 @@ import soot.jimple.IfStmt;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import static java.dataflow.DataFlow.findAllDefUnitAffectThisValue;
+import static callgraph.dataflow.DataFlow.findAllDefUnitAffectThisValue;
 
 public class ConditionNode {
     public LinkedList<SourceNode> controllableValues = new LinkedList<>();

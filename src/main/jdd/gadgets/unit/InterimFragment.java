@@ -1,7 +1,7 @@
 package jdd.gadgets.unit;
 
 import jdd.tranModel.Taint.Taint;
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.container.FragmentsContainer;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.dataflow.node.SourceNode;

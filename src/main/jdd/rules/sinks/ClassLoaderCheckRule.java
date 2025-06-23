@@ -2,7 +2,7 @@ package jdd.rules.sinks;
 
 import jdd.tranModel.Transformable;
 import jdd.tranModel.TransformableNode;
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.config.RegularConfig;
 import jdd.container.FragmentsContainer;
 import jdd.dataflow.node.MethodDescriptor;
@@ -14,7 +14,7 @@ import soot.ValueBox;
 import soot.jimple.InvokeExpr;
 import jdd.util.ClassRelationshipUtils;
 import jdd.util.DataSaveLoadUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 

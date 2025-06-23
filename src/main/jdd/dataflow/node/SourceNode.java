@@ -6,7 +6,6 @@ import jdd.gadgets.collection.node.GadgetInfoRecord;
 import soot.*;
 import soot.jimple.Constant;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
 
 import java.util.LinkedList;
 

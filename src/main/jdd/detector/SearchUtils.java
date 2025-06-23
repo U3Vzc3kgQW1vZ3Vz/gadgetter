@@ -1,6 +1,6 @@
 package jdd.detector;
 
-import java.cfg.CFG;
+import callgraph.cfg.CFG;
 import soot.SootClass;
 import jdd.tranModel.Rules.TaintGenerateRule;
 import jdd.container.BasicDataContainer;

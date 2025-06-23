@@ -2,8 +2,8 @@ package jdd.gadgets.collection;
 
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.TransformableNode;
-import java.cfg.CFG;
-import java.cfg.Node;
+import callgraph.cfg.CFG;
+import callgraph.cfg.Node;
 import jdd.container.BasicDataContainer;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.dataflow.node.SourceNode;
@@ -14,7 +14,7 @@ import soot.*;
 import soot.jimple.IfStmt;
 import soot.jimple.Stmt;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
 import jdd.util.Utils;
 
 import java.util.*;

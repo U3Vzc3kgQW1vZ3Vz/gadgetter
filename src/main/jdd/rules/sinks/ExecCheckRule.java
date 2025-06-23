@@ -12,12 +12,11 @@ import soot.Value;
 import soot.jimple.InvokeExpr;
 import jdd.util.ClassRelationshipUtils;
 import jdd.util.DataSaveLoadUtil;
-import java.util.StaticAnalyzeUtils.MethodUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.MethodUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 

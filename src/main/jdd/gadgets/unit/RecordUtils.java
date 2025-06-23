@@ -1,6 +1,6 @@
 package jdd.gadgets.unit;
 
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.gadgets.collection.node.ConditionUtils;
 import soot.SootMethod;
 import soot.ValueBox;
@@ -15,15 +15,15 @@ import jdd.dataflow.node.SourceNode;
 import jdd.markers.SinkType;
 import soot.SootField;
 import soot.Value;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import static java.dataflow.DataFlow.findAllDefUnitAffectThisValue;
+import static callgraph.dataflow.DataFlow.findAllDefUnitAffectThisValue;
 import static jdd.tranModel.Rules.RuleUtils.checkTransientControllableSimply;
 
 public class RecordUtils {

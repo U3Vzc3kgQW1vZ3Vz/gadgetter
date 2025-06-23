@@ -8,7 +8,7 @@ import soot.*;
 import soot.jimple.Constant;
 import soot.jimple.FieldRef;
 import soot.jimple.ParameterRef;
-import java.util.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
 import jdd.util.Utils;
 
 import java.util.HashMap;

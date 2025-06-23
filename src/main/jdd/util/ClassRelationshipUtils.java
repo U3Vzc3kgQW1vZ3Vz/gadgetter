@@ -9,7 +9,7 @@ import soot.SootClass;
 import soot.SootMethod;
 
 import java.util.*;
-import java.util.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
 import java.util.regex.Pattern;
 
 public class ClassRelationshipUtils {

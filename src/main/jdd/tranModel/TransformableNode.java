@@ -9,10 +9,10 @@ import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.Edge;
 
-import java.cfg.CFG;
-import java.cfg.Node;
+import callgraph.cfg.CFG;
+import callgraph.cfg.Node;
 import java.util.*;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 
 /**
  * Used to encapsulate cfg.Node

@@ -13,8 +13,8 @@ import soot.ValueBox;
 import soot.jimple.InvokeExpr;
 import jdd.util.ClassRelationshipUtils;
 import jdd.util.DataSaveLoadUtil;
-import java.util.StaticAnalyzeUtils.ClassUtils;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;

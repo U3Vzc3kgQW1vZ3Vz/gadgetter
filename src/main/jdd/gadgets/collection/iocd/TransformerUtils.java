@@ -1,6 +1,6 @@
 package jdd.gadgets.collection.iocd;
 
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.config.RegularConfig;
 import jdd.container.BasicDataContainer;
 import jdd.dataflow.node.SourceNode;
@@ -18,8 +18,8 @@ import jdd.rules.sinks.*;
 import soot.*;
 import soot.jimple.IfStmt;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 
 import java.io.FileWriter;
 import java.io.IOException;

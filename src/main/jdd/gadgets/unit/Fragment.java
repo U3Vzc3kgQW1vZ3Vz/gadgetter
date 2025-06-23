@@ -1,10 +1,8 @@
 package jdd.gadgets.unit;
 
-import jdd.PointToAnalyze.pointer.Pointer;
-import jdd.dataflow.DataFlowAnalysisUtils;
 import soot.SootClass;
 import jdd.tranModel.Rules.RuleUtils;
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.config.RegularConfig;
 import jdd.container.BasicDataContainer;
 import jdd.container.FragmentsContainer;
@@ -19,7 +17,7 @@ import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import jdd.tranModel.TransformableNode;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.util.HashMap;
@@ -28,7 +26,6 @@ import java.util.LinkedList;
 
 import static jdd.tranModel.Rules.RuleUtils.sanitizerArrayElement;
 import static jdd.dataflow.DataFlowAnalysisUtils.shortPriorityLinkCheck;
-import static jdd.util.ClassRelationshipUtils.isDynamicMethod;
 import static jdd.util.ClassRelationshipUtils.isValidSuperAbstractOrInterfaceMethod;
 
 /**

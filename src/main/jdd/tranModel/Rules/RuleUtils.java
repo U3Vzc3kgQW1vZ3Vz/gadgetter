@@ -2,15 +2,15 @@ package jdd.tranModel.Rules;
 
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.config.SootConfig;
-import java.dataflow.DataFlow;
-import jdd.dataflow.node.SourcesTaintGraph;
+import callgraph.dataflow.DataFlow;
+
 import jdd.gadgets.collection.markers.DependenceType;
 import jdd.gadgets.collection.node.CollisionNode;
 import jdd.gadgets.collection.node.DependenceNode;
 import jdd.rules.protocol.AbstractProtocolCheckRule;
 import jdd.tranModel.Taint.Taint;
 import jdd.tranModel.TransformableNode;
-import java.cfg.Node;
+import callgraph.cfg.Node;
 import jdd.config.RegularConfig;
 import jdd.container.BasicDataContainer;
 import jdd.container.FragmentsContainer;
@@ -31,17 +31,16 @@ import soot.jimple.internal.JInstanceFieldRef;
 import soot.tagkit.Tag;
 import jdd.structure.taint.TaintSpreadRuleUnit;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.ClassUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.ClassUtils;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 import jdd.util.Utils;
 
 import java.io.IOException;
 import java.util.*;
 
 import static jdd.container.FragmentsContainer.*;
-import static java.dataflow.DataFlow.findAllUnitAndValueAffected;
-import static jdd.dataflow.DataFlowAnalysisUtils.recordEqualsFieldInEqualsMtd;
+import static callgraph.dataflow.DataFlow.findAllUnitAndValueAffected;
 import static jdd.dataflow.DataFlowAnalysisUtils.shortPriorityLinkCheck;
 import static jdd.gadgets.collection.AnalyzeUtils.*;
 

@@ -7,7 +7,6 @@ import jdd.tranModel.Transformable;
 import jdd.tranModel.TransformableNode;
 import jdd.container.BasicDataContainer;
 import jdd.container.FieldsContainer;
-import jdd.dataflow.DataflowDetect;
 import jdd.dataflow.node.MethodDescriptor;
 import jdd.dataflow.node.SourceNode;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +15,8 @@ import soot.*;
 import soot.jimple.*;
 import soot.jimple.internal.JInstanceFieldRef;
 import jdd.util.ClassRelationshipUtils;
-import java.util.StaticAnalyzeUtils.FieldUtil;
-import java.util.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.StaticAnalyzeUtils.FieldUtil;
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
 
 import java.util.HashSet;
 import java.util.LinkedList;
