@@ -29,7 +29,7 @@ public class SearchGadgetChain implements Callable<String> {
         TimeMeasurement.begin();
         while(!state.equals("Finished")){
             Thread.sleep(1000);
-            log.info("Execute the program for the " + (++times) + "th iteration");
+log.info("Execute the program for the " + (++times) + "th iteration");
             SearchGadgetChain detector = new SearchGadgetChain();
             FutureTask<String> task = new FutureTask<>(detector);
             Thread detectorThread = (new Thread(task, "Thread-under-supervision"));
@@ -39,7 +39,7 @@ public class SearchGadgetChain implements Callable<String> {
             try{
                 state = task.get();
             } catch (Exception e){
-                log.error("Error Report: " + e.getMessage());
+log.error("Error Report: " + e.getMessage());
                 if(times > RegularConfig.executionTimeLimit){ break; }
             }finally {
                 BasicDataContainer.reset();
@@ -85,7 +85,7 @@ class DetectorRuntimeExceptionHandler implements Thread.UncaughtExceptionHandler
         if(p.equals("")) { throw new IllegalArgumentException("Cannot handle: " + msg); }
         res = getExceptionClassName(p, msg);
 if(SootConfig.checkIgnore(res)) { // Class xxx is already in ingoreInfo, do not add, only delete
-            deleteUnhandledClass(res); log.info("Class " + res + " is");
+deleteUnhandledClass(res); log.info("Class " + res + " is");
             return null;
         }
 
@@ -94,11 +94,11 @@ if(SootConfig.checkIgnore(res)) { // Class xxx is already in ingoreInfo, do not 
             SootConfig.ignoreInfo.add(res);
             File ignoreFile = new File(ignoreListPath);
             FileUtils.writeStringToFile(ignoreFile, res + "\n", Charsets.UTF_8, true);
-            log.info("Unhandled class " + res + " has been written to file");
-            log.info("Deleted unhandled class " + res);
+log.info("Unhandled class " + res + " has been written to file");
+log.info("Deleted unhandled class " + res);
             deleteUnhandledClass(res);
         }catch (IOException e){
-            log.error("Failed");
+log.error("Failed");
         }
 
         return res;
@@ -129,7 +129,7 @@ if(SootConfig.checkIgnore(res)) { // Class xxx is already in ingoreInfo, do not 
         List<String> resList;
 
         resList = getRegexResultList(p, msg);
-        if(resList.isEmpty()) { throw new IllegalArgumentException("Pattern " + p + "无法处理异常信息：" + msg); }
+        if(resList.isEmpty()) { throw new IllegalArgumentException("Pattern " + p + "How to handle exception information：" + msg); }
         res = resList.get(0);
         res = res.replace("<", "");
         res = res.replace(">", "");

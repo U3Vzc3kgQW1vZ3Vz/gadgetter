@@ -47,7 +47,10 @@ public class Transformable {
         extraInferRules.add(inferRule);
     }
 
-// Used to apply various rules in the data flow analysis process, such as alias, Point2, stain propagation, etc.
+    /**
+     * Used to apply various rules in the data flow analysis process, such as alias, Point2, taint propagation, etc.
+     * @param descriptor
+     */
     public void forward(MethodDescriptor descriptor){
         state = State.TRANSFORMED;
         for(Rule rule : rules){
@@ -55,7 +58,12 @@ public class Transformable {
         }
     }
 
-// Used for the collection of risky call stack information
+    /**
+     * Used for the collection of risky call stack information
+     * @param descriptor
+     * @param callStack
+     * @throws IOException
+     */
     public void forwardCheck(MethodDescriptor descriptor,
                              LinkedList<SootMethod> callStack) throws IOException {
         FragmentsContainer.protocolCheckRule.apply(descriptor, callStack, this);

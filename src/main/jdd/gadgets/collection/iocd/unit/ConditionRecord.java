@@ -12,7 +12,7 @@ public class ConditionRecord {
 
     public MethodRecord methodBelongTo;
 public LinkedHashMap<String, FieldRecord> conditionName = new LinkedHashMap<>(); // Controllable object?
-public LinkedHashMap<String, String> conditionValue = new LinkedHashMap<>(); // 值
+public LinkedHashMap<String, String> conditionValue = new LinkedHashMap<>(); // value
     public String comparator;
     public String ifStmt;
     public boolean basic = false;

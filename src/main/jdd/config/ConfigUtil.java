@@ -31,7 +31,7 @@ public class ConfigUtil {
             initConfig();
             SootConfig.setSoot(RegularConfig.inputPath);
         }catch (FileNotFoundException e){
-            log.error("File Not Found: " + e.getMessage());
+log.error("File Not Found: " + e.getMessage());
             e.printStackTrace();
         }catch (IOException e){
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class ConfigUtil {
             String tmpDir = "tmp/";
             File tmpDirFile = new File(dir + tmpDir);
             if(tmpDirFile.exists()){
-                log.info("有遗留的历史tmp文件夹，使用该tmp文件夹作为分析输入的class path。如果有新的项目要分析请删除该文件夹");
+log.info("There is a legacy historical tmp folder, use the tmp folder as the class path for analysis input. If there is a new project to analyze, please delete the folder");
                 return;
             }
             tmpDirFile.mkdirs();
@@ -121,7 +121,7 @@ public class ConfigUtil {
                 JarFile jar = new JarFile(jarFile);
                 decompressJar(jar, dir + tmpDir);
             }
-            log.info("共解压" + classNums + "个类");
+log.info("Co-decompression" + classNums + "classes");
 // Process some special directories, such as WEB-INF/classes, move them to the tmp directory, so that the class path of the class in this folder is correct
             for(String specialDir : runtimeSpecialDirList){
                 File srcDir = new File(specialDir);
@@ -242,12 +242,12 @@ public class ConfigUtil {
         ConfigUtil.loadConfig("config/config.properties");
         RegularConfig.sootClassPath = ConfigUtil.getJdkDependencies(RegularConfig.withAllJdk);
 
-        log.info("[ detect project :" + RegularConfig.inputPath + " ]");
+log.info("[ detect project :" + RegularConfig.inputPath + " ]");
 // Unzip all jar/war packages under inputClassPath
-        log.info("解压目录" + RegularConfig.inputPath + "的类信息");
+log.info("Decompress directory" + RegularConfig.inputPath + "class information");
         ConfigUtil.decompressJarFromDir(RegularConfig.inputPath);
         RegularConfig.inputPath = RegularConfig.inputPath + "tmp/";
-        log.info("解压完成");
+log.info("Decompression is completed");
     }
 
     private static String getPathProperty(String pathKey){
@@ -308,9 +308,12 @@ public class ConfigUtil {
         try{
 
             if (isOnServer()){
-                filePath = "/home/cbf/dvd-evaluation/evaluation/config/config.properties";
+
+                //TODO: fix later tonight
+
+                filePath = System.getProperty("user.dir")+File.separator+"config/config.properties";
             }
-            log.info("filePath = "+filePath);
+log.info("filePath = "+filePath);
             Reader configReader = new FileReader(filePath);
             configProperties.load(configReader);
 

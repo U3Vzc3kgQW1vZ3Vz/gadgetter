@@ -97,7 +97,7 @@ public class ClassLoaderCheckRule extends AbstractCheckRule {
             if (testArg != null){
                 risky = descriptor.addTaint(testArg.getValue(), Parameter.getReturnedValueBox(currentCFGNode));
             }
-if (risky){ // Record the source of the stain, fill in the necessary information when generating Sink Fragments
+if (risky){ // Record the source of the taint , fill in the necessary information when generating Sink Fragments
                 RecordUtils.recordTaintedArgs(descriptor, testArg.getValue(), sinkType, tfNode);
             }
         }
@@ -107,7 +107,7 @@ if (risky){ // Record the source of the stain, fill in the necessary information
             if (testArg != null){
                 risky = descriptor.addTaint(testArg.getValue(), Parameter.getThisValueBox(currentCFGNode));
             }
-if (risky){ // Record the source of the stain, fill in the necessary information when generating Sink Fragments
+if (risky){ // Record the source of the taint , fill in the necessary information when generating Sink Fragments
                 RecordUtils.recordTaintedArgs(descriptor, testArg.getValue(), sinkType, tfNode);
             }
         }
@@ -116,7 +116,7 @@ if (risky){ // Record the source of the stain, fill in the necessary information
             if (testArg != null){
                 risky = descriptor.addTaint(testArg.getValue(), Parameter.getReturnedValueBox(currentCFGNode));
             }
-if (risky){ // Record the source of the stain, fill in the necessary information when generating Sink Fragments
+if (risky){ // Record the source of the taint , fill in the necessary information when generating Sink Fragments
                 RecordUtils.recordTaintedArgs(descriptor, testArg.getValue(), sinkType, tfNode);
             }
 

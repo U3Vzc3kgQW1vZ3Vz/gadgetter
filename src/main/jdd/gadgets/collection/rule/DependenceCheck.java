@@ -71,7 +71,7 @@ public class DependenceCheck implements InferRule {
                 return;
             }
 
-// TODO: Will fields need to be considered? I will not deal with it for the time being
+// TODO: Will fields need to be considered? JDD will not deal with it for the time being
             SootField sootField = ((JInstanceFieldRef) left).getField();
             LinkedList<SootField> fields = new LinkedList<>();
             fields.add(sootField);

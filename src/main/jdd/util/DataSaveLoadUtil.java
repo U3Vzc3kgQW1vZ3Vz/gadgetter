@@ -63,7 +63,7 @@ public class DataSaveLoadUtil {
             out.write(outPutJson);
             out.flush();
         } catch (IOException e){
-            log.error("Could not write result to " + rulesPath + "!");
+log.error("Could not write result to " + rulesPath + "!");
             e.printStackTrace();
         }
     }
@@ -136,8 +136,8 @@ public class DataSaveLoadUtil {
             File file = new File(filePath);
             boolean fileCreated = file.createNewFile();
             if (fileCreated){
-                log.info("Created File: "+filePath);
-            }else log.info("Failed to create file: "+filePath);
+log.info("Created File: "+filePath);
+}else log.info("Failed to create file: "+filePath);
 
             FileWriter fileWriter = new FileWriter(filePath, appendFlag);
             return fileWriter;

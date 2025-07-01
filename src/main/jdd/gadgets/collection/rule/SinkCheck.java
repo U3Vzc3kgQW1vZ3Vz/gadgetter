@@ -96,9 +96,9 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             gadgetInfosRecord.flag = true;
             gadgetInfosRecord.addSinkNode(sinkNode);
 
-            log.info("[Custom] SootMethod: "+tfNode.method);
-            log.info("[Custom] TransformableNode: "+tfNode);
-            log.info("[Custom] controlledValue : "+sinkNode.controllableSinkValues);
+log.info("[Custom] SootMethod: "+tfNode.method);
+log.info("[Custom] TransformableNode: "+tfNode);
+log.info("[Custom] controlledValue : "+sinkNode.controllableSinkValues);
         }
     }
 
@@ -146,9 +146,9 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             }
             gadgetInfoRecord.addSinkNode(sinkNode);
 
-            log.info("[JNDI] SootMethod: "+tfNode.method);
-            log.info("[JNDI] TransformableNode: "+tfNode);
-            log.info("[JNDI] controlledValue : "+sinkNode.controllableSinkValues);
+log.info("[JNDI] SootMethod: "+tfNode.method);
+log.info("[JNDI] TransformableNode: "+tfNode);
+log.info("[JNDI] controlledValue : "+sinkNode.controllableSinkValues);
         }
     }
 
@@ -168,9 +168,9 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             gadgetInfoRecord.flag = true;
             gadgetInfoRecord.addSinkNode(sinkNode);
 
-            log.info("[ClassLoad] SootMethod: "+tfNode.method);
-            log.info("[ClassLoad] TransformableNode: "+tfNode);
-            log.info("[ClassLoad] controlledValue : "+sinkNode.controllableSinkValues);
+log.info("[ClassLoad] SootMethod: "+tfNode.method);
+log.info("[ClassLoad] TransformableNode: "+tfNode);
+log.info("[ClassLoad] controlledValue : "+sinkNode.controllableSinkValues);
         }
     }
 
@@ -224,11 +224,11 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             gadgetInfoRecord.flag = true;
             gadgetInfoRecord.addSinkNode(sinkNode);
 
-            log.info("[Invoke] SootMethod: "+tfNode.method);
-            log.info("[Invoke] TransformableNode: "+tfNode);
-            log.info("[Invoke] sinkClassBelongTo : "+sinkNode.sinkObject);
-            log.info("[Invoke] sinkMethodName : "+sinkNode.sinkMethodName);
-            log.info("[Invoke] sinkMethod : "+sinkNode.sinkMethod);
+log.info("[Invoke] SootMethod: "+tfNode.method);
+log.info("[Invoke] TransformableNode: "+tfNode);
+log.info("[Invoke] sinkClassBelongTo : "+sinkNode.sinkObject);
+log.info("[Invoke] sinkMethodName : "+sinkNode.sinkMethodName);
+log.info("[Invoke] sinkMethod : "+sinkNode.sinkMethod);
         }
     }
 
@@ -248,9 +248,9 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             gadgetInfoRecord.flag = true;
             gadgetInfoRecord.addSinkNode(sinkNode);
 
-            log.info("[EXEC] SootMethod: " + tfNode.method);
-            log.info("[EXEC] TransformableNode: " + tfNode);
-            log.info("[EXEC] controlledValue : " + sinkNode.controllableSinkValues);
+log.info("[EXEC] SootMethod: " + tfNode.method);
+log.info("[EXEC] TransformableNode: " + tfNode);
+log.info("[EXEC] controlledValue : " + sinkNode.controllableSinkValues);
         }
     }
 
@@ -292,10 +292,10 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             gadgetInfoRecord.flag = true;
             gadgetInfoRecord.addSinkNode(sinkNode);
 
-            log.info("[FILE] SootMethod: "+tfNode.method);
-            log.info("[FILE] TransformableNode: "+tfNode);
-            log.info("[FILE] sinkFileContent : "+sinkNode.sinkFileContent);
-            log.info("[FILE] sinkFilePath : "+sinkNode.sinkFilePath);
+log.info("[FILE] SootMethod: "+tfNode.method);
+log.info("[FILE] TransformableNode: "+tfNode);
+log.info("[FILE] sinkFileContent : "+sinkNode.sinkFileContent);
+log.info("[FILE] sinkFilePath : "+sinkNode.sinkFilePath);
         }
     }
 
@@ -321,9 +321,9 @@ sinkNode.sinkMethod = sinkNode.controllableSinkValues.get(1).iterator().next(); 
             gadgetInfosRecord.flag = true;
             gadgetInfosRecord.addSinkNode(sinkNode);
 
-            log.info("[SECODDES] SootMethod: " + transformableNode.method);
-            log.info("[SECODDES] TransformableNode: " + transformableNode);
-            log.info("[SECODDES] controlledValue : " + sinkNode.controllableSinkValues);
+log.info("[SECODDES] SootMethod: " + transformableNode.method);
+log.info("[SECODDES] TransformableNode: " + transformableNode);
+log.info("[SECODDES] controlledValue : " + sinkNode.controllableSinkValues);
         }
     }
 

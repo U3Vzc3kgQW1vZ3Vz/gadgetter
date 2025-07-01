@@ -496,6 +496,6 @@ public class Utils {
         long minutes = seconds / 60; // Convert to minutes
         long hours = minutes / 60;
 
-        log.info("程序运行时长 : " + hours + " h  : " + (minutes - hours * 60) + " m:  " + (seconds - minutes * 60) + " s");
+log.info("Program run time: " + hours + " h : " + (minutes - hours * 60) + " m: " + (seconds - minutes * 60) + " s");
     }
 }

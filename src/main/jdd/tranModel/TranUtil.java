@@ -28,11 +28,11 @@ public class TranUtil {
         HashMap<Node, TransformableNode> nodeMapTransformNode = new HashMap<>();
         HashMap<TransformableNode, Integer> transformNodeMapPrecursorSize = new HashMap<>();
         LinkedHashSet<TransformableNode> waiting = new LinkedHashSet<>();
-// Step
-// Step
-// Step
+        // Step1: Encapsulate all Nodes in cfg as TransformableNode
+        // Step2: Record the number of predecessor nodes of TransformableNode as the in-degree for subsequent processing of loops
+        // Step3: Fill the encapsulated TransformableNode into waiting and wait for processing
         for(Node node : cfg.allNodes.values()){
-// I rewrote the hash method of TransformableNode so that the topology order obtained by multiple executions of the same cfg is consistent
+// JDD rewrote the hash method of TransformableNode so that the topology order obtained by multiple executions of the same cfg is consistent
             TransformableNode transformableNode = new TransformableNode(node, cfg.entryPoint);
             transformNodeMapPrecursorSize.put(transformableNode, node.precursorNodes.size());
             nodeMapTransformNode.put(node, transformableNode);
@@ -48,6 +48,7 @@ public class TranUtil {
         while(!waiting.isEmpty()){
             int fl = 0;
             for(TransformableNode transformableNode : waiting){
+                //if the node does not have a precursor node, it is a root transformable node
                 if(transformNodeMapPrecursorSize.get(transformableNode) == 0){
                     ret.add(transformableNode);
                     waiting.remove(transformableNode);
@@ -71,7 +72,7 @@ transformNodeMapPrecursorSize.put(successor, temp - 1); // The successor node ha
                     break;
                 }
             }
-// Because I have a layer of while(!waiting.isEmpty())
+// Because JDD have a layer of while(!waiting.isEmpty())
 // So if a loop appears, transformNodeMapPrecursorSize.get(transformableNode) == 0 can't get over
 // Then fl cannot be 1, so it enters the following ring-in processing
             if(fl == 0){

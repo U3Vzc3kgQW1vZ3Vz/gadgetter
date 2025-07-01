@@ -108,7 +108,7 @@ public class Parameter {
                     try{
                         return Integer.parseInt(sp[1].substring(sp[1].length() - 1));
                     } catch (Exception e){
-                        log.warn("无法获取unit" + unit + "的this/形参对应关系，返回null");
+log.warn("Unable to obtain unit" + unit + "This/formal parameter correspondence, return null");
                         return null;
                     }
                 }
@@ -174,6 +174,12 @@ public class Parameter {
     }
 
 // eg. O.method->O
+
+    /**
+     * Gel the valueBox of the node
+     * @param node
+     * @return
+     */
     public static ValueBox getThisValueBox(Node node){
         if (!((Stmt) node.unit).containsInvokeExpr())
             return null;
@@ -186,6 +192,7 @@ public class Parameter {
 // hack
         ValueBox thisBox = null;
         HashSet<ValueBox> argBoxes = getAllArgValueBoxes(node);
+        //check if the argument is not a use box then it is a value box
         for (ValueBox valueBox:invokeExpr.getUseBoxes()){
             if(!argBoxes.contains(valueBox)) thisBox = valueBox;
         }

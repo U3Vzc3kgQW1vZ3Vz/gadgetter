@@ -66,7 +66,7 @@ Unit currentUnit = tfNode.node.unit; // Considering that some methods deal with 
                 SootMethod invokedMethod = tfNode.getUnitInvokeExpr().getMethod();
 // TODO: (a) Don't deal with it first, observe whether the problem still exists
 
-boolean generateFlag = false; // Identifier for determining whether the stain can be generated
+boolean generateFlag = false; // Identifier for determining whether the taint can be generated
                 ValueBox thisValueBox = Parameter.getThisValueBox(currentStmt);
                 if (thisValueBox != null){
                     for (Taint taint: descriptor.getAllTaintsAboutThisValue(thisValueBox.getValue())){
@@ -159,7 +159,7 @@ if (BasicDataContainer.infosCollect) { // TODO: If not found, try to match accor
                         }
                     }
                     else {
-                        log.info("--- FieldRef in TaintGenerateRule: "+ right);
+log.info("--- FieldRef in TaintGenerateRule: "+ right);
                     }
                 }
             }

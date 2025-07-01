@@ -36,7 +36,7 @@ import static jdd.util.ClassRelationshipUtils.isValidSuperAbstractOrInterfaceMet
 @Setter
 public class Fragment {
 boolean flag = true; // Identify the legality of the Fragment. If flag==false, remove the Fragment
-    public enum FRAGMENT_STATE{SOURCE, FREE_STATE, SINK};
+    public enum FRAGMENT_STATE{SOURCE, FREE_STATE, SINK}
     public FRAGMENT_STATE state = null;
 public enum FRAGMENT_TYPE{POLYMORPHISM, DYNAMIC_PROXY, REFLECTION} // Follow up on head judgment
     public FRAGMENT_TYPE type = null;
@@ -112,18 +112,18 @@ public LinkedList<Integer> linkedFragments = new LinkedList<>(); // Sequential r
             }
         }
 
-        HashSet<HashSet<Integer>> paramsTaitRequires = RuleUtils.linkCheckOfTaints(preFragment, sucFragment);
-        if (paramsTaitRequires.isEmpty()){
+        HashSet<HashSet<Integer>> paramsTaintRequires = RuleUtils.linkCheckOfTaints(preFragment, sucFragment);
+        if (paramsTaintRequires.isEmpty()){
             flag = false;
             return;
-        }else if (paramsTaitRequires.size() == 1
+        }else if (paramsTaintRequires.size() == 1
                 & preFragment.gadgets.getFirst().getSubSignature().equals("boolean equals(java.lang.Object)")){
-            HashSet<Integer> requires = paramsTaitRequires.iterator().next();
+            HashSet<Integer> requires = paramsTaintRequires.iterator().next();
             if (requires.isEmpty())
                 requires.add(0);
         }
 
-        this.connectRequire = new ConnectRequire(paramsTaitRequires, preFragment.connectRequire.preLinkableMethods);
+        this.connectRequire = new ConnectRequire(paramsTaintRequires, preFragment.connectRequire.preLinkableMethods);
         this.connectRequire.dynamicProxyLinkCheck = preFragment.connectRequire.dynamicProxyLinkCheck;
         this.connectRequire.reflectionCheck = preFragment.connectRequire.reflectionCheck;
 
@@ -151,10 +151,10 @@ public LinkedList<Integer> linkedFragments = new LinkedList<>(); // Sequential r
         linkedDynamicMethods.addAll(sucFragment.linkedDynamicMethods);
 
         if (flag){
-            for (HashSet<Integer> condSet: paramsTaitRequires){
-                if (!FragmentsContainer.paramsTaitRequireSinkFragmentsMap.containsKey(condSet))
-                    FragmentsContainer.paramsTaitRequireSinkFragmentsMap.put(condSet, new HashSet<>());
-                FragmentsContainer.paramsTaitRequireSinkFragmentsMap.get(condSet).add(this);
+            for (HashSet<Integer> condSet: paramsTaintRequires){
+                if (!FragmentsContainer.paramsTaintRequireSinkFragmentsMap.containsKey(condSet))
+                    FragmentsContainer.paramsTaintRequireSinkFragmentsMap.put(condSet, new HashSet<>());
+                FragmentsContainer.paramsTaintRequireSinkFragmentsMap.get(condSet).add(this);
             }
         }
     }
@@ -228,7 +228,7 @@ public LinkedList<Integer> linkedFragments = new LinkedList<>(); // Sequential r
                 type = null;
         }
         else if (BasicDataContainer.commonMtdMap.get("invokeHandler").getSubSignature().equals(head.getSubSignature()))
-type = FRAGMENT_TYPE.DYNAMIC_PROXY; // 包含POLYMORPHISM
+type = FRAGMENT_TYPE.DYNAMIC_PROXY; // contains POLYMORPHISM
         else if (!preLinkableMethods.isEmpty())
             type = FRAGMENT_TYPE.POLYMORPHISM;
         else flag = false;
@@ -290,6 +290,11 @@ type = FRAGMENT_TYPE.DYNAMIC_PROXY; // 包含POLYMORPHISM
         }
     }
 
+    /**
+     * Add taint dependency between head method's params and the subsequent method's params
+     * @param descriptor
+     * @param invokeNode
+     */
     public void setTaintsDependence(MethodDescriptor descriptor, Node invokeNode){
 // MethodDescriptor descriptor = BasicDataContainer.getOrCreateDescriptor(this.invokeNode.method);
 // descriptor = BasicDataContainer.getOrCreateDescriptor(gadgets.getLast());

@@ -31,7 +31,7 @@ public interface DirTraversal {
         int sum = toBeAnalyzedFiles.size();
         for (File f:toBeAnalyzedFiles){
             try {
-                logger.info("("+i+"/"+sum+") 处理" + f + "...");
+                logger.info("("+i+"/"+sum+") deal with" + f + "...");
                 i+=1;
                 work(f);
             } catch (Exception e) {

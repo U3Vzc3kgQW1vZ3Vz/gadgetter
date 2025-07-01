@@ -26,7 +26,7 @@ public int id; // Identify class Node, which is convenient for processing when m
 // field - <Which class file is used, the number of lines in the class file>
     public HashSet<FieldRecord> usedFields;
     public List<FieldRecord> fields;
-public List<FieldRecord> conFields; // fieldRecord记录
+public List<FieldRecord> conFields; // fieldRecord record
     public LinkedList<ConditionRecord> allConditions;
     public LinkedList<MethodRecord> usedMethods;
     public boolean isProxy;

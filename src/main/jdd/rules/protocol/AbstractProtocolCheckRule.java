@@ -113,11 +113,11 @@ public abstract class AbstractProtocolCheckRule implements ProtocolCheckRule {
     public void doClassCheck(){
         candidateClassSet.addAll(Scene.v().getApplicationClasses());
         candidateClassSet.addAll(Scene.v().getClasses());
-        log.info("进行类筛选，筛选前分析类总数为：" + candidateClassSet.size());
+log.info("Check class filtering, the total number of analysis classes before filtering is: " + candidateClassSet.size());
         blackListFilter();
         if(BasicDataContainer.needSerializable){ serializationFilter(); }
 
-        log.info("筛选后分析类总数为：" + candidateClassSet.size());
+log.info("The total number of analysis classes after filtering is: " + candidateClassSet.size());
     }
 
     public void blackListFilter(){
@@ -207,7 +207,7 @@ boolean flag = false; // Record whether the detected fields are 0 because the nu
 // && !sourceNode.getType().toString().equals("java.lang.Object[]"))
                     if (RuleUtils.isSingleGenericType(sourceNode.getType()))
                         count = count + 1;
-                    else if (!RuleUtils.isGeneticType(sourceNode.getType())) {
+                    else if (!RuleUtils.isGenericType(sourceNode.getType())) {
                         tmpFlag = false;
                         otherCount ++;
                         break;

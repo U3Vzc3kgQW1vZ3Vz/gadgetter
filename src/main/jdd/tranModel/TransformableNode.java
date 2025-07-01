@@ -71,7 +71,7 @@ public class TransformableNode extends Transformable {
 
     /**
      * Used to determine what external functions (i.e. polymorphic) exist in the current Jimple method call statement, and:
-     * 1. Propagate the stain into the method call
+     * 1. Propagate the taint into the method call
      * 2. Handle method link exceptions in soot.jimple.toolkits.callgraph.Edge#tgt() in anonymous inner class
      *
      * @return
@@ -81,13 +81,13 @@ public class TransformableNode extends Transformable {
 
         HashSet<SootMethod> ret = new HashSet<>();
         if (!containsInvoke()) return ret;
-// Get the edge out, return directly without the edge out
+// Get the edge out, return if there's no edge
         Iterator<Edge> edgeIterator = BasicDataContainer.cg.callGraph.edgesOutOf(node.unit);
         if (edgeIterator == null)
             return ret;
 
         int index = 0;
-// Process these derived methods and use connectParameters to pass stain information.
+// Process these derived methods and use connectParameters to pass taint information.
         while (edgeIterator.hasNext()) {
             index++;
             SootMethod invokeMethod = edgeIterator.next().tgt();
@@ -96,6 +96,7 @@ public class TransformableNode extends Transformable {
             }
             ret.add(invokeMethod);
         }
+        // if edgeIterator has no edge then find the exact method
         if (ret.size() == 0 && needConnectParams()) {
             ret = findExactMethod(descriptor);
         }

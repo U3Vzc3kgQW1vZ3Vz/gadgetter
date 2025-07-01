@@ -51,8 +51,8 @@ public class InvokeStmtUtil {
     }
 
     /**
-     * Find the exact implementation from this type from many CHA methods, if it does not implement it itself, find its parent class;
-     * If type is a non-specific method, filter the possibleMethods class that belongs to the subclass of the class corresponding to type.
+     * - Find the exact implementation from this type from many CHA(class hierarchy analysis) methods, if it does not implement it itself, find its parent class;
+     * - If type is a non-specific method, filter the possibleMethods class that belongs to the subclass of the class corresponding to type.
      */
     public static HashSet<SootMethod> findExactMethodFromCHAMethods(Set<SootMethod> possibleMethods, SootClass expectClass,
                                                      TransformableNode tfNode){

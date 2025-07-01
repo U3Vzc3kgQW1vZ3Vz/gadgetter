@@ -1,5 +1,7 @@
 package jdd.detector;
 
+import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
+import callgraph.utilClass.TimeOutTask;
 import jdd.PointToAnalyze.pointer.Pointer;
 import jdd.config.InitConfig;
 import jdd.config.RegularConfig;
@@ -14,19 +16,17 @@ import jdd.gadgets.collection.iocd.unit.instrument.Instruments;
 import jdd.gadgets.collection.node.ClassNode;
 import jdd.gadgets.collection.node.GadgetInfoRecord;
 import jdd.gadgets.unit.Fragment;
-import lombok.extern.slf4j.Slf4j;
 import jdd.markers.Stage;
-import soot.*;
-import soot.jimple.AddExpr;
-import soot.jimple.Expr;
-import soot.jimple.XorExpr;
 import jdd.tranModel.Rules.RuleUtils;
 import jdd.tranModel.TranUtil;
 import jdd.tranModel.TransformableNode;
 import jdd.util.DataSaveLoadUtil;
 import jdd.util.Pair;
-import callgraph.utilClass.StaticAnalyzeUtils.Parameter;
-import callgraph.utilClass.TimeOutTask;
+import lombok.extern.slf4j.Slf4j;
+import soot.*;
+import soot.jimple.AddExpr;
+import soot.jimple.Expr;
+import soot.jimple.XorExpr;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class SearchGadgetChains {
         if (RegularConfig.outPutIOCD) {
             System.out.println("[ IOCD Generating ]");
             buildIOCD();
-        }else {
+        } else {
             System.out.println("[ Print Detected Gadget Chains ]");
 // just print the detected chains, see the detected chains in DetectedGadgetChains.txt
             String targetResultsPath = RegularConfig.outputDir + File.separator + "gadgets" + File.separator + RegularConfig.outPutDirName + File.separator;
@@ -65,7 +65,7 @@ public class SearchGadgetChains {
             for (HashSet<Fragment> sinkFragments : FragmentsContainer.sortedSinkFragmentsMap.values()) {
                 for (Fragment sinkFragment : sinkFragments) {
                     DataSaveLoadUtil.recordCallStackToFile(sinkFragment.gadgets, sinkFragment.sinkType,
-                            targetResultsPath+ "DetectedGadgetChains.txt",
+                            targetResultsPath + "DetectedGadgetChains.txt",
                             true);
                 }
             }
@@ -73,14 +73,14 @@ public class SearchGadgetChains {
     }
 
     public static void searchGadgetFragments() {
-setDetectSchemeOn(); // Set the flag to start detection
+        setDetectSchemeOn(); // Set the flag to start detection
         while (!FragmentsContainer.sources.isEmpty()) {
             SootMethod headMtd = FragmentsContainer.sources.iterator().next();
             FragmentsContainer.sources.remove(headMtd);
             FragmentsContainer.searched.add(headMtd);
             searchFragment(headMtd, null);
-
-if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
+//check if subclasses calls the head method, mark the class as searched then search for Fragments in this class
+            if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // consider
                 while (!FragmentsContainer.superMtdSources.get(headMtd).isEmpty()) {
                     SootClass thisClz = FragmentsContainer.superMtdSources.get(headMtd).iterator().next();
                     FragmentsContainer.superMtdSources.get(headMtd).remove(thisClz);
@@ -93,7 +93,7 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
     }
 
     public static boolean collectFields(SootMethod sootMethod, HashSet<SourceNode> usedFields) {
-// Generate stain information for the initial method
+// Generate taint information for the initial method
         MethodDescriptor descriptor = initDealBeforeSearching(sootMethod, null);
         LinkedList<SootMethod> callStack = new LinkedList<>();
         callStack.add(sootMethod);
@@ -236,12 +236,13 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
 
 
     /**
-     * Search and record Fragment information for startMtd as the starting method
+     * Search and record Fragment information for headMtd as the starting method
      * (1) Other dynamic methods detected during the search process
      * (2) Enter the mapping relationship between participating dynamic method call parameters
      * (3) Related information about the generated Fragment: Fragment type,
      *
      * @param headMtd
+     * @param thisClass
      */
     public static void searchFragment(SootMethod headMtd, SootClass thisClass) {
         if (FragmentsContainer.isSinkMethod(headMtd) || RuleUtils.isInvalidFragmentEnd(headMtd, false))
@@ -265,7 +266,7 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
                 @Override
                 protected void timeoutHandler() {
                     log.error("Timeout when analyzing method" + headMtd.getName() + ". Located in class"
-                            + (thisClass==null? headMtd.getDeclaringClass(): thisClass));
+                            + (thisClass == null ? headMtd.getDeclaringClass() : thisClass));
                 }
             }.run(timeThread);
         } catch (Exception e) {
@@ -279,7 +280,7 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
 
     /**
      * Splicing Fragments
-     * TODO Unmixed Features: Fine-grained stain check after splicing & useless fragments
+     * TODO Unmixed Features: Fine-grained taint check after splicing & useless fragments
      */
     public static void linkFragments() {
         if (!FragmentsContainer.protocolCheckRule.openBPLink()) {
@@ -313,7 +314,7 @@ if (FragmentsContainer.superMtdSources.containsKey(headMtd)) { // 考虑
 
                 HashSet<Fragment> addSinkFragments = dataflowDetect.linkFreeStateFragments(freeStateFragment);
                 if (!addSinkFragments.isEmpty()) toDelete.add(freeStateFragment);
-for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to select whether to enable heuristic selection
+                for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to select whether to enable heuristic selection
                     flushSinkFragmentsBasedOnPriority(newSinkFragment, allSinkFragments, newSinkFragments);
 
                     HashSet<SootMethod> newDynamicMtds = new HashSet<>(newSinkFragment.connectRequire.preLinkableMethods);
@@ -335,12 +336,13 @@ for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to selec
             if (RegularConfig.linkMode.equals("strict")) {
                 for (Fragment freeStateFragment : toDelete) {
                     HashSet<Fragment> addSinkFragments = dataflowDetect.linkFreeStateFragments(freeStateFragment);
-for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to select whether to enable heuristic selection
+                    for (Fragment newSinkFragment : addSinkFragments) { // TODO: Add switch to select whether to enable heuristic selection
                         flushSinkFragmentsBasedOnPriority(newSinkFragment, allSinkFragments, newSinkFragments);
                     }
                 }
                 FragmentsContainer.sinkFragments = new HashSet<>(newSinkFragments);
             }
+            //remove freeStateFragment that got analyzed
             freeStateFragments.removeAll(toDelete);
 
 // // If you have not exited, calculate and evaluate the priority of Fragments\

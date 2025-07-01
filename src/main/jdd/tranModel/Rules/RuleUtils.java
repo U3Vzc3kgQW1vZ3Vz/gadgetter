@@ -59,7 +59,7 @@ public class RuleUtils {
     }
 
     /**
-     * Add stain information to descriptor.tains, descriptor.newTaints, without alias analysis
+     * Add taint information to descriptor.tains, descriptor.newTaints, without alias analysis
      * Record the information on the situation and the fields' impact on the relationship
      * @param descriptor
      * @param taint
@@ -596,12 +596,12 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
 
 
     public static HashSet<HashSet<Integer>> linkCheckOfTaints(Fragment preFragment, Fragment sucFragment){
-        HashSet<HashSet<Integer>> paramsTaitRequires = new HashSet<>();
+        HashSet<HashSet<Integer>> paramsTaintRequires = new HashSet<>();
         if (sucFragment.connectRequire == null)
             System.out.println("???");
-        if (sucFragment.connectRequire.paramsTaitRequire == null)
+        if (sucFragment.connectRequire.paramsTaintRequire == null)
             System.out.println("???");
-        for (HashSet<Integer> condSet: sucFragment.connectRequire.paramsTaitRequire) {
+        for (HashSet<Integer> condSet: sucFragment.connectRequire.paramsTaintRequire) {
             boolean flag = true;
             for (int paramInd : condSet) {
                 if (!preFragment.endToHeadTaints.containsKey(paramInd)) {
@@ -614,13 +614,19 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
                 for (int paramInd: condSet) {
                     taintReqs.addAll(preFragment.endToHeadTaints.get(paramInd).iterator().next());
                 }
-                paramsTaitRequires.add(taintReqs);
+                paramsTaintRequires.add(taintReqs);
             }
         }
 
-        return paramsTaitRequires;
+        return paramsTaintRequires;
     }
 
+    /**
+     *Funtion that returns a Fragment HashSet that's set to be deleted. Add each priorities' fragments into the HashSet until the threadCount limit is hit
+     * @param fragments
+     * @param threadCount
+     * @return
+     */
     public static HashSet<Fragment> deleteHir(HashSet<Fragment> fragments, int threadCount){
         if (fragments.size() < threadCount)
             return new HashSet<>();
@@ -690,7 +696,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
         if (RuleUtils.isEqMethod(invokeExpr.getMethod())){
             if (!Utils.isTainted(invokeExpr.getArg(0),descriptor.taints))
                 return false;
-// To determine the type of call and the type of parameter, both must be Object type
+// check the type of call and the type of parameter, both must be Object type
             Pointer argPointer = descriptor.pointTable.getPointer(invokeExpr.getArg(0));
             if (thisPointer != null){
                 if (!thisPointer.getType().toString().contains("java.lang.Object"))
@@ -755,7 +761,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
     }
 
     /**
-     * When IOCD generation, some stain propagation is too complex and may be difficult to accurately track.
+     * When IOCD generation, some taint propagation is too complex and may be difficult to accurately track.
      * @param thisValueBox
      * @param invokeExpr
      * @param tfNode
@@ -875,6 +881,7 @@ if (ret.isEmpty()){ // 2. TODO: Initialize the instance object to return
                     sootField.getDeclaringClass(), BasicDataContainer.commonClassMap.get("Map"))) {
                 LinkedList<String> extractedTypes = Utils.extractArrayElementType(signatureTag.toString());
                 if (extractedTypes.size() >= 2 ) {
+                    //If the signature does not contains java Object then flag the fragment to remove it
                     if (!extractedTypes.getFirst().equals("java/lang/Object") & !extractedTypes.get(1).equals("java/lang/Object"))
                         return true;
                 }
@@ -1011,6 +1018,7 @@ return false; // If the corresponding field cannot be found, it is considered to
             SootField tmpSootField = null;
             for (Unit unit: sootMethod.retrieveActiveBody().getUnits()){
                 Stmt stmt = (Stmt) unit;
+                //check if field after being assigned is tainted
                 if (stmt instanceof AssignStmt){
                     Value left = ((AssignStmt) stmt).getLeftOp();
                     Value right = ((AssignStmt) stmt).getRightOp();
@@ -1090,6 +1098,7 @@ return false; // If the corresponding field cannot be found, it is considered to
         Type v2Type = sootMethod.getParameterType(1);
 
         int typeCode = turnTypeToInt(toTestFieldType) ^ turnTypeToInt(v1Type) ^ turnTypeToInt(v2Type);
+        // typeCode=7 is 1^2^4 and typeCOde=14 is 2^4^8
         if (typeCode==7 || typeCode == 14)
             return true;
 
@@ -1274,7 +1283,7 @@ return false; // If the corresponding field cannot be found, it is considered to
         return true;
     }
 
-    public static boolean isGeneticType(Type type){
+    public static boolean isGenericType(Type type){
         if (canContainGenericType(type) || isSingleGenericType(type))
             return true;
 
@@ -1282,7 +1291,7 @@ return false; // If the corresponding field cannot be found, it is considered to
     }
     public static boolean couldSetGenericTypeObj(Type type){
         SootClass typeOfClass = Utils.toSootClass(type);
-        if (isGeneticType(type)
+        if (isGenericType(type)
                 || ClassRelationshipUtils.isSubClassOf(
                 typeOfClass, BasicDataContainer.commonClassMap.get("Map"))
                 || ClassRelationshipUtils.isSubClassOf(
@@ -1293,7 +1302,7 @@ return false; // If the corresponding field cannot be found, it is considered to
     }
 
     public static boolean isInterfaceGenericType(Type type){
-        if (!isGeneticType(type))
+        if (!isGenericType(type))
             return false;
         String typeStr = type.toString();
         if (typeStr.contains("java.lang.Object")

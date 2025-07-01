@@ -42,7 +42,7 @@ public class TransformerUtils {
             out.write(outputJson);
             out.flush();
         } catch (IOException e){
-            log.error("Could not write result to " + fileName + "!");
+log.error("Could not write result to " + fileName + "!");
             e.printStackTrace();
         }
 
@@ -435,7 +435,7 @@ String tmpClassName = tmpClassNode.sootClass.getName(); // The object to which t
                 getLineNumberByUnit(conditionNode.conditionNode.node.unit));
         conditionRecord.usedSite = pair;
 
-LinkedHashMap<String, FieldRecord> conditionNames = new LinkedHashMap<>(); // 变量
+LinkedHashMap<String, FieldRecord> conditionNames = new LinkedHashMap<>(); // variable
 LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // Compare values (E.g. constant)
         for (SourceNode sourceNode: conditionNode.controllableValues){
             FieldRecord fieldRecord = makeInitFieldRecord(sourceNode);
@@ -625,7 +625,7 @@ LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // Compar
             out.write(outputJson);
             out.flush();
         } catch (IOException e){
-            log.error("Could not write result to " + fileName + "!");
+log.error("Could not write result to " + fileName + "!");
             e.printStackTrace();
         }
     }
@@ -670,7 +670,7 @@ LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // Compar
         for (String methodSig : JNDICheckRule.riskyJNDIMethodsSig){
             SootMethod sootMethod = Scene.v().getMethod(methodSig);
             if (sootMethod == null) {
-                log.info("Cannot find soot Method " + methodSig);
+log.info("Cannot find soot Method " + methodSig);
                 return;
             }
 
@@ -696,7 +696,7 @@ LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // Compar
     public static void setSinkInstRecord(String methodSig, boolean flag, String typeString, Instruments instruments){
         SootMethod sootMethod = Scene.v().getMethod(methodSig);
         if (sootMethod == null) {
-            log.info("Cannot find soot Method " + methodSig);
+log.info("Cannot find soot Method " + methodSig);
             return;
         }
 
@@ -706,7 +706,7 @@ LinkedHashMap<String, String> conditionValues = new LinkedHashMap<>(); // Compar
     public static void setSinkInstRecord(String methodSig, boolean flag, List<Integer> pollutedParams, Instruments instruments){
         SootMethod sootMethod = Scene.v().getMethod(methodSig);
         if (sootMethod == null) {
-            log.info("Cannot find soot Method " + methodSig);
+log.info("Cannot find soot Method " + methodSig);
             return;
         }
 

@@ -14,7 +14,7 @@ public class TimeMeasurement {
         startTime = System.currentTimeMillis();
     }
     public static void show(String tag) {
-        log.info("TIME_MEASURE_TAG"+" "+tag+" : "+
+log.info("TIME_MEASURE_TAG"+" "+tag+" : "+
                 ( System.currentTimeMillis()- startTime)/(1000*60)+" mins "+
                 ( System.currentTimeMillis()- startTime)%(1000*60)/1000+" seconds");
     }

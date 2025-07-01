@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class ConnectRequire {
 public HashSet<SootMethod> preLinkableMethods = new HashSet<>(); // Fragment jump condition
-public HashSet<HashSet<Integer>> paramsTaitRequire = null; // taint requirement
+public HashSet<HashSet<Integer>> paramsTaintRequire = null; // taint requirement
     public HashSet<Integer> condSet = new HashSet<>();
 
     /** Other link conditions */
@@ -18,15 +18,15 @@ public HashSet<HashSet<Integer>> paramsTaitRequire = null; // taint requirement
     
 
 // Record the splicing requirements of fragments that reflect splicing
-// static(1) getter(1)/Interface(2)/any(0) non-parameter(0默认)/String(1)
+// static(1) getter(1)/Interface(2)/any(0) non-parameter(0 default)/String(1)
     public String reflectionCheck = "010";
 
-    public ConnectRequire(HashSet<HashSet<Integer>> paramsTaitRequire, HashSet<SootMethod> preLinkableMethods){
+    public ConnectRequire(HashSet<HashSet<Integer>> paramsTaintRequire, HashSet<SootMethod> preLinkableMethods){
         dynamicProxyLinkCheck.put("MethodNameBlackList", new HashSet<>());
         dynamicProxyLinkCheck.put("MethodNameWhiteList", new HashSet<>());
         dynamicProxyLinkCheck.put("DecClassBlackList", new HashSet<>());
         dynamicProxyLinkCheck.put("DecClassWhiteList", new HashSet<>());
-        this.paramsTaitRequire = paramsTaitRequire;
+        this.paramsTaintRequire = paramsTaintRequire;
         this.preLinkableMethods = preLinkableMethods;
     }
 

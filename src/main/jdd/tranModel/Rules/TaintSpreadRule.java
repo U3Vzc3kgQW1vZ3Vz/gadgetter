@@ -85,7 +85,7 @@ public class TaintSpreadRule implements Rule {
                 }
             }
 else if (right instanceof CastExpr){ // cast type conversion
-Value object = ((CastExpr) right).getOp(); // Take the object cast and perform stain matching
+Value object = ((CastExpr) right).getOp(); // Take the object cast and perform taint matching
 
                 for (Taint taint: descriptor.getAllTaintsAboutThisValue(object)){
                     Taint newTaint = descriptor.getOrCreateTaint(left, new LinkedList<>(taint.accessPath));
@@ -132,7 +132,7 @@ Value object = ((CastExpr) right).getOp(); // Take the object cast and perform s
                     descriptor.sourcesTaintGraph.addTaintedSourceNode(newSourceNode, left);
                 }
             }
-// Do not record stains, only source
+// Do not record taints, only source
             else if (right instanceof JNewArrayExpr){
                 Value sizeValue = ((JNewArrayExpr) right).getSize();
                 descriptor.sourcesTaintGraph.addTaintedSourceNode(left, sizeValue);
@@ -151,7 +151,7 @@ Value object = ((CastExpr) right).getOp(); // Take the object cast and perform s
             }
         }
 
-// 2. Return, record the returned stain
+// 2. Return, record the returned taint 
         if (stmt instanceof ReturnStmt){
             for (ValueBox valueBox : stmt.getUseBoxes()) {
                 descriptor.retTainted.addAll(descriptor.getAllTaintsAboutThisValue(valueBox.getValue()));
@@ -208,8 +208,8 @@ Value object = ((CastExpr) right).getOp(); // Take the object cast and perform s
                 ValueBox thisValueBox = Parameter.getThisValueBox(transformableNode.node);
                 Value retValue = Parameter.getReturnedValue(transformableNode.node);
                 if (thisValueBox != null & retValue != null){
-                    HashSet<SourceNode> taitSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(thisValueBox.getValue());
-                    if (!taitSourceNodes.isEmpty())
+                    HashSet<SourceNode> taintSourceNodes = descriptor.sourcesTaintGraph.matchTaintedSources(thisValueBox.getValue());
+                    if (!taintSourceNodes.isEmpty())
                         descriptor.sourcesTaintGraph.createAndAddSourceNode(thisValueBox.getValue(), retValue, false, true);
                     else {
 // Heuristic Matching

@@ -6,40 +6,43 @@ import java.util.concurrent.*;
 
 @Slf4j
 public abstract class TimeOutTask {
-    private ExecutorService executorService= Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()*2);
+    private ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
     public void run(int timeoutSeconds) {
         Future<String> future = executorService.submit(new Callable<String>() {
             @Override
             public String call() throws Exception {
                 task();
-                return  "OK";
+                return "OK";
             }
         });
         try {
             String result = future.get(timeoutSeconds, TimeUnit.SECONDS);
         } catch (TimeoutException e) {
             future.cancel(true);
-            log.error("TimeOutTask: TimeOut");
+log.error("TimeOutTask: TimeOut");
             timeoutHandler();
-        } catch (ExecutionException e){
-            log.error("TimeOutTask ExecutionException:" + e.getMessage());
+        } catch (ExecutionException e) {
+log.error("TimeOutTask ExecutionException:" + e.getMessage());
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            log.error("TimeOutTask:" + e.getMessage());
+log.error("TimeOutTask:" + e.getMessage());
         }
         executorService.shutdown();
     }
 
     protected abstract void task() throws Exception;
 
-    protected void timeoutHandler(){};
+    protected void timeoutHandler() {
+    }
+
+    ;
 
 }
 
 @Slf4j
-class Demo{
+class Demo {
     public static void main(String[] args) {
         new TimeOutTask() {
             @Override
@@ -48,13 +51,13 @@ class Demo{
                     TimeUnit.SECONDS.sleep(10);
                     log.info("finish");
                 } catch (InterruptedException e) {
-                    log.info("任务被中断");
+                    log.info("Task interrupted");
                 }
             }
 
             @Override
-            protected void timeoutHandler(){
-                log.info("回收资源");
+            protected void timeoutHandler() {
+                log.info("Recycle Resources");
             }
         }.run(5);
     }

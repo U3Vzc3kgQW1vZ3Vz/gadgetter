@@ -72,7 +72,7 @@ public static boolean methodTaintCheck = true; // Whether to detect method conta
                 Value thisVal = thisValue.getValue();
                 taintedArgs.add(thisVal);
 // If the method is not polluted, then return directly to false
-// All: 粗筛
+// All: Coarse Screening
                 if((!Utils.isTainted(thisVal, descriptor.taints))
                         && methodTaintCheck) { return false; }
 

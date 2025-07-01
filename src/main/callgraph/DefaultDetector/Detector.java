@@ -44,7 +44,7 @@ public class Detector {
 
     protected void print(String str) {
         try {
-            log.info(str);
+log.info(str);
             outputWriter.write(str + "\n");
         } catch (IOException e) {
             e.printStackTrace();

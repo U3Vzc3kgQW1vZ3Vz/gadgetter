@@ -277,7 +277,7 @@ for (Node beginNode : originPre.successorNodes) {//We should
     /**
      * Determine whether a variable depends on another variable
      *
-     * @param srcNode Statement where the stain variable is located (you need to use this parameter to locate the position of the variable in cfg)
+     * @param srcNode Statement where the taint variable is located (you need to use this parameter to locate the position of the variable in cfg)
      * @param srcValueBox blemish variable
      * @param tarNode Target Statement
      * @return boolean Can it be contaminated

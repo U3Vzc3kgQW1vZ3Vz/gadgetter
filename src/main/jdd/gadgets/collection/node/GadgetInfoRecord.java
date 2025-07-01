@@ -423,7 +423,7 @@ gadgetNode.allConditions.put(ifStmt, conditionNode); // Synchronously record int
         valuesOfObjectType.removeAll(toDelete);
 
 
-// Replenish stains for special situations such as equals
+// Replenish taints for special situations such as equals
         if (!this.flag
                 && descriptor.sootMethod.getSubSignature().equals("boolean equals(java.lang.Object)")
                 && (!invokedDescriptor.fieldsParamIndexRecord.containsKey(0)

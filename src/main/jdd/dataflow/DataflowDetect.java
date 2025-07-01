@@ -86,13 +86,18 @@ public class DataflowDetect {
         DataFlowAnalysisUtils.updateAfterAnalysisMtd(descriptor);
     }
 
-
+    /**
+     * recursively go through topologically ordered node, analyze and update information of the nodes and then generate fragments
+     * @param descriptor
+     * @param callStack
+     * @throws IOException
+     */
     public void detectFragment(MethodDescriptor descriptor, LinkedList<SootMethod> callStack) throws IOException {
         SootMethod sootMethod = getMethodDescriptor(descriptor);
         if (sootMethod == null)
             return;
         if (ClassRelationshipUtils.isProxyMethod(sootMethod)){
-            log.info("DEBUG");
+log.info("DEBUG");
         }
 
 // Update the information of calling the method to the method, ; Inter-process analysis
@@ -105,7 +110,7 @@ public class DataflowDetect {
             if (callStack.size() <= BasicDataContainer.stackLenLimitNum){
                 DataFlowAnalysisUtils.recordEqualsFieldInEqualsMtd(tfNode, descriptor);
 
-// Conduct stain inspection to determine whether there is any need to follow up on the invoked method for stain analysis
+// Conduct taint inspection to determine whether there is any need to follow up on the invoked method for taint analysis
                 if(!DataFlowAnalysisUtils.continueCheck(tfNode, descriptor)){ continue; }
 
 // Record this pointer information and parameter pointer information in method call
@@ -130,7 +135,11 @@ public class DataflowDetect {
         DataFlowAnalysisUtils.updateAfterAnalysisMtd(descriptor);
     }
 
-
+    /**
+     * get all linkable sink fragments from the free state fragment, then check its linkability. If the fragment is valid then add it to the newSinkFragments. Ignore reflection type sink fragment.
+     *  @param freeStateFragment
+     * @return
+     */
     public HashSet<Fragment> linkFreeStateFragments(Fragment freeStateFragment){
         HashSet<Fragment> newSinkFragments = new HashSet<>();
         HashSet<Fragment> linkableSinkFragments = FragmentsContainer.getLinkableSinkFragments(freeStateFragment);
@@ -148,7 +157,7 @@ public class DataflowDetect {
     }
 
 
-public HashSet<Fragment> linkSourceFragments(Fragment sourceFragment){ // bottom-up 链接fragment
+public HashSet<Fragment> linkSourceFragments(Fragment sourceFragment){ // bottom-up fragment linking
         HashSet<Fragment> newSinkFragments = new HashSet<>();
         if (sourceFragment.sinkType != null){
             newSinkFragments.add(sourceFragment);

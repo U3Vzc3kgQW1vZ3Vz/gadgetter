@@ -155,7 +155,7 @@ public class ClassRelationshipUtils {
     public static boolean isSubClassOf(SootClass sootClass, SootClass superClass) {
         if (superClass == null) return false;
         if (Utils.isBasicType(superClass.getName()))
-            return false; // I believe that the basic class cannot be a parent class
+            return false; // JDD believe that the basic class cannot be a parent class
         if (superClass.getName().equals("java.lang.Object")) return true;
         String superClassName = superClass.getName();
         if (BasicDataContainer.subClassSearchRecord.containsKey(superClassName))

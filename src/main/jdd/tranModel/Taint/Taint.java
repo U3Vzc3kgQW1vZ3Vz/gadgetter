@@ -13,7 +13,7 @@ public LinkedList<SootField> accessPath = new LinkedList<>(); // a.b -> b.c -> c
     public HashSet<Taint> aliases = new HashSet<>();
 
 // Return null indicates mismatch, return empty list indicates). taint matching object itself.
-// Used to find the stains that b will bring. The stains that b itself will bring are easy to find. You just need to compare the object.
+// Used to find the taints that b will bring. The taints that b itself will bring are easy to find. You just need to compare the object.
     public LinkedList<SootField> match(Value object, SootField field){
         if(object.equals(this.object)){
             if(accessPath.isEmpty()) return new LinkedList<>();

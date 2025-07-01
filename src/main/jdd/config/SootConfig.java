@@ -60,7 +60,7 @@ public class SootConfig {
 
 // Remove all implementation classes
     public static void removeAllAppClz() {
-        log.info("清除当前所有的Application Class");
+log.info("Clear all currently Application Class");
 //Get Scene object
         Scene scene = Scene.v();
 //Get all application classes
@@ -97,23 +97,23 @@ public class SootConfig {
                                 theClass.setApplicationClass();
                                 hashSet.add(theClass);
                                 if(loadClassCounter % 10000 == 0){
-                                    log.info("Collected {} classes.", loadClassCounter);
+log.info("Collected {} classes.", loadClassCounter);
                                 }
                                 loadClassCounter++;
                             }
                         }
                         @Override
                         protected void timeoutHandler(){
-                            log.error("将类" + cl + "导入到soot过程中超时，跳过处理");
+log.error("Change class" + cl + "Timeout during importing into soot, skip processing");
                         }
                     }).run(10);
 
                 }catch (Exception e){
-                    log.error("加载类" + cl + "过程中出错：" + e.getMessage());
+log.error("Loading class" + cl + "Error occurred during the process: " + e.getMessage());
                 }
             }
         }
-        log.info("共加载：" + hashSet.size() + "个类，App.Size" + Scene.v().getApplicationClasses().size());
+log.info("Loading in total: " + hashSet.size() + "classes, App.Size" + Scene.v().getApplicationClasses().size());
     }
 
 // Check whether the imported class is considered to be ignored
@@ -152,7 +152,7 @@ if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exception
                     removePackageList.add(key);
                     lines.removeIf(line -> line.contains(key));
                     lines.add(key);
-                    log.info(key + "包下有超过" + maxPackageRecordTime + "个类无法处理，忽略整个包");
+log.info(key + "There are more than in the package" + maxPackageRecordTime + "The class cannot be processed, the entire package is ignored");
                 }
             }
 // Avoid java.util.ConcurrentModificationException
@@ -161,7 +161,7 @@ if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exception
 // If you start with comment # or it is an empty string, delete it
             lines.removeIf(line -> line.startsWith("#") || line.equals(""));
         }catch (IOException e){
-            log.error("Load ignoreInfo from " + ignoreListPath + " failed!");
+log.error("Load ignoreInfo from " + ignoreListPath + " failed!");
             System.exit(0);
         }
         return lines;
@@ -193,7 +193,7 @@ if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exception
                     removePackageList.add(key);
                     lines.removeIf(line -> line.contains(key));
                     lines.add(key);
-                    log.info(key + "包下有超过" + maxPackageRecordTime + "个类无法处理，忽略整个包");
+log.info(key + "There are more than in the package" + maxPackageRecordTime + "Class cannot be processed, the entire package is ignored");
                 }
             }
 // Avoid java.util.ConcurrentModificationException
@@ -202,7 +202,7 @@ if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exception
 // If you start with comment # or it is an empty string, delete it
             lines.removeIf(line -> line.startsWith("#") || line.equals(""));
         }catch (IOException e){
-            log.error("Load ignoreInfo from " + blackListPath + " failed!");
+log.error("Load ignoreInfo from " + blackListPath + " failed!");
             System.exit(0);
         }
         return lines;
@@ -223,7 +223,7 @@ if(maxPackageRecordTime <= 0 ) { maxPackageRecordTime = 10; } // Avoid exception
     public static String getPackageName(String className){
 
         if(className.equals("") || className.startsWith("#")){
-            throw new IllegalArgumentException("className非法，当前值为：" + className);
+            throw new IllegalArgumentException("className illegal, the current value is：" + className);
         }
         String[] classNameSplit = className.split("\\.");
         className = className.replace("." + classNameSplit[classNameSplit.length - 1], "");
